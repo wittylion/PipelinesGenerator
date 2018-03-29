@@ -22,5 +22,9 @@
   "bugs": {
     "url": "https://github.com/SergAtGitHub/PipelinesGenerator/issues"
   },
-  "homepage": "https://github.com/SergAtGitHub/PipelinesGenerator#readme"
+  "homepage": "https://github.com/SergAtGitHub/PipelinesGenerator#readme",
+  "dependencies": {
+    "@types/yeoman-generator": "^2.0.2",
+    "yeoman-generator": "^2.0.3"
+  }
 }
