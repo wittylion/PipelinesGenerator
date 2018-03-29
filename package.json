@@ -1,0 +1,26 @@
+{
+  "name": "generator-pipe",
+  "version": "1.0.0",
+  "description": "Generates SOLID pipelines from SOLID Pipelines package.",
+  "main": "./app/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SergAtGitHub/PipelinesGenerator.git"
+  },
+  "keywords": [
+    "Pipelines",
+    "SOLID",
+    "Processors",
+    "Chain",
+    "yeoman-generator"
+  ],
+  "author": "Sergey Solomentsev",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/SergAtGitHub/PipelinesGenerator/issues"
+  },
+  "homepage": "https://github.com/SergAtGitHub/PipelinesGenerator#readme"
+}
