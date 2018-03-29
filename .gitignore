@@ -4,5 +4,5 @@
 !.vscode/launch.json
 !.vscode/extensions.json
 .history
-/build
+/app/index.js
 node_modules
