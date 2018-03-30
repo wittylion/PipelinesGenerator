@@ -1,0 +1,19 @@
+import { <%= pipelineName %>Processor } from "../<%= pipelineName %>Processor";
+import { <%= pipelineName %>Arguments } from "../<%= pipelineName %>Arguments";
+
+export class <%= processorName %> extends <%= pipelineName %>Processor {
+    public static readonly Instance = new <%= processorName %>();
+
+    public async SafeExecute(args: <%= pipelineName %>Arguments): Promise<void> {
+        throw new Error("Not implemented.");
+    }
+
+    public SafeCondition(args: <%= pipelineName %>Arguments): boolean {
+        return super.SafeCondition(args) && this.CustomCondition(args);
+    }
+
+    public CustomCondition(args: <%= pipelineName %>Arguments): boolean {
+        let safeCondition = true;
+        return safeCondition;
+    }
+}
