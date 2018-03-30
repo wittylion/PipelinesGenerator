@@ -57,17 +57,40 @@ class PipelinesGenerator extends Generator {
         let pipelineDestination = createSubfolder ? `./${pipelineName}/` : './';
         let processorDestination = pipelineDestination + 'processors/';
         
-        this._createAbstractProcessor(pipelineDestination, pipelineName);
         this._createPipeline(pipelineName, processors, pipelineDestination);
-        this._createArguments();
+        this._createAbstractProcessor(pipelineDestination, pipelineName);
+        this._createArguments(pipelineName, pipelineDestination);
 
         for (const processorName of processors) {
             this._createProcessor(processorDestination, processorName, pipelineName);
         }
     }
 
-    _createArguments() {
+    _createProcessorsExports(processors: string[], destination: string) {
+        const fileName = 'index.ts';
+        this.fs.copyTpl(
+            this.templatePath('_exports.ts.ejs'),
+            this.destinationPath(destination + fileName),
+            {
+                'importFileNames': processors
+            },
+            {});
+    }
 
+    _createArguments(pipelineName: string, destination: string) {
+        let fileName = pipelineName.endsWith('.ts') ? pipelineName : pipelineName + '.ts';
+        fileName =
+            fileName.endsWith('Arguments.ts')
+                ? fileName
+                : fileName.substring(0, fileName.length - 3) + 'Arguments.ts';
+
+        this.fs.copyTpl(
+            this.templatePath('_arguments.ts.ejs'),
+            this.destinationPath(destination + fileName),
+            {
+                'pipelineName': pipelineName
+            },
+            {});
     }
 
     _createPipeline(name: string, processors: string[], destination: string) {
