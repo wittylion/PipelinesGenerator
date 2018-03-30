@@ -5,9 +5,9 @@ import { <%= pipelineName %>Pipeline } from './<%= pipelineName %>Pipeline'
 export class <%= pipelineName %>Executor {
     public static Instance: <%= pipelineName %>Executor = new <%= pipelineName %>Executor();
 
-    execute(args: <%= pipelineName %>Arguments) : void {
+    execute(args: <%= pipelineName %>Arguments) : Promise<void> {
         var runner:PipelineRunner = new PipelineRunner();
 
-        runner.RunPipeline(<%= pipelineName %>Pipeline.Instance, args);
+        return runner.RunPipeline(<%= pipelineName %>Pipeline.Instance, args);
     }
 }
