@@ -57,6 +57,13 @@ describe('Testing typescript pipelines generator.', function () {
                     /export \* from '\.\/HelloWorldArguments'/
                 );
             });
+
+            it('Creates a proper name in the pipeline file', function(){
+                assert.fileContent(
+                    './HelloWorldPipeline.ts',
+                    /class HelloWorldPipeline /
+                );
+            });
         });
         
         describe('When only pipeline is set', function(){
