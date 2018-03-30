@@ -24,9 +24,42 @@ describe('Testing typescript pipelines generator.', function () {
                     'HelloWorldProcessor.ts', 
                     './processors/HelloWorld.ts']);
             });
+
+            it('Сreates processors exports file', function(){
+                assert.file('./processors/index.ts');
+            });
+
+            it('Adds export Hello World definition to processors export', function(){
+                assert.fileContent(
+                    './processors/index.ts',
+                    /export \* from '\.\/HelloWorld'/
+                );
+            });
+
+            it('Сreates executor file', function(){
+                assert.file('./HelloWorldExecutor.ts');
+            });
+
+            it('Сreates export file with pipeline items', function(){
+                assert.file('./HelloWorldExecutor.ts');
+            });
+
+            it('Adds export of executor to file with pipeline items', function(){
+                assert.fileContent(
+                    './index.ts',
+                    /export \* from '\.\/HelloWorldExecutor'/
+                );
+            });
+
+            it('Adds export of arguments to file with pipeline items', function(){
+                assert.fileContent(
+                    './index.ts',
+                    /export \* from '\.\/HelloWorldArguments'/
+                );
+            });
         });
         
-        describe('When pipeline is set', function(){
+        describe('When only pipeline is set', function(){
             before(function(done){
                 // The object returned acts like a promise, so return it to wait until the process is done
                 helpers.run(path.join(__dirname, '../ts'))
@@ -36,6 +69,23 @@ describe('Testing typescript pipelines generator.', function () {
             
             it('Сreates file with pipeline name', function(){
                 assert.file(['TestedPipeline.ts']);
+            });
+        });
+
+        describe('When processors are set', function(){
+            before(function(done){
+                // The object returned acts like a promise, so return it to wait until the process is done
+                helpers.run(path.join(__dirname, '../ts'))
+                    .withPrompts({ pipelineName: 'TestedPipeline' })
+                    .withPrompts({ processorNames: 'A B' })
+                    .on('end', done);
+            });
+            
+            it('Сreates files with passed processor names', function(){
+                assert.file([
+                    './processors/A.ts',
+                    './processors/B.ts'
+                ]);
             });
         });
 
