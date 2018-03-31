@@ -26,6 +26,7 @@
   "homepage": "https://github.com/SergAtGitHub/PipelinesGenerator#readme",
   "dependencies": {
     "@types/yeoman-generator": "^2.0.2",
+    "solid-pipelines": "^1.0.3",
     "yeoman-generator": "^2.0.3"
   },
   "devDependencies": {
