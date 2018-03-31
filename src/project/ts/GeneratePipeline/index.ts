@@ -1,2 +1,2 @@
-export * from './GeneratePipelineExecutor'
-export * from './GeneratePipelineArguments'
+export * from './GenerateTypescriptPipelineExecutor'
+export * from './GenerateTypescriptPipelineArguments'

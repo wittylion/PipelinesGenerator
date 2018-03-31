@@ -1,19 +1,35 @@
-import { GeneratePipelineProcessor } from "../GeneratePipelineProcessor";
-import { GeneratePipelineArguments } from "../GeneratePipelineArguments";
+import { GenerateTypescriptPipelineProcessor } from "../GenerateTypescriptPipelineProcessor";
+import { GenerateTypescriptPipelineArguments } from "../GenerateTypescriptPipelineArguments";
+import S from "string";
 
-export class EnsurePipelineSuffixInFileName extends GeneratePipelineProcessor {
+export class EnsurePipelineSuffixInFileName extends GenerateTypescriptPipelineProcessor {
     public static readonly Instance = new EnsurePipelineSuffixInFileName();
 
-    public async SafeExecute(args: GeneratePipelineArguments): Promise<void> {
-        throw new Error("Not implemented.");
+    public async SafeExecute(args: GenerateTypescriptPipelineArguments): Promise<void> {
+        await new Promise((resolve) => {
+            this.CustomExecution(args);
+            resolve();
+        });
     }
 
-    public SafeCondition(args: GeneratePipelineArguments): boolean {
+    public CustomExecution(args: GenerateTypescriptPipelineArguments): void {
+        let fileName = S(args.pipelineFileName);
+        if (fileName.endsWith(".ts")) {
+            fileName = fileName.chompRight(".ts");
+        }
+
+        args.pipelineFileName
+            = fileName
+                .ensureRight("Pipeline")
+                .ensureRight(".ts").s;
+    }
+
+    public SafeCondition(args: GenerateTypescriptPipelineArguments): boolean {
         return super.SafeCondition(args) && this.CustomCondition(args);
     }
 
-    public CustomCondition(args: GeneratePipelineArguments): boolean {
-        let safeCondition = true;
+    public CustomCondition(args: GenerateTypescriptPipelineArguments): boolean {
+        let safeCondition = args.ensurePipelineSuffixInFileName && S(args.pipelineDestination).isEmpty();
         return safeCondition;
     }
 }

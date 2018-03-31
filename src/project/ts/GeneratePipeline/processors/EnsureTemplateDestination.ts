@@ -1,19 +1,28 @@
-import { GeneratePipelineProcessor } from "../GeneratePipelineProcessor";
-import { GeneratePipelineArguments } from "../GeneratePipelineArguments";
+import { GenerateTypescriptPipelineProcessor } from "../GenerateTypescriptPipelineProcessor";
+import { GenerateTypescriptPipelineArguments } from "../GenerateTypescriptPipelineArguments";
 
-export class EnsureTemplateDestination extends GeneratePipelineProcessor {
+import S = require("string");
+
+export class EnsureTemplateDestination extends GenerateTypescriptPipelineProcessor {
     public static readonly Instance = new EnsureTemplateDestination();
 
-    public async SafeExecute(args: GeneratePipelineArguments): Promise<void> {
-        throw new Error("Not implemented.");
+    public async SafeExecute(args: GenerateTypescriptPipelineArguments): Promise<void> {
+        await new Promise((resolve) => {
+            this.CustomExecution(args);
+            resolve();
+        });
     }
 
-    public SafeCondition(args: GeneratePipelineArguments): boolean {
+    public CustomExecution(args: GenerateTypescriptPipelineArguments): void {
+        args.templateDestination = args.yeomanGenerator.templatePath(args.templateFileName);
+    }
+
+    public SafeCondition(args: GenerateTypescriptPipelineArguments): boolean {
         return super.SafeCondition(args) && this.CustomCondition(args);
     }
 
-    public CustomCondition(args: GeneratePipelineArguments): boolean {
-        let safeCondition = true;
+    public CustomCondition(args: GenerateTypescriptPipelineArguments): boolean {
+        let safeCondition = !S(args.templateFileName).isEmpty() && S(args.templateDestination).isEmpty();
         return safeCondition;
     }
 }

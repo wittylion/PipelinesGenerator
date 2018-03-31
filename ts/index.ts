@@ -1,5 +1,7 @@
 import Generator = require("yeoman-generator");
 import { Question, Inquirer } from "inquirer";
+import { GenerateTypescriptPipelineExecutor, GenerateTypescriptPipelineArguments } from "../src/project/ts/GeneratePipeline";
+import { MessageFilter } from "solid-pipelines";
 
 class PipelinesGenerator extends Generator {
     answersListener: Promise<Generator.Answers>;
@@ -50,14 +52,14 @@ class PipelinesGenerator extends Generator {
         var processorNames: string = answers["processorNames"];
         var processorNameStrings: string[] = processorNames.split(' ');
 
-        this._createPipelineInfrastructure(pipelineName, processorNameStrings, this.options["subfolder"]);
+        await this._createPipelineInfrastructure(pipelineName, processorNameStrings, this.options["subfolder"]);
     }
 
-    _createPipelineInfrastructure(pipelineName: string, processors: string[], createSubfolder: boolean = true) {
+    async _createPipelineInfrastructure(pipelineName: string, processors: string[], createSubfolder: boolean = true) {
         let pipelineDestination = createSubfolder ? `./${pipelineName}/` : './';
         let processorDestination = pipelineDestination + 'processors/';
-        
-        this._createPipeline(pipelineName, processors, pipelineDestination);
+
+        await this._createPipeline(pipelineName, processors, createSubfolder);
         this._createAbstractProcessor(pipelineDestination, pipelineName);
         this._createArguments(pipelineName, pipelineDestination);
         this._createExports(processors, processorDestination);
@@ -116,21 +118,20 @@ class PipelinesGenerator extends Generator {
             {});
     }
 
-    _createPipeline(name: string, processors: string[], destination: string) {
-        let fileName = name.endsWith('.ts') ? name : name + '.ts';
-        fileName =
-            fileName.endsWith('Pipeline.ts')
-                ? fileName
-                : fileName.substring(0, fileName.length - 3) + 'Pipeline.ts';
+    async _createPipeline(name: string, processors: string[], createSubfolder: boolean) {
+        let args = new GenerateTypescriptPipelineArguments();
+        args.pipelineName = name;
+        args.templateFileName = '_pipeline.ts.ejs';
+        args.pipelineFileName = name + ".ts";
+        args.creationOptions['processors'] = processors;
+        args.yeomanGenerator = this;
 
-        this.fs.copyTpl(
-            this.templatePath('_pipeline.ts.ejs'),
-            this.destinationPath(destination + fileName),
-            {
-                'pipelineName': name,
-                'processors': processors
-            },
-            {});
+        await GenerateTypescriptPipelineExecutor.Instance.execute(args);
+
+        let messages = args.GetMessages(MessageFilter.All);
+        if (messages.length > 0) {
+            console.log(messages);
+        }
     }
 
     _createAbstractProcessor(destination: string, pipelineName: string) {

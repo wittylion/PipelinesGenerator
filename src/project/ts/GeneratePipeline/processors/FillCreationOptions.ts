@@ -1,18 +1,25 @@
-import { GeneratePipelineProcessor } from "../GeneratePipelineProcessor";
-import { GeneratePipelineArguments } from "../GeneratePipelineArguments";
+import { GenerateTypescriptPipelineProcessor } from "../GenerateTypescriptPipelineProcessor";
+import { GenerateTypescriptPipelineArguments } from "../GenerateTypescriptPipelineArguments";
 
-export class FillCreationOptions extends GeneratePipelineProcessor {
+export class FillCreationOptions extends GenerateTypescriptPipelineProcessor {
     public static readonly Instance = new FillCreationOptions();
 
-    public async SafeExecute(args: GeneratePipelineArguments): Promise<void> {
-        throw new Error("Not implemented.");
+    public async SafeExecute(args: GenerateTypescriptPipelineArguments): Promise<void> {
+        await new Promise((resolve) => {
+            this.CustomExecution(args);
+            resolve();
+        });
     }
 
-    public SafeCondition(args: GeneratePipelineArguments): boolean {
+    public CustomExecution(args: GenerateTypescriptPipelineArguments): void {
+        args.creationOptions["pipelineName"] = args.pipelineName;
+    }
+
+    public SafeCondition(args: GenerateTypescriptPipelineArguments): boolean {
         return super.SafeCondition(args) && this.CustomCondition(args);
     }
 
-    public CustomCondition(args: GeneratePipelineArguments): boolean {
+    public CustomCondition(args: GenerateTypescriptPipelineArguments): boolean {
         let safeCondition = true;
         return safeCondition;
     }

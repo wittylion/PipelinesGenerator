@@ -1,19 +1,27 @@
-import { GeneratePipelineProcessor } from "../GeneratePipelineProcessor";
-import { GeneratePipelineArguments } from "../GeneratePipelineArguments";
+import { GenerateTypescriptPipelineProcessor } from "../GenerateTypescriptPipelineProcessor";
+import { GenerateTypescriptPipelineArguments } from "../GenerateTypescriptPipelineArguments";
+import S from "string";
 
-export class EnsureSubdirectoryName extends GeneratePipelineProcessor {
+export class EnsureSubdirectoryName extends GenerateTypescriptPipelineProcessor {
     public static readonly Instance = new EnsureSubdirectoryName();
 
-    public async SafeExecute(args: GeneratePipelineArguments): Promise<void> {
-        throw new Error("Not implemented.");
+    public async SafeExecute(args: GenerateTypescriptPipelineArguments): Promise<void> {
+        await new Promise((resolve) => {
+            this.CustomExecution(args);
+            resolve();
+        });
     }
 
-    public SafeCondition(args: GeneratePipelineArguments): boolean {
+    public CustomExecution(args: GenerateTypescriptPipelineArguments): void {
+        args.subdirectoryName = args.pipelineName;
+    }
+
+    public SafeCondition(args: GenerateTypescriptPipelineArguments): boolean {
         return super.SafeCondition(args) && this.CustomCondition(args);
     }
 
-    public CustomCondition(args: GeneratePipelineArguments): boolean {
-        let safeCondition = true;
+    public CustomCondition(args: GenerateTypescriptPipelineArguments): boolean {
+        let safeCondition = args.createSubdirectory && S(args.subdirectoryName).isEmpty() && S(args.pipelineDestination).isEmpty();
         return safeCondition;
     }
 }
