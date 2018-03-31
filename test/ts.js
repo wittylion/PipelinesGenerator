@@ -73,11 +73,11 @@ describe('Testing typescript pipelines generator.', function () {
                     .withOptions({'--subfolder':'true'})
                     .on('end', done);
             });
-            
+
             it('Creates executor in the subfolder', function () {
                 assert.file('./HelloWorld/HelloWorldExecutor.ts');
             });
-            
+
             it('Creates processors in the subfolder', function () {
                 assert.file('./HelloWorld/processors/HelloWorld.ts');
             });
@@ -87,12 +87,32 @@ describe('Testing typescript pipelines generator.', function () {
             before(function (done) {
                 // The object returned acts like a promise, so return it to wait until the process is done
                 helpers.run(path.join(__dirname, '../ts'))
-                    .withPrompts({ pipelineName: 'TestedPipeline' })
+                    .withPrompts({ pipelineName: 'TestedSome' })
                     .on('end', done);
             });
 
             it('Сreates file with pipeline name', function () {
+                assert.file(['TestedSomePipeline.ts']);
+            });
+        });
+
+        describe('When pipeline with "Pipeline" suffix is set', function () {
+            before(function (done) {
+                // The object returned acts like a promise, so return it to wait until the process is done
+                helpers.run(path.join(__dirname, '../ts'))
+                    .withPrompts({ pipelineName: 'TestedPipeline' })
+                    .on('end', done);
+            });
+
+            it('Сreates file without doubled "Pipeline" word', function () {
                 assert.file(['TestedPipeline.ts']);
+            });
+
+            it('Сreates class without doubled "Pipeline" word', function () {
+                assert.fileContent(
+                    './TestedPipeline.ts',
+                    /class TestedPipeline /
+                );
             });
         });
 

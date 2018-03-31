@@ -59,7 +59,7 @@ class PipelinesGenerator extends Generator {
         let pipelineDestination = createSubfolder ? `./${pipelineName}/` : './';
         let processorDestination = pipelineDestination + 'processors/';
 
-        await this._createPipeline(pipelineName, processors, createSubfolder);
+        this._createPipeline(pipelineName, processors, createSubfolder);
         this._createAbstractProcessor(pipelineDestination, pipelineName);
         this._createArguments(pipelineName, pipelineDestination);
         this._createExports(processors, processorDestination);

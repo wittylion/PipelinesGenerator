@@ -9,7 +9,7 @@ export class GenerateTypescriptPipelineArguments extends PipelineContext {
     pipelineDestination: string;
 
     ensurePipelineSuffixInFileName: boolean = true;
-    ensurePipelineSuffixInClassName: boolean = false;
+    ensurePipelineSuffixInClassName: boolean = true;
 
     templateFileName: string;
     templateDestination: string;
