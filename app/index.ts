@@ -1,8 +1,13 @@
 import Generator = require("yeoman-generator");
 
 class PipelinesGenerator extends Generator {
-    writing() {
-        this.log("APP");
+    default() {
+        this.fs.copyTpl(
+            this.templatePath('_pipelineExecutor.ts.ejs'),
+            this.destinationPath('a.js'),
+            {
+            },
+            {});
     }
 }
 
