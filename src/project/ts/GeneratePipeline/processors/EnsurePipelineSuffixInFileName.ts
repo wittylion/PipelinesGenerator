@@ -6,13 +6,6 @@ export class EnsurePipelineSuffixInFileName extends GenerateTypescriptPipelinePr
     public static readonly Instance = new EnsurePipelineSuffixInFileName();
 
     public async SafeExecute(args: GenerateTypescriptPipelineArguments): Promise<void> {
-        await new Promise((resolve) => {
-            this.CustomExecution(args);
-            resolve();
-        });
-    }
-
-    public CustomExecution(args: GenerateTypescriptPipelineArguments): void {
         let fileName = S(args.pipelineFileName);
         if (fileName.endsWith(".ts")) {
             fileName = fileName.chompRight(".ts");

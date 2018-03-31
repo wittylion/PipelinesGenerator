@@ -5,13 +5,6 @@ export class CreatePipelineFileFromTemplate extends GenerateTypescriptPipelinePr
     public static readonly Instance = new CreatePipelineFileFromTemplate();
 
     public async SafeExecute(args: GenerateTypescriptPipelineArguments): Promise<void> {
-        await new Promise((resolve) => {
-            this.CustomExecution(args);
-            resolve();
-        });
-    }
-
-    public CustomExecution(args: GenerateTypescriptPipelineArguments): void {
         args.yeomanGenerator.fs.copyTpl(
             args.templateDestination,
             args.pipelineDestination,

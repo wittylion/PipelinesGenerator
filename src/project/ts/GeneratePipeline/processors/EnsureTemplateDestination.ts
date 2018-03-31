@@ -7,13 +7,6 @@ export class EnsureTemplateDestination extends GenerateTypescriptPipelineProcess
     public static readonly Instance = new EnsureTemplateDestination();
 
     public async SafeExecute(args: GenerateTypescriptPipelineArguments): Promise<void> {
-        await new Promise((resolve) => {
-            this.CustomExecution(args);
-            resolve();
-        });
-    }
-
-    public CustomExecution(args: GenerateTypescriptPipelineArguments): void {
         args.templateDestination = args.yeomanGenerator.templatePath(args.templateFileName);
     }
 

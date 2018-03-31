@@ -7,13 +7,6 @@ export class EnsurePipelineSuffixInClassName extends GenerateTypescriptPipelineP
     public static readonly Instance = new EnsurePipelineSuffixInClassName();
 
     public async SafeExecute(args: GenerateTypescriptPipelineArguments): Promise<void> {
-        await new Promise((resolve) => {
-            this.CustomExecution(args);
-            resolve();
-        });
-    }
-
-    public CustomExecution(args: GenerateTypescriptPipelineArguments): void {
         args.pipelineName = S(args.pipelineName).ensureRight("Pipeline").s;
     }
 

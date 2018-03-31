@@ -5,13 +5,6 @@ export class ValidateGenerator extends GenerateTypescriptPipelineProcessor {
     public static readonly Instance = new ValidateGenerator();
 
     public async SafeExecute(args: GenerateTypescriptPipelineArguments): Promise<void> {
-        await new Promise((resolve) => {
-            this.CustomExecution(args);
-            resolve();
-        });
-    }
-
-    public CustomExecution(args: GenerateTypescriptPipelineArguments): void {
         if (!args.yeomanGenerator) {
             args.AbortPipelineWithErrorMessage(
                 "You have to provide a generator into the generate pipeline context, so it is possible to expose yeoman API.");

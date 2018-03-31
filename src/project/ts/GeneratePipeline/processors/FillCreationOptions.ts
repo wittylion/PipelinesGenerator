@@ -5,13 +5,6 @@ export class FillCreationOptions extends GenerateTypescriptPipelineProcessor {
     public static readonly Instance = new FillCreationOptions();
 
     public async SafeExecute(args: GenerateTypescriptPipelineArguments): Promise<void> {
-        await new Promise((resolve) => {
-            this.CustomExecution(args);
-            resolve();
-        });
-    }
-
-    public CustomExecution(args: GenerateTypescriptPipelineArguments): void {
         args.creationOptions["pipelineName"] = args.pipelineName;
     }
 

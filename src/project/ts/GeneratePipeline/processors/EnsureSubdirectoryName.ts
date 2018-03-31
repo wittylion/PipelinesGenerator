@@ -6,13 +6,6 @@ export class EnsureSubdirectoryName extends GenerateTypescriptPipelineProcessor 
     public static readonly Instance = new EnsureSubdirectoryName();
 
     public async SafeExecute(args: GenerateTypescriptPipelineArguments): Promise<void> {
-        await new Promise((resolve) => {
-            this.CustomExecution(args);
-            resolve();
-        });
-    }
-
-    public CustomExecution(args: GenerateTypescriptPipelineArguments): void {
         args.subdirectoryName = args.pipelineName;
     }
 
