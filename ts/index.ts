@@ -2,6 +2,7 @@ import Generator = require("yeoman-generator");
 import { Question, Inquirer } from "inquirer";
 import { GenerateTypescriptPipelineExecutor, GenerateTypescriptPipelineArguments } from "../src/project/ts/GeneratePipeline";
 import { GenerateTypescriptArgumentsExecutor, GenerateTypescriptArguments } from "../src/project/ts/GenerateArguments";
+import { GenerateAbstractProcessorExecutor, GenerateAbstractProcessorArguments } from "../src/project/ts/GenerateAbstractProcessor";
 import { MessageFilter } from "solid-pipelines";
 
 class PipelinesGenerator extends Generator {
@@ -66,14 +67,21 @@ class PipelinesGenerator extends Generator {
 
         await GenerateTypescriptArgumentsExecutor.Instance.execute(argumentsGeneration);
 
+        let abstractProcessorGeneration = new GenerateAbstractProcessorArguments();
+        abstractProcessorGeneration.className = pipelineName;
+        abstractProcessorGeneration.argumentsClassName = argumentsGeneration.argumentsName;
+        abstractProcessorGeneration.argumentsFileName = argumentsGeneration.argumentsFileName;
+        abstractProcessorGeneration.yeomanGenerator = this;
+
+        await GenerateAbstractProcessorExecutor.Instance.execute(abstractProcessorGeneration);
+
         let pipelineGeneration = new GenerateTypescriptPipelineArguments();
-        pipelineGeneration.pipelineName = name;
+        pipelineGeneration.pipelineName = pipelineName;
         pipelineGeneration.processorsNames = processors;
         pipelineGeneration.yeomanGenerator = this;
 
         await GenerateTypescriptPipelineExecutor.Instance.execute(pipelineGeneration);
 
-        this._createAbstractProcessor(pipelineDestination, pipelineName);
         this._createExports(processors, processorDestination);
         this._createExecutor(pipelineName, pipelineDestination);
         this._createPipelinesExports(pipelineName, pipelineDestination);
@@ -110,18 +118,6 @@ class PipelinesGenerator extends Generator {
             this.destinationPath(destination + fileName),
             {
                 'exportFileNames': exportFiles
-            },
-            {});
-    }
-
-    _createAbstractProcessor(destination: string, pipelineName: string) {
-        let name = pipelineName + 'Processor';
-
-        this.fs.copyTpl(
-            this.templatePath('_abstractProcessor.ts.ejs'),
-            this.destinationPath(destination + name + '.ts'),
-            {
-                'pipelineName': pipelineName
             },
             {});
     }

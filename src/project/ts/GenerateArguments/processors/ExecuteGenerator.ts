@@ -16,7 +16,6 @@ export class ExecuteGenerator extends GenerateTypescriptArgumentsProcessor {
         generatorArguments.ensureSuffixInFileName = args.ensureArgumentsSuffixInFileName;
         generatorArguments.fileName = args.argumentsFileName;
         generatorArguments.templateFileName = args.templateFileName;
-        generatorArguments.creationOptions['processors'] = args.processorsNames;
         generatorArguments.yeomanGenerator = args.yeomanGenerator;
         generatorArguments.suffix = "Arguments";
 

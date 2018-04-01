@@ -1,4 +1,4 @@
 import { SafeProcessor } from "solid-pipelines";
-import { <%= pipelineName %>Arguments } from "./<%= pipelineName %>Arguments";
+import { <%= argumentsClassName %> } from "./<%= argumentsFileName %>";
 
-export abstract class <%= pipelineName %>Processor extends SafeProcessor<<%= pipelineName %>Arguments> {  }
+export abstract class <%= pipelineName %> extends SafeProcessor<<%= argumentsClassName %>> {  }

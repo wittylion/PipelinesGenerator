@@ -14,6 +14,4 @@ export class GenerateTypescriptArguments extends PipelineContext {
 
     createSubdirectory: boolean = false;
     subdirectoryName: string;
-
-    processorsNames: string[];
 }
