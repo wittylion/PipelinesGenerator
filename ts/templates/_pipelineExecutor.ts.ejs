@@ -1,6 +1,6 @@
 import { PipelineRunner } from "solid-pipelines";
 import { <%= pipelineName %>Arguments } from './<%= pipelineName %>Arguments'
-import { <%= pipelineName %>Pipeline } from './<%= pipelineName %>Pipeline'
+import { <%= pipelineName %> } from './<%= pipelineName %>'
 
 export class <%= pipelineName %>Executor {
     public static Instance: <%= pipelineName %>Executor = new <%= pipelineName %>Executor();
@@ -8,6 +8,6 @@ export class <%= pipelineName %>Executor {
     execute(args: <%= pipelineName %>Arguments) : Promise<void> {
         var runner:PipelineRunner = new PipelineRunner();
 
-        return runner.RunPipeline(<%= pipelineName %>Pipeline.Instance, args);
+        return runner.RunPipeline(<%= pipelineName %>.Instance, args);
     }
 }

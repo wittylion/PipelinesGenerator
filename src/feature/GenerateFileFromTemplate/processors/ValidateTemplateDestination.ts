@@ -1,13 +1,13 @@
-import { GenerateTypescriptPipelineProcessor } from "../GenerateTypescriptPipelineProcessor";
-import { GenerateTypescriptPipelineArguments } from "../GenerateTypescriptPipelineArguments";
+import { GenerateFileFromTemplateProcessor } from "../GenerateFileFromTemplateProcessor";
+import { GenerateFileFromTemplateArguments } from "../GenerateFileFromTemplateArguments";
 
 import fs = require("fs");
 import S = require("string");
 
-export class ValidateTemplateDestination extends GenerateTypescriptPipelineProcessor {
+export class ValidateTemplateDestination extends GenerateFileFromTemplateProcessor {
     public static readonly Instance = new ValidateTemplateDestination();
 
-    public async SafeExecute(args: GenerateTypescriptPipelineArguments): Promise<void> {
+    public async SafeExecute(args: GenerateFileFromTemplateArguments): Promise<void> {
         if (S(args.templateDestination).isEmpty()) {
             if (S(args.templateFileName).isEmpty()) {
                 args.AbortPipelineWithErrorMessage("We couldn't find a pipeline template. You have to provide a templpate file name, so we can create a pipeline from this file.");
@@ -25,11 +25,11 @@ export class ValidateTemplateDestination extends GenerateTypescriptPipelineProce
         }
     }
 
-    public SafeCondition(args: GenerateTypescriptPipelineArguments): boolean {
+    public SafeCondition(args: GenerateFileFromTemplateArguments): boolean {
         return super.SafeCondition(args) && this.CustomCondition(args);
     }
 
-    public CustomCondition(args: GenerateTypescriptPipelineArguments): boolean {
+    public CustomCondition(args: GenerateFileFromTemplateArguments): boolean {
         let safeCondition = true;
         return safeCondition;
     }

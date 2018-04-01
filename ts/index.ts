@@ -121,17 +121,10 @@ class PipelinesGenerator extends Generator {
     async _createPipeline(name: string, processors: string[], createSubfolder: boolean) {
         let args = new GenerateTypescriptPipelineArguments();
         args.pipelineName = name;
-        args.templateFileName = '_pipeline.ts.ejs';
-        args.pipelineFileName = name + ".ts";
-        args.creationOptions['processors'] = processors;
+        args.processorsNames = processors;
         args.yeomanGenerator = this;
 
         await GenerateTypescriptPipelineExecutor.Instance.execute(args);
-
-        let messages = args.GetMessages(MessageFilter.All);
-        if (messages.length > 0) {
-            console.log(messages);
-        }
     }
 
     _createAbstractProcessor(destination: string, pipelineName: string) {

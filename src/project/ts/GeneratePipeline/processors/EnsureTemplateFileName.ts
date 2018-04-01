@@ -1,13 +1,13 @@
 import { GenerateTypescriptPipelineProcessor } from "../GenerateTypescriptPipelineProcessor";
 import { GenerateTypescriptPipelineArguments } from "../GenerateTypescriptPipelineArguments";
+import S from "string";
 
-import S = require("string");
-
-export class EnsurePipelineSuffixInClassName extends GenerateTypescriptPipelineProcessor {
-    public static readonly Instance = new EnsurePipelineSuffixInClassName();
+export class EnsureTemplateFileName extends GenerateTypescriptPipelineProcessor {
+    public static readonly Instance = new EnsureTemplateFileName();
+    public static DefaultTemplate = "_pipeline.ts.ejs";
 
     public async SafeExecute(args: GenerateTypescriptPipelineArguments): Promise<void> {
-        args.pipelineName = S(args.pipelineName).ensureRight("Pipeline").s;
+        args.templateFileName = EnsureTemplateFileName.DefaultTemplate;
     }
 
     public SafeCondition(args: GenerateTypescriptPipelineArguments): boolean {
@@ -15,7 +15,7 @@ export class EnsurePipelineSuffixInClassName extends GenerateTypescriptPipelineP
     }
 
     public CustomCondition(args: GenerateTypescriptPipelineArguments): boolean {
-        let safeCondition = args.ensurePipelineSuffixInClassName;
+        let safeCondition = S(args.templateFileName).isEmpty();
         return safeCondition;
     }
 }

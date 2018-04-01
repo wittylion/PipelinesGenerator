@@ -1,6 +1,6 @@
 import { PipelineRunner } from "solid-pipelines";
 import { GenerateTypescriptPipelineArguments } from './GenerateTypescriptPipelineArguments'
-import { GenerateTypescriptPipelinePipeline } from './GenerateTypescriptPipeline'
+import { GenerateTypescriptPipeline } from './GenerateTypescriptPipeline'
 
 export class GenerateTypescriptPipelineExecutor {
     public static Instance: GenerateTypescriptPipelineExecutor = new GenerateTypescriptPipelineExecutor();
@@ -8,6 +8,6 @@ export class GenerateTypescriptPipelineExecutor {
     execute(args: GenerateTypescriptPipelineArguments) : Promise<void> {
         var runner:PipelineRunner = new PipelineRunner();
 
-        return runner.RunPipeline(GenerateTypescriptPipelinePipeline.Instance, args);
+        return runner.RunPipeline(GenerateTypescriptPipeline.Instance, args);
     }
 }
