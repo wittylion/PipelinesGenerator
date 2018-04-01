@@ -60,9 +60,20 @@ class PipelinesGenerator extends Generator {
         let pipelineDestination = createSubfolder ? `./${pipelineName}/` : './';
         let processorDestination = pipelineDestination + 'processors/';
 
-        this._createPipeline(pipelineName, processors, createSubfolder);
+        let argumentsGeneration = new GenerateTypescriptArguments();
+        argumentsGeneration.argumentsName = pipelineName;
+        argumentsGeneration.yeomanGenerator = this;
+
+        await GenerateTypescriptArgumentsExecutor.Instance.execute(argumentsGeneration);
+
+        let pipelineGeneration = new GenerateTypescriptPipelineArguments();
+        pipelineGeneration.pipelineName = name;
+        pipelineGeneration.processorsNames = processors;
+        pipelineGeneration.yeomanGenerator = this;
+
+        await GenerateTypescriptPipelineExecutor.Instance.execute(pipelineGeneration);
+
         this._createAbstractProcessor(pipelineDestination, pipelineName);
-        this._createArguments(pipelineName, pipelineDestination);
         this._createExports(processors, processorDestination);
         this._createExecutor(pipelineName, pipelineDestination);
         this._createPipelinesExports(pipelineName, pipelineDestination);
@@ -101,23 +112,6 @@ class PipelinesGenerator extends Generator {
                 'exportFileNames': exportFiles
             },
             {});
-    }
-
-    async _createArguments(pipelineName: string, destination: string) {
-        let args = new GenerateTypescriptArguments();
-        args.argumentsName = pipelineName;
-        args.yeomanGenerator = this;
-
-        await GenerateTypescriptArgumentsExecutor.Instance.execute(args);
-    }
-
-    async _createPipeline(name: string, processors: string[], createSubfolder: boolean) {
-        let args = new GenerateTypescriptPipelineArguments();
-        args.pipelineName = name;
-        args.processorsNames = processors;
-        args.yeomanGenerator = this;
-
-        await GenerateTypescriptPipelineExecutor.Instance.execute(args);
     }
 
     _createAbstractProcessor(destination: string, pipelineName: string) {
