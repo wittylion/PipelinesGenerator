@@ -1,11 +1,12 @@
 import { GenerateTypescriptArgumentsProcessor } from "../GenerateTypescriptArgumentsProcessor";
 import { GenerateTypescriptArguments } from "../GenerateTypescriptArguments";
+import S from "string";
 
 export class EnsureArgumentsFileName extends GenerateTypescriptArgumentsProcessor {
     public static readonly Instance = new EnsureArgumentsFileName();
 
     public async SafeExecute(args: GenerateTypescriptArguments): Promise<void> {
-        throw new Error("Not implemented.");
+        args.argumentsFileName = S(args.argumentsName).ensureRight(".ts").s;
     }
 
     public SafeCondition(args: GenerateTypescriptArguments): boolean {
@@ -13,7 +14,7 @@ export class EnsureArgumentsFileName extends GenerateTypescriptArgumentsProcesso
     }
 
     public CustomCondition(args: GenerateTypescriptArguments): boolean {
-        let safeCondition = true;
+        let safeCondition = S(args.argumentsFileName).isEmpty();
         return safeCondition;
     }
 }

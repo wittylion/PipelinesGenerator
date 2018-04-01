@@ -1,6 +1,7 @@
 import Generator = require("yeoman-generator");
 import { Question, Inquirer } from "inquirer";
 import { GenerateTypescriptPipelineExecutor, GenerateTypescriptPipelineArguments } from "../src/project/ts/GeneratePipeline";
+import { GenerateTypescriptArgumentsExecutor, GenerateTypescriptArguments } from "../src/project/ts/GenerateArguments";
 import { MessageFilter } from "solid-pipelines";
 
 class PipelinesGenerator extends Generator {
@@ -102,20 +103,12 @@ class PipelinesGenerator extends Generator {
             {});
     }
 
-    _createArguments(pipelineName: string, destination: string) {
-        let fileName = pipelineName.endsWith('.ts') ? pipelineName : pipelineName + '.ts';
-        fileName =
-            fileName.endsWith('Arguments.ts')
-                ? fileName
-                : fileName.substring(0, fileName.length - 3) + 'Arguments.ts';
+    async _createArguments(pipelineName: string, destination: string) {
+        let args = new GenerateTypescriptArguments();
+        args.argumentsName = pipelineName;
+        args.yeomanGenerator = this;
 
-        this.fs.copyTpl(
-            this.templatePath('_arguments.ts.ejs'),
-            this.destinationPath(destination + fileName),
-            {
-                'pipelineName': pipelineName
-            },
-            {});
+        await GenerateTypescriptArgumentsExecutor.Instance.execute(args);
     }
 
     async _createPipeline(name: string, processors: string[], createSubfolder: boolean) {

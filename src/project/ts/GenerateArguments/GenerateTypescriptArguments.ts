@@ -1,4 +1,5 @@
 import { PipelineContext } from "solid-pipelines";
+import Generator = require("yeoman-generator");
 
 export class GenerateTypescriptArguments extends PipelineContext {
     yeomanGenerator: Generator;

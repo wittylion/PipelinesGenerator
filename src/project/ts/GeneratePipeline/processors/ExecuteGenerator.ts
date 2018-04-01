@@ -15,7 +15,7 @@ export class ExecuteGenerator extends GenerateTypescriptPipelineProcessor {
         generatorArguments.ensureSuffixInClassName = args.ensurePipelineSuffixInClassName;
         generatorArguments.ensureSuffixInFileName = args.ensurePipelineSuffixInFileName;
         generatorArguments.fileName = args.pipelineFileName;
-        generatorArguments.templateFileName = '_pipeline.ts.ejs';
+        generatorArguments.templateFileName = args.templateFileName;
         generatorArguments.creationOptions['processors'] = args.processorsNames;
         generatorArguments.yeomanGenerator = args.yeomanGenerator;
         generatorArguments.suffix = "Pipeline";
@@ -26,7 +26,7 @@ export class ExecuteGenerator extends GenerateTypescriptPipelineProcessor {
         args.pipelineName = generatorArguments.className;
         args.pipelineFileName = generatorArguments.fileName;
 
-        let messages = args.GetMessages(MessageFilter.All);
+        let messages = generatorArguments.GetMessages(MessageFilter.All);
         if (messages.length > 0) {
             console.log(messages);
         }

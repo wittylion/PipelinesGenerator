@@ -1,11 +1,13 @@
 import { GenerateTypescriptArgumentsProcessor } from "../GenerateTypescriptArgumentsProcessor";
 import { GenerateTypescriptArguments } from "../GenerateTypescriptArguments";
+import S from "string";
 
 export class EnsureTemplateFileName extends GenerateTypescriptArgumentsProcessor {
     public static readonly Instance = new EnsureTemplateFileName();
+    public static DefaultTemplate = "_arguments.ts.ejs";
 
     public async SafeExecute(args: GenerateTypescriptArguments): Promise<void> {
-        throw new Error("Not implemented.");
+        args.templateFileName = EnsureTemplateFileName.DefaultTemplate;
     }
 
     public SafeCondition(args: GenerateTypescriptArguments): boolean {
@@ -13,7 +15,7 @@ export class EnsureTemplateFileName extends GenerateTypescriptArgumentsProcessor
     }
 
     public CustomCondition(args: GenerateTypescriptArguments): boolean {
-        let safeCondition = true;
+        let safeCondition = S(args.templateFileName).isEmpty();
         return safeCondition;
     }
 }
