@@ -31,7 +31,7 @@ export class GenerateProcessorsExports extends GenerateCommonPipelineFilesProces
     }
 
     public CustomCondition(args: GenerateCommonPipelineFilesArguments): boolean {
-        let safeCondition = true;
+        let safeCondition = !!args.processorsExportsModel;
         return safeCondition;
     }
 }
