@@ -2,6 +2,7 @@ import { GenerateCommonPipelineFilesProcessor } from "../GenerateCommonPipelineF
 import { GenerateCommonPipelineFilesArguments } from "../GenerateCommonPipelineFilesArguments";
 import { GenerateFileFromTemplateArguments, GenerateFileFromTemplateExecutor } from "../../GenerateFileFromTemplate";
 import S from "string";
+import path = require("path");
 
 export class GenerateExecutor extends GenerateCommonPipelineFilesProcessor {
     public static readonly Instance = new GenerateExecutor();
@@ -38,9 +39,11 @@ export class GenerateExecutor extends GenerateCommonPipelineFilesProcessor {
         executorGeneration.templateFileName = model.templateName;
         executorGeneration.yeomanGenerator = args.yeomanGenerator;
         executorGeneration.creationOptions['argumentsClassName'] = args.argumentsModel.generatedClassName;
-        executorGeneration.creationOptions['argumentsFileName'] = args.argumentsModel.generatedFileName;
-        executorGeneration.creationOptions['pipelineClassName'] = args.pipelineModel.className;
-        executorGeneration.creationOptions['pipelineFileName'] = args.pipelineModel.fileName;
+        executorGeneration.creationOptions['argumentsFileName'] 
+            = args.argumentsModel.baseGeneratedFileName(args.extension);
+        executorGeneration.creationOptions['pipelineClassName'] = args.pipelineModel.generatedClassName;
+        executorGeneration.creationOptions['pipelineFileName'] 
+            = args.pipelineModel.baseGeneratedFileName(args.extension);
         executorGeneration.suffix = "Executor";
 
         await GenerateFileFromTemplateExecutor.Instance.execute(executorGeneration);

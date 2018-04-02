@@ -1,3 +1,5 @@
+import path = require("path");
+
 export class GenerateFileModel {
     className: string;
     generatedClassName: string;
@@ -6,4 +8,8 @@ export class GenerateFileModel {
     templateName: string;
     subdirectories: string[] = [];
     extension: string;
+
+    baseGeneratedFileName(ext?: string): string {
+        return path.basename(this.generatedFileName, ext);
+    }
 }

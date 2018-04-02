@@ -84,6 +84,20 @@ describe('Testing typescript pipelines generator.', function () {
                     /import { HelloWorldArguments } from ('|\")\.\.\/HelloWorldArguments('|\")/
                 );
             });
+
+            it('Creates an import statement in executor to bring the arguments', function () {
+                assert.fileContent(
+                    './HelloWorldExecutor.ts',
+                    /import { HelloWorldArguments } from ('|\")\.\/HelloWorldArguments('|\")/
+                );
+            });
+
+            it('Creates an import statement in executor to bring the pipeline', function () {
+                assert.fileContent(
+                    './HelloWorldExecutor.ts',
+                    /import { HelloWorldPipeline } from ('|\")\.\/HelloWorldPipeline('|\")/
+                );
+            });
         });
 
         describe('When subdirectory is requested', function () {
