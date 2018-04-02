@@ -11,7 +11,7 @@ export class ExecuteGenerator extends GenerateTypescriptArgumentsProcessor {
 
         generatorArguments.className = args.argumentsName;
         generatorArguments.extension = ".ts";
-        generatorArguments.createSubdirectory = args.createSubdirectory;
+        generatorArguments.ensureLeadingClassNameSubdirectory = args.createSubdirectory;
         generatorArguments.ensureSuffixInClassName = args.ensureArgumentsSuffixInClassName;
         generatorArguments.ensureSuffixInFileName = args.ensureArgumentsSuffixInFileName;
         generatorArguments.fileName = args.argumentsFileName;

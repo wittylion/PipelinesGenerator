@@ -7,7 +7,7 @@ export class EnsureSuffixInClassName extends GenerateFileFromTemplateProcessor {
     public static readonly Instance = new EnsureSuffixInClassName();
 
     public async SafeExecute(args: GenerateFileFromTemplateArguments): Promise<void> {
-        args.className = S(args.className).ensureRight("Pipeline").s;
+        args.className = S(args.className).ensureRight(args.suffix).s;
     }
 
     public SafeCondition(args: GenerateFileFromTemplateArguments): boolean {

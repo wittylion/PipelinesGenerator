@@ -11,7 +11,7 @@ export class ExecuteGenerator extends GenerateTypescriptPipelineProcessor {
 
         generatorArguments.className = args.pipelineName;
         generatorArguments.extension = ".ts";
-        generatorArguments.createSubdirectory = args.createSubdirectory;
+        generatorArguments.ensureLeadingClassNameSubdirectory = args.createSubdirectory;
         generatorArguments.ensureSuffixInClassName = args.ensurePipelineSuffixInClassName;
         generatorArguments.ensureSuffixInFileName = args.ensurePipelineSuffixInFileName;
         generatorArguments.fileName = args.pipelineFileName;

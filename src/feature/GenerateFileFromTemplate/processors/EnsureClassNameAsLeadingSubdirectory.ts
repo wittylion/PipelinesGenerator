@@ -2,11 +2,11 @@ import { GenerateFileFromTemplateProcessor } from "../GenerateFileFromTemplatePr
 import { GenerateFileFromTemplateArguments } from "../GenerateFileFromTemplateArguments";
 import S from "string";
 
-export class EnsureSubdirectoryName extends GenerateFileFromTemplateProcessor {
-    public static readonly Instance = new EnsureSubdirectoryName();
+export class EnsureClassNameAsLeadingSubdirectory extends GenerateFileFromTemplateProcessor {
+    public static readonly Instance = new EnsureClassNameAsLeadingSubdirectory();
 
     public async SafeExecute(args: GenerateFileFromTemplateArguments): Promise<void> {
-        args.subdirectoryName = args.className;
+        args.subdirectoriesNames = [args.className, ...args.subdirectoriesNames];
     }
 
     public SafeCondition(args: GenerateFileFromTemplateArguments): boolean {
@@ -14,7 +14,7 @@ export class EnsureSubdirectoryName extends GenerateFileFromTemplateProcessor {
     }
 
     public CustomCondition(args: GenerateFileFromTemplateArguments): boolean {
-        let safeCondition = args.createSubdirectory && S(args.subdirectoryName).isEmpty() && S(args.destination).isEmpty();
+        let safeCondition = args.ensureLeadingClassNameSubdirectory && S(args.destination).isEmpty();
         return safeCondition;
     }
 }

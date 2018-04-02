@@ -1,11 +1,13 @@
 import { GenerateFileFromTemplateProcessor } from "../GenerateFileFromTemplateProcessor";
 import { GenerateFileFromTemplateArguments } from "../GenerateFileFromTemplateArguments";
 
-export class FillCreationOptions extends GenerateFileFromTemplateProcessor {
-    public static readonly Instance = new FillCreationOptions();
+import S = require("string");
+
+export class EnsureExtensionInFileName extends GenerateFileFromTemplateProcessor {
+    public static readonly Instance = new EnsureExtensionInFileName();
 
     public async SafeExecute(args: GenerateFileFromTemplateArguments): Promise<void> {
-        args.creationOptions["name"] = args.className;
+        args.fileName = S(args.fileName).ensureRight(args.extension).s;
     }
 
     public SafeCondition(args: GenerateFileFromTemplateArguments): boolean {
@@ -13,7 +15,7 @@ export class FillCreationOptions extends GenerateFileFromTemplateProcessor {
     }
 
     public CustomCondition(args: GenerateFileFromTemplateArguments): boolean {
-        let safeCondition = true;
+        let safeCondition = !S(args.fileName).isEmpty();
         return safeCondition;
     }
 }

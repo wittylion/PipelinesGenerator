@@ -17,8 +17,8 @@ export class GenerateFileFromTemplateArguments extends PipelineContext {
     templateFileName: string;
     templateDestination: string;
 
-    createSubdirectory: boolean = false;
-    subdirectoryName: string;
+    ensureLeadingClassNameSubdirectory: boolean = false;
+    subdirectoriesNames: string[] = [];
 
     creationOptions: {} = {};
 }

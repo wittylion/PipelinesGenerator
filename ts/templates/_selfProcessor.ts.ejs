@@ -1,10 +1,10 @@
 import { SafeProcessor } from "solid-pipelines";
-import { <%= pipelineName %>Arguments } from "./<%= pipelineName %>Arguments";
+import { <%= argumentsClassName %> } from "./<%= argumentsFileName %>";
 
-export class <%= processorName %> extends SafeProcessor<<%= pipelineName %>Arguments> {
-    public static readonly Instance = new <%= processorName %>();
+export class <%= name %> extends SafeProcessor<<%= argumentsClassName %>> {
+    public static readonly Instance = new <%= name %>();
 
-    public async SafeExecute(args: <%= pipelineName %>Arguments): Promise<void> {
+    public async SafeExecute(args: <%= argumentsClassName %>): Promise<void> {
         
     }
 }

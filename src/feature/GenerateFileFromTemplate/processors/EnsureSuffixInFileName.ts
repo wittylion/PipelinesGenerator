@@ -11,10 +11,7 @@ export class EnsureSuffixInFileName extends GenerateFileFromTemplateProcessor {
             fileName = fileName.chompRight(args.extension);
         }
 
-        args.fileName
-            = fileName
-                .ensureRight(args.suffix)
-                .ensureRight(args.extension).s;
+        args.fileName = fileName.ensureRight(args.suffix).s;
     }
 
     public SafeCondition(args: GenerateFileFromTemplateArguments): boolean {

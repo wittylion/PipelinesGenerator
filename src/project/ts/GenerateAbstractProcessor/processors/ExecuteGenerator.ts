@@ -11,7 +11,7 @@ export class ExecuteGenerator extends GenerateAbstractProcessor {
 
         generatorArguments.className = args.className;
         generatorArguments.extension = ".ts";
-        generatorArguments.createSubdirectory = args.createSubdirectory;
+        generatorArguments.ensureLeadingClassNameSubdirectory = args.createSubdirectory;
         generatorArguments.ensureSuffixInClassName = args.ensureSuffixInClassName;
         generatorArguments.ensureSuffixInFileName = args.ensureSuffixInFileName;
         generatorArguments.fileName = args.fileName;

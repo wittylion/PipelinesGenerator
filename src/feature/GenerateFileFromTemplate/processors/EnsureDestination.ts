@@ -8,10 +8,7 @@ export class EnsureDestination extends GenerateFileFromTemplateProcessor {
     public static readonly Instance = new EnsureDestination();
 
     public async SafeExecute(args: GenerateFileFromTemplateArguments): Promise<void> {
-        if (args.createSubdirectory) {
-            args.fileName = path.join(args.subdirectoryName, args.fileName);
-        }
-
+        args.fileName = path.join(...args.subdirectoriesNames, args.fileName);
         args.destination = args.yeomanGenerator.destinationPath(args.fileName);
     }
 

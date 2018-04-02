@@ -1,18 +1,18 @@
-import { <%= pipelineName %>Processor } from "../<%= pipelineName %>Processor";
-import { <%= pipelineName %>Arguments } from "../<%= pipelineName %>Arguments";
+import { <%= abstractProcessorClassName %> } from "../<%= abstractProcessorFileName %>";
+import { <%= argumentsClassName %> } from "../<%= argumentsFileName %>";
 
-export class <%= processorName %> extends <%= pipelineName %>Processor {
-    public static readonly Instance = new <%= processorName %>();
+export class <%= name %> extends <%= abstractProcessorClassName %> {
+    public static readonly Instance = new <%= name %>();
 
-    public async SafeExecute(args: <%= pipelineName %>Arguments): Promise<void> {
+    public async SafeExecute(args: <%= argumentsClassName %>): Promise<void> {
         throw new Error("Not implemented.");
     }
 
-    public SafeCondition(args: <%= pipelineName %>Arguments): boolean {
+    public SafeCondition(args: <%= argumentsClassName %>): boolean {
         return super.SafeCondition(args) && this.CustomCondition(args);
     }
 
-    public CustomCondition(args: <%= pipelineName %>Arguments): boolean {
+    public CustomCondition(args: <%= argumentsClassName %>): boolean {
         let safeCondition = true;
         return safeCondition;
     }
