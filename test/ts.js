@@ -19,10 +19,16 @@ describe('Testing typescript pipelines generator.', function () {
 
             it('Сreates default Hello World files', function () {
                 assert.file([
-                    'HelloWorldPipeline.ts',
-                    'HelloWorldArguments.ts',
                     'HelloWorldProcessor.ts',
                     './processors/HelloWorld.ts']);
+            });
+
+            it('Сreates default Pipeline', function () {
+                assert.file('./HelloWorldPipeline.ts');
+            });
+
+            it('Сreates default Arguments', function () {
+                assert.file('HelloWorldArguments.ts');
             });
 
             it('Сreates processors exports file', function () {
@@ -62,6 +68,20 @@ describe('Testing typescript pipelines generator.', function () {
                 assert.fileContent(
                     './HelloWorldPipeline.ts',
                     /class HelloWorldPipeline /
+                );
+            });
+
+            it('Creates an import statement in default processor to bring the abstract processor', function () {
+                assert.fileContent(
+                    './processors/HelloWorld.ts',
+                    /import { HelloWorldProcessor } from ('|\")\.\.\/HelloWorldProcessor('|\")/
+                );
+            });
+
+            it('Creates an import statement in default processor to bring the arguments', function () {
+                assert.fileContent(
+                    './processors/HelloWorld.ts',
+                    /import { HelloWorldArguments } from ('|\")\.\.\/HelloWorldArguments('|\")/
                 );
             });
         });

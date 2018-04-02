@@ -54,6 +54,9 @@ export class GenerateAbstractProcessor extends GenerateCommonPipelineFilesProces
         abstractProcessorGeneration.suffix = "Processor";
 
         await GenerateFileFromTemplateExecutor.Instance.execute(abstractProcessorGeneration);
+
+        model.generatedClassName = abstractProcessorGeneration.className;
+        model.generatedFileName = abstractProcessorGeneration.fileName;
     }
 
     public SafeCondition(args: GenerateCommonPipelineFilesArguments): boolean {

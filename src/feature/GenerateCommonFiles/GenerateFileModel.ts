@@ -5,4 +5,5 @@ export class GenerateFileModel {
     generatedFileName: string;
     templateName: string;
     subdirectories: string[] = [];
+    extension: string;
 }
