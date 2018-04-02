@@ -74,10 +74,6 @@ class PipelinesGenerator extends Generator {
         generateCommonFilesArguments.abstractProcessorModel = new GenerateFileModel();
         generateCommonFilesArguments.abstractProcessorModel.templateName = "_abstractProcessor.ts.ejs";
 
-        generateCommonFilesArguments.processorsExportsModel = new GenerateFileModel();
-        generateCommonFilesArguments.processorsExportsModel.fileName = "index.ts";
-        generateCommonFilesArguments.processorsExportsModel.templateName = "_exports.ts.ejs";
-
         generateCommonFilesArguments.processorsModels = processors.map(processor => {
             let model = new GenerateFileModel();
             model.className = processor;
@@ -85,59 +81,26 @@ class PipelinesGenerator extends Generator {
             return model;
         });
 
+        generateCommonFilesArguments.processorsExportsModel = new GenerateFileModel();
+        generateCommonFilesArguments.processorsExportsModel.fileName = "index.ts";
+        generateCommonFilesArguments.processorsExportsModel.templateName = "_exports.ts.ejs";
+
+        generateCommonFilesArguments.pipelineModel = new GenerateFileModel();
+        generateCommonFilesArguments.pipelineModel.templateName = "_pipeline.ts.ejs";
+        
+        generateCommonFilesArguments.executorModel = new GenerateFileModel();
+        generateCommonFilesArguments.executorModel.templateName = "_pipelineExecutor.ts.ejs";
+        
+        generateCommonFilesArguments.mainExportsModel = new GenerateFileModel();
+        generateCommonFilesArguments.mainExportsModel.fileName = "index.ts";
+        generateCommonFilesArguments.mainExportsModel.templateName = "_exports.ts.ejs";
+
         await GenerateCommonPipelineFilesExecutor.Instance.execute(generateCommonFilesArguments);
 
         let messages = generateCommonFilesArguments.GetMessages(MessageFilter.All);
         if (messages.length > 0) {
             console.log(messages);
         }
-
-        let pipelineGeneration = new GenerateFileFromTemplateArguments();
-
-        pipelineGeneration.className = pipelineName;
-        pipelineGeneration.extension = extension;
-        pipelineGeneration.subdirectoriesNames = subfolders;
-        pipelineGeneration.ensureSuffixInClassName = true;
-        pipelineGeneration.ensureSuffixInFileName = true;
-        pipelineGeneration.templateFileName = "_pipeline.ts.ejs";
-        pipelineGeneration.creationOptions['processors'] = generateCommonFilesArguments.processorsModels.map(x => x.generatedClassName);
-        pipelineGeneration.yeomanGenerator = this;
-        pipelineGeneration.suffix = "Pipeline";
-
-        await GenerateFileFromTemplateExecutor.Instance.execute(pipelineGeneration);
-
-        let executorGeneration = new GenerateFileFromTemplateArguments();
-
-        executorGeneration.className = pipelineName;
-        executorGeneration.extension = extension;
-        executorGeneration.subdirectoriesNames = subfolders;
-        executorGeneration.ensureSuffixInClassName = true;
-        executorGeneration.ensureSuffixInFileName = true;
-        executorGeneration.templateFileName = "_pipelineExecutor.ts.ejs";
-        executorGeneration.yeomanGenerator = this;
-        executorGeneration.creationOptions['argumentsClassName'] = generateCommonFilesArguments.argumentsModel.generatedClassName;
-        executorGeneration.creationOptions['argumentsFileName'] = generateCommonFilesArguments.argumentsModel.generatedFileName;
-        executorGeneration.creationOptions['pipelineClassName'] = pipelineGeneration.className;
-        executorGeneration.creationOptions['pipelineFileName'] = pipelineGeneration.fileName;
-        executorGeneration.suffix = "Executor";
-
-        await GenerateFileFromTemplateExecutor.Instance.execute(executorGeneration);
-
-        let mainExportsGeneration = new GenerateFileFromTemplateArguments();
-
-        mainExportsGeneration.fileName = "index.ts";
-        mainExportsGeneration.extension = extension;
-        mainExportsGeneration.subdirectoriesNames = subfolders;
-        mainExportsGeneration.ensureSuffixInClassName = false;
-        mainExportsGeneration.ensureSuffixInFileName = false;
-        mainExportsGeneration.templateFileName = "_exports.ts.ejs";
-        mainExportsGeneration.creationOptions['exportFileNames'] = [
-            path.basename(executorGeneration.fileName, extension),
-            path.basename(generateCommonFilesArguments.argumentsModel.generatedFileName, extension)
-        ];
-        mainExportsGeneration.yeomanGenerator = this;
-
-        await GenerateFileFromTemplateExecutor.Instance.execute(mainExportsGeneration);
     }
 }
 
