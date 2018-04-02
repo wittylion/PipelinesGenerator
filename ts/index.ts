@@ -1,9 +1,6 @@
 import Generator = require("yeoman-generator");
 import { Question, Inquirer } from "inquirer";
 import { GenerateFileFromTemplateExecutor, GenerateFileFromTemplateArguments } from '../src/feature/GenerateFileFromTemplate'
-import { GenerateTypescriptPipelineExecutor, GenerateTypescriptPipelineArguments } from "../src/project/ts/GeneratePipeline";
-import { GenerateTypescriptArgumentsExecutor, GenerateTypescriptArguments } from "../src/project/ts/GenerateArguments";
-import { GenerateAbstractProcessorExecutor, GenerateAbstractProcessorArguments } from "../src/project/ts/GenerateAbstractProcessor";
 import { MessageFilter } from "solid-pipelines";
 import path = require("path");
 
