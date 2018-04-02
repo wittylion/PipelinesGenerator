@@ -30,6 +30,7 @@ export class GenerateArguments extends GenerateCommonPipelineFilesProcessor {
 
         let argumentsGeneration = new GenerateFileFromTemplateArguments();
 
+        argumentsGeneration.fileName = model.fileName;
         argumentsGeneration.className = model.className;
         argumentsGeneration.extension = args.extension;
         argumentsGeneration.subdirectoriesNames = subfolders;
@@ -50,7 +51,7 @@ export class GenerateArguments extends GenerateCommonPipelineFilesProcessor {
     }
 
     public CustomCondition(args: GenerateCommonPipelineFilesArguments): boolean {
-        let safeCondition = true;
+        let safeCondition = !!args.argumentsModel;
         return safeCondition;
     }
 }

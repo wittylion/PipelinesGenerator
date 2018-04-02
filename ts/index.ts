@@ -67,8 +67,23 @@ class PipelinesGenerator extends Generator {
         generateCommonFilesArguments.extension = extension;
         generateCommonFilesArguments.createSubfolderWithPipelineName = createSubfolder;
         generateCommonFilesArguments.yeomanGenerator = this;
+
         generateCommonFilesArguments.argumentsModel = new GenerateFileModel();
         generateCommonFilesArguments.argumentsModel.templateName = "_arguments.ts.ejs";
+
+        generateCommonFilesArguments.abstractProcessorModel = new GenerateFileModel();
+        generateCommonFilesArguments.abstractProcessorModel.templateName = "_abstractProcessor.ts.ejs";
+
+        generateCommonFilesArguments.processorsExportsModel = new GenerateFileModel();
+        generateCommonFilesArguments.processorsExportsModel.fileName = "index.ts";
+        generateCommonFilesArguments.processorsExportsModel.templateName = "_exports.ts.ejs";
+
+        generateCommonFilesArguments.processorsModels = processors.map(processor => {
+            let model = new GenerateFileModel();
+            model.className = processor;
+            model.templateName = "_predefinedProcessor.ts.ejs";
+            return model;
+        });
 
         await GenerateCommonPipelineFilesExecutor.Instance.execute(generateCommonFilesArguments);
 
@@ -76,58 +91,6 @@ class PipelinesGenerator extends Generator {
         if (messages.length > 0) {
             console.log(messages);
         }
-
-        let abstractProcessorGeneration = new GenerateFileFromTemplateArguments();
-
-        abstractProcessorGeneration.className = pipelineName;
-        abstractProcessorGeneration.extension = extension;
-        abstractProcessorGeneration.subdirectoriesNames = subfolders;
-        abstractProcessorGeneration.ensureSuffixInClassName = true;
-        abstractProcessorGeneration.ensureSuffixInFileName = true;
-        abstractProcessorGeneration.templateFileName = "_abstractProcessor.ts.ejs";
-        abstractProcessorGeneration.yeomanGenerator = this;
-        abstractProcessorGeneration.creationOptions['argumentsClassName'] = generateCommonFilesArguments.argumentsModel.generatedClassName;
-        abstractProcessorGeneration.creationOptions['argumentsFileName'] = generateCommonFilesArguments.argumentsModel.generatedFileName;
-        abstractProcessorGeneration.suffix = "Processor";
-
-        await GenerateFileFromTemplateExecutor.Instance.execute(abstractProcessorGeneration);
-        
-        let generatedProcessors = [];
-        for (const processorName of processors) {        
-            let processorGeneration = new GenerateFileFromTemplateArguments();
-
-            processorGeneration.className = processorName;
-            processorGeneration.extension = extension;
-            processorGeneration.subdirectoriesNames = [...subfolders, "processors"];
-            processorGeneration.ensureSuffixInClassName = false;
-            processorGeneration.ensureSuffixInFileName = false;
-            processorGeneration.templateFileName = "_predefinedProcessor.ts.ejs";
-            processorGeneration.yeomanGenerator = this;
-            processorGeneration.creationOptions['argumentsClassName'] = generateCommonFilesArguments.argumentsModel.generatedClassName;
-            processorGeneration.creationOptions['argumentsFileName'] = generateCommonFilesArguments.argumentsModel.generatedFileName;
-            processorGeneration.creationOptions['abstractProcessorClassName'] = abstractProcessorGeneration.className;
-            processorGeneration.creationOptions['abstractProcessorFileName'] = abstractProcessorGeneration.fileName;
-    
-            await GenerateFileFromTemplateExecutor.Instance.execute(processorGeneration);
-
-            generatedProcessors.push({
-                className: processorGeneration.className,
-                fileName: processorGeneration.fileName
-            });
-        }
-        
-        let processorsExportsGeneration = new GenerateFileFromTemplateArguments();
-
-        processorsExportsGeneration.fileName = "index.ts";
-        processorsExportsGeneration.extension = extension;
-        processorsExportsGeneration.subdirectoriesNames = [...subfolders, 'processors'];
-        processorsExportsGeneration.ensureSuffixInClassName = false;
-        processorsExportsGeneration.ensureSuffixInFileName = false;
-        processorsExportsGeneration.templateFileName = "_exports.ts.ejs";
-        processorsExportsGeneration.creationOptions['exportFileNames'] = generatedProcessors.map(x => path.basename(x.fileName, '.ts'));
-        processorsExportsGeneration.yeomanGenerator = this;
-        
-        await GenerateFileFromTemplateExecutor.Instance.execute(processorsExportsGeneration);
 
         let pipelineGeneration = new GenerateFileFromTemplateArguments();
 
@@ -137,7 +100,7 @@ class PipelinesGenerator extends Generator {
         pipelineGeneration.ensureSuffixInClassName = true;
         pipelineGeneration.ensureSuffixInFileName = true;
         pipelineGeneration.templateFileName = "_pipeline.ts.ejs";
-        pipelineGeneration.creationOptions['processors'] = generatedProcessors.map(x => x.className);
+        pipelineGeneration.creationOptions['processors'] = generateCommonFilesArguments.processorsModels.map(x => x.generatedClassName);
         pipelineGeneration.yeomanGenerator = this;
         pipelineGeneration.suffix = "Pipeline";
 
@@ -169,11 +132,11 @@ class PipelinesGenerator extends Generator {
         mainExportsGeneration.ensureSuffixInFileName = false;
         mainExportsGeneration.templateFileName = "_exports.ts.ejs";
         mainExportsGeneration.creationOptions['exportFileNames'] = [
-            path.basename(executorGeneration.fileName, extension), 
+            path.basename(executorGeneration.fileName, extension),
             path.basename(generateCommonFilesArguments.argumentsModel.generatedFileName, extension)
         ];
         mainExportsGeneration.yeomanGenerator = this;
-        
+
         await GenerateFileFromTemplateExecutor.Instance.execute(mainExportsGeneration);
     }
 }
