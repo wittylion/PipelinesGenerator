@@ -1,0 +1,16 @@
+using System.Threading.Tasks;
+using Pipelines;
+
+namespace <%= namespace %>
+{
+    public class <%= name %>
+    {
+        public static readonly <%= name %> Instance = new <%= name %>();
+
+        public virtual Task Execute(<%= argumentsClassName %> arguments)
+        {
+            PipelineRunner runner = new PipelineRunner();
+            return runner.RunPipeline(<%= pipelineClassName %>.Instance, arguments);
+        }
+    }
+}

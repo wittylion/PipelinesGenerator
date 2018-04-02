@@ -1,0 +1,24 @@
+using System.Threading.Tasks;
+
+namespace <%= namespace %>
+{
+    public class <%= name %> : <%= abstractProcessorClassName %>
+    {
+        public static readonly <%= name %> Instance = new <%= name %>();
+        public override Task SafeExecute(<%= argumentsClassName %> args)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override bool SafeCondition(<%= argumentsClassName %> args)
+        {
+            return base.SafeCondition(args) && this.CustomCondition(args);
+        }
+
+        public virtual bool CustomCondition(<%= argumentsClassName %> args)
+        {
+            var safeCondition = true;
+            return safeCondition;
+        }
+    }
+}
