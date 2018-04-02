@@ -1,5 +1,6 @@
 import Generator = require("yeoman-generator");
 import { Question, Inquirer } from "inquirer";
+import { GenerateFileFromTemplateExecutor, GenerateFileFromTemplateArguments } from '../src/feature/GenerateFileFromTemplate'
 import { GenerateTypescriptPipelineExecutor, GenerateTypescriptPipelineArguments } from "../src/project/ts/GeneratePipeline";
 import { GenerateTypescriptArgumentsExecutor, GenerateTypescriptArguments } from "../src/project/ts/GenerateArguments";
 import { GenerateAbstractProcessorExecutor, GenerateAbstractProcessorArguments } from "../src/project/ts/GenerateAbstractProcessor";
@@ -61,16 +62,23 @@ class PipelinesGenerator extends Generator {
         let pipelineDestination = createSubfolder ? `./${pipelineName}/` : './';
         let processorDestination = pipelineDestination + 'processors/';
 
-        let argumentsGeneration = new GenerateTypescriptArguments();
-        argumentsGeneration.argumentsName = pipelineName;
-        argumentsGeneration.yeomanGenerator = this;
+        let argumentsGeneration = new GenerateFileFromTemplateArguments();
 
-        await GenerateTypescriptArgumentsExecutor.Instance.execute(argumentsGeneration);
+        argumentsGeneration.className = pipelineName;
+        argumentsGeneration.extension = ".ts";
+        argumentsGeneration.createSubdirectory = createSubfolder;
+        argumentsGeneration.templateFileName = "_arguments.ts.ejs";
+        argumentsGeneration.yeomanGenerator = this;
+        argumentsGeneration.suffix = "Arguments";
+        argumentsGeneration.ensureSuffixInFileName = true;
+        argumentsGeneration.ensureSuffixInClassName = true;
+
+        await GenerateFileFromTemplateExecutor.Instance.execute(argumentsGeneration);
 
         let abstractProcessorGeneration = new GenerateAbstractProcessorArguments();
         abstractProcessorGeneration.className = pipelineName;
-        abstractProcessorGeneration.argumentsClassName = argumentsGeneration.argumentsName;
-        abstractProcessorGeneration.argumentsFileName = argumentsGeneration.argumentsFileName;
+        abstractProcessorGeneration.argumentsClassName = argumentsGeneration.className;
+        abstractProcessorGeneration.argumentsFileName = argumentsGeneration.fileName;
         abstractProcessorGeneration.yeomanGenerator = this;
 
         await GenerateAbstractProcessorExecutor.Instance.execute(abstractProcessorGeneration);

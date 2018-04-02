@@ -7,6 +7,7 @@ export class GenerateFileFromTemplatePipeline implements IPipeline {
     GetProcessors(): IProcessor[] {
         return [
             Processors.ValidateGenerator.Instance,
+            Processors.EnsureFileNameIsSet.Instance,
             Processors.EnsureTemplateDestination.Instance,
             Processors.ValidateTemplateDestination.Instance,
             Processors.EnsureSuffixInFileName.Instance,
