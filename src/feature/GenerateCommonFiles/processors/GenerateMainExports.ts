@@ -8,7 +8,7 @@ export class GenerateMainExports extends GenerateCommonPipelineFilesProcessor {
     public static readonly Instance = new GenerateMainExports();
 
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
-        let model = args.mainExportsModel;
+        let model = args.mainExportsModel = args.modelsProvider.getMainExportsModel();
         if (!model) {
             args.AbortPipelineWithErrorMessage("You have to specify some data for index.ts file to be generated.");
             return;

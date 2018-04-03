@@ -7,7 +7,7 @@ export class GeneratePipeline extends GenerateCommonPipelineFilesProcessor {
     public static readonly Instance = new GeneratePipeline();
 
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
-        let model = args.pipelineModel;
+        let model = args.pipelineModel = args.modelsProvider.getPipelineModel();
         if (!model) {
             args.AbortPipelineWithErrorMessage("You have to specify some data for pipeline file to be generated.");
             return;

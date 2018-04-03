@@ -8,7 +8,7 @@ export class GenerateExecutor extends GenerateCommonPipelineFilesProcessor {
     public static readonly Instance = new GenerateExecutor();
 
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
-        let model = args.executorModel;
+        let model = args.executorModel = args.modelsProvider.getExecutorModel();
         if (!model) {
             args.AbortPipelineWithErrorMessage("You have to specify some data for executor file to be generated.");
             return;

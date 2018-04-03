@@ -8,7 +8,7 @@ export class GenerateAbstractProcessor extends GenerateCommonPipelineFilesProces
     public static readonly Instance = new GenerateAbstractProcessor();
 
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
-        let model = args.abstractProcessorModel;
+        let model = args.abstractProcessorModel = args.modelsProvider.getAbstractProcessorModel();
         if (!model) {
             args.AbortPipelineWithErrorMessage("You have to specify some data for abstract processor generation.");
             return;

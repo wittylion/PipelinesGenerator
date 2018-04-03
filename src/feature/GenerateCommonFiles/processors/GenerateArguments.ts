@@ -7,7 +7,7 @@ export class GenerateArguments extends GenerateCommonPipelineFilesProcessor {
     public static readonly Instance = new GenerateArguments();
 
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
-        let model = args.argumentsModel;
+        let model = args.argumentsModel = args.modelsProvider.getArgumentsModel();
         if (!model) {
             args.AbortPipelineWithErrorMessage("You have to specify some data for arguments generation.");
             return;

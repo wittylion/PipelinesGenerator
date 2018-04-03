@@ -28,9 +28,7 @@ export class TryToGetProcessors extends GenerateCommonPipelineFilesProcessor {
         var processorNameStrings: string[] = S(processorNames).isEmpty() ? [] : processorNames.split(' ');
 
         args.processorsModels = processorNameStrings.map(processor => {
-            let model = new GenerateFileModel();
-            model.className = processor;
-            model.templateName = "_predefinedProcessor.ts.ejs";
+            let model = args.modelsProvider.getProcessorModel();
             return model;
         });
     }
