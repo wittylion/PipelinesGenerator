@@ -10,7 +10,7 @@ export class EnsureOptionArguments extends PipelineContext {
         inputType: InputTypeEnum = InputTypeEnum.Input,
         storeAsSuggestionForNextTime: boolean = false,
         storeAsDefaultForNextTime: boolean = false,
-        defaultValue?: string
+        defaultValue?: any
     ): EnsureOptionArguments {
 
         let result = new EnsureOptionArguments();
@@ -30,7 +30,7 @@ export class EnsureOptionArguments extends PipelineContext {
     optionName: string;
     questionMessage: string;
     inputType: InputTypeEnum;
-    suggestionOfDefaultValue: string;
+    suggestionOfDefaultValue: any;
 
     storeAsSuggestionForNextTime: boolean;
     storeAsDefaultForNextTime: boolean;

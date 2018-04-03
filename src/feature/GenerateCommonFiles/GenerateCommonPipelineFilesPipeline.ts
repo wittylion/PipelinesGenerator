@@ -8,6 +8,7 @@ export class GenerateCommonPipelineFilesPipeline implements IPipeline {
         return [  
             Processors.ValidateYeomanGenerator.Instance,
             Processors.TryToGetPipelineName.Instance,
+            Processors.TryToGetProcessors.Instance,
             Processors.ValidatePipelineName.Instance,
             Processors.EnsureExtensionIsSet.Instance,
             Processors.EnsureCommonSubfolders.Instance,

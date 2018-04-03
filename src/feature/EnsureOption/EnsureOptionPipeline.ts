@@ -13,7 +13,6 @@ export class EnsureOptionPipeline implements IPipeline {
             Processors.TryToObtainOptionInSnakeCase.Instance,
             Processors.TryToObtainOptionInCamelCase.Instance,
             Processors.TryGetDefaultValueFromConfig.Instance,
-            Processors.AdjustDefaultValuesForConfirm.Instance,
             Processors.EnsureQuestionMessage.Instance,
             Processors.EnsureAnswerInputType.Instance,
             Processors.AskUserToProvideValue.Instance,

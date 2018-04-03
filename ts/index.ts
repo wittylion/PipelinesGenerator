@@ -21,14 +21,12 @@ class PipelinesGenerator extends Generator {
     }
 
     async default() {
-        var processorNames: string = await EnsureOptionExecutor.obtainByKey(this, "processorNames");
-        var processorNameStrings: string[] = S(processorNames).isEmpty() ? [] : processorNames.split(' ');
         var subfolder: boolean = S(await EnsureOptionExecutor.obtainByKey(this, "subfolder", InputTypeEnum.Confirm, true, false)).toBoolean();
 
-        await this._createPipelineInfrastructure(processorNameStrings, subfolder);
+        await this._createPipelineInfrastructure(subfolder);
     }
 
-    async _createPipelineInfrastructure(processors: string[], createSubfolder: boolean = true) {
+    async _createPipelineInfrastructure(createSubfolder: boolean = true) {
         const extension = ".ts";
 
         let generateCommonFilesArguments = new GenerateCommonPipelineFilesArguments();
@@ -41,13 +39,6 @@ class PipelinesGenerator extends Generator {
 
         generateCommonFilesArguments.abstractProcessorModel = new GenerateFileModel();
         generateCommonFilesArguments.abstractProcessorModel.templateName = "_abstractProcessor.ts.ejs";
-
-        generateCommonFilesArguments.processorsModels = processors.map(processor => {
-            let model = new GenerateFileModel();
-            model.className = processor;
-            model.templateName = "_predefinedProcessor.ts.ejs";
-            return model;
-        });
 
         generateCommonFilesArguments.processorsExportsModel = new GenerateFileModel();
         generateCommonFilesArguments.processorsExportsModel.fileName = "index.ts";
