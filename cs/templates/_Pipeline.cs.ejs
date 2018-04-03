@@ -1,15 +1,15 @@
 using System.Collections.Generic;
 using Pipelines;
-using <%= namespace %>.Processors;
+using MyNamespace.Processors;
 
-namespace <%= namespace %>
+namespace MyNamespace
 {
     public class <%= name %> : IPipeline
     {
         public static readonly <%= name %> Instance = new <%= name %>();
         public IEnumerable<IProcessor> GetProcessors()
         {
-            <% processors.forEach(function(processor){ %>    yield return <%= processor %>.Instance,
+            <% processors.forEach(function(processor){ %>    yield return <%= processor %>.Instance;
             <% }); %>
         }
     }
