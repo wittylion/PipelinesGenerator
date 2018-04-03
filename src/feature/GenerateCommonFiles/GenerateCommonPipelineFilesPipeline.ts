@@ -6,6 +6,8 @@ export class GenerateCommonPipelineFilesPipeline implements IPipeline {
 
     GetProcessors(): IProcessor[] {
         return [  
+            Processors.ValidateYeomanGenerator.Instance,
+            Processors.ValidatePipelineName.Instance,
             Processors.EnsureExtensionIsSet.Instance,
             Processors.EnsureCommonSubfolders.Instance,
             Processors.GenerateArguments.Instance,

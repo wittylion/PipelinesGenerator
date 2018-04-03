@@ -70,12 +70,11 @@ class PipelinesGenerator extends Generator {
 
         let messages = generateCommonFilesArguments.GetMessages(MessageFilter.Errors | MessageFilter.Warnings);
         if (messages.length > 0) {
-            console.log(messages);
+            this.log(messages.map(x => x.Message).join('\n'));
         }
     }
 
     end() {
-        this.config.save();
     }
 }
 

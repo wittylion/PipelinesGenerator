@@ -2,6 +2,7 @@ import { GenerateCommonPipelineFilesProcessor } from "../GenerateCommonPipelineF
 import { GenerateCommonPipelineFilesArguments } from "../GenerateCommonPipelineFilesArguments";
 import { GenerateFileFromTemplateArguments, GenerateFileFromTemplateExecutor } from "../../GenerateFileFromTemplate";
 import path = require('path');
+import S from "string";
 
 export class GenerateProcessorsExports extends GenerateCommonPipelineFilesProcessor {
     public static readonly Instance = new GenerateProcessorsExports();
@@ -32,7 +33,9 @@ export class GenerateProcessorsExports extends GenerateCommonPipelineFilesProces
     }
 
     public CustomCondition(args: GenerateCommonPipelineFilesArguments): boolean {
-        let safeCondition = !!args.processorsExportsModel;
+        let safeCondition = !!args.processorsExportsModel 
+            && args.processorsModels.length > 0
+            && args.processorsModels.filter(x => !S(x.generatedFileName).isEmpty()).length > 0;
         return safeCondition;
     }
 }
