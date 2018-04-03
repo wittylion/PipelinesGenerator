@@ -29,7 +29,7 @@ class PipelinesGenerator extends Generator {
     }
 
     async default() {
-        var pipelineName: string = await EnsureOptionExecutor.obtainByKey(this, "pipelineName");
+        var pipelineName: string = await EnsureOptionExecutor.obtainByKey(this, "pipelineName", true);
         var processorNames: string = await EnsureOptionExecutor.obtainByKey(this, "processorNames");
         var processorNameStrings: string[] = processorNames.split(' ');
 
@@ -75,7 +75,7 @@ class PipelinesGenerator extends Generator {
 
         await GenerateCommonPipelineFilesExecutor.Instance.execute(generateCommonFilesArguments);
 
-        let messages = generateCommonFilesArguments.GetMessages(MessageFilter.All);
+        let messages = generateCommonFilesArguments.GetMessages(MessageFilter.Errors | MessageFilter.Warnings);
         if (messages.length > 0) {
             console.log(messages);
         }

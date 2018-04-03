@@ -6,12 +6,19 @@ import { InputTypeEnum } from "./InputTypeEnum";
 export class EnsureOptionArguments extends PipelineContext {
     public static Create(
         generator: Generator,
-        optionName: string): EnsureOptionArguments {
+        optionName: string,
+        storeAsSuggestionForNextTime: boolean = false,
+        storeAsDefaultForNextTime: boolean = false,
+        defaultValue?: string
+    ): EnsureOptionArguments {
 
         let result = new EnsureOptionArguments();
 
         result.yeomanGenerator = generator;
         result.optionName = optionName;
+        result.suggestionOfDefaultValue = defaultValue;
+        result.storeAsDefaultForNextTime = storeAsDefaultForNextTime;
+        result.storeAsSuggestionForNextTime = storeAsSuggestionForNextTime;
 
         return result;
     }
@@ -21,5 +28,9 @@ export class EnsureOptionArguments extends PipelineContext {
     optionName: string;
     questionMessage: string;
     inputType: InputTypeEnum;
+    suggestionOfDefaultValue: string = "None";
+
+    storeAsSuggestionForNextTime: boolean;
+    storeAsDefaultForNextTime: boolean;
 }
 

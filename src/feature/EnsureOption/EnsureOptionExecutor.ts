@@ -6,12 +6,25 @@ import Generator = require('yeoman-generator');
 export class EnsureOptionExecutor {
     public static Instance: EnsureOptionExecutor = new EnsureOptionExecutor();
 
-    public static obtainByKey(generator: Generator, option: string) : Promise<string> {
+    public static obtainByKey(
+        generator: Generator, 
+        option: string,
+        storeAsSuggestionForNextTime: boolean = false,
+        storeAsDefaultForNextTime: boolean = false,
+        defaultValue?: string
+    ) : Promise<string> {
         return EnsureOptionExecutor.Instance.obtainByKey(generator, option);
     }
 
-    async obtainByKey(generator: Generator, option: string) : Promise<string> {
-        let args = EnsureOptionArguments.Create(generator, option);
+    async obtainByKey(
+        generator: Generator, 
+        option: string,
+        storeAsSuggestionForNextTime: boolean = false,
+        storeAsDefaultForNextTime: boolean = false,
+        defaultValue?: string
+    ) : Promise<string> {
+        let args = EnsureOptionArguments.Create(generator, option, storeAsSuggestionForNextTime, storeAsDefaultForNextTime, defaultValue);
+
         await this.execute(args);
         return args.result;
     }

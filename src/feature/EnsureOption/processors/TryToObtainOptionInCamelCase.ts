@@ -10,6 +10,10 @@ export class TryToObtainOptionInCamelCase extends EnsureOptionProcessor {
     public async SafeExecute(args: EnsureOptionArguments): Promise<void> {
         let option = _.camelCase(args.optionName);
         args.result = await ObtainOptionExecutor.Instance.obtainByKey(args.yeomanGenerator, option);
+
+        if (!S(args.result).isEmpty()) {
+            args.AbortPipelineWithInformationMessage(`Option ${option} found.`);
+        }
     }
 
     public SafeCondition(args: EnsureOptionArguments): boolean {

@@ -4,15 +4,14 @@ import S from "string";
 import { ObtainOptionExecutor, ObtainOptionArguments } from "../../ObtainOption";
 import _ from "lodash";
 
-export class TryToObtainOptionInSnakeCase extends EnsureOptionProcessor {
-    public static readonly Instance = new TryToObtainOptionInSnakeCase();
+export class TryToObtainOption extends EnsureOptionProcessor {
+    public static readonly Instance = new TryToObtainOption();
 
     public async SafeExecute(args: EnsureOptionArguments): Promise<void> {
-        let option = _.snakeCase(args.optionName);
-        args.result = await ObtainOptionExecutor.Instance.obtainByKey(args.yeomanGenerator, option);
+        args.result = await ObtainOptionExecutor.Instance.obtainByKey(args.yeomanGenerator, args.optionName);
 
-        if (!S(args.result).isEmpty()) {
-            args.AbortPipelineWithInformationMessage(`Option ${option} found.`);
+        if (!S(args.result).isEmpty()) { 
+            args.AbortPipelineWithInformationMessage(`Option ${args.optionName} found.`); 
         }
     }
 

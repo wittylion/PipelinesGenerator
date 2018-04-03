@@ -10,7 +10,7 @@ export class AskUserToProvideValue extends EnsureOptionProcessor {
             type: args.inputType,
             name: args.optionName,
             message: args.questionMessage,
-            default: 'None'
+            default: args.suggestionOfDefaultValue
         };
 
         let answer = await args.yeomanGenerator.prompt(optionValueQuestion);
