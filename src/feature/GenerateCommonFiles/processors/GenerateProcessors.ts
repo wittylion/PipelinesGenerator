@@ -54,6 +54,7 @@ export class GenerateProcessors extends GenerateCommonPipelineFilesProcessor {
                     args.abstractProcessorModel.generatedFileName,
                     args.extension
                 );
+            processorGeneration.subdirectoryCaseTuner = args.commonSubdirectoryCaseTuner;
 
             await GenerateFileFromTemplateExecutor.Instance.execute(processorGeneration);
 

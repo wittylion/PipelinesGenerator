@@ -39,6 +39,7 @@ export class GenerateArguments extends GenerateCommonPipelineFilesProcessor {
         argumentsGeneration.suffix = "Arguments";
         argumentsGeneration.ensureSuffixInFileName = true;
         argumentsGeneration.ensureSuffixInClassName = true;
+        argumentsGeneration.subdirectoryCaseTuner = args.commonSubdirectoryCaseTuner;
 
         await GenerateFileFromTemplateExecutor.Instance.execute(argumentsGeneration);
 

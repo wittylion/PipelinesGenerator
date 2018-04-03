@@ -38,6 +38,7 @@ export class GenerateMainExports extends GenerateCommonPipelineFilesProcessor {
             path.basename(args.argumentsModel.generatedFileName, args.extension)
         ];
         mainExportsGeneration.yeomanGenerator = args.yeomanGenerator;
+        mainExportsGeneration.subdirectoryCaseTuner = args.commonSubdirectoryCaseTuner;
 
         await GenerateFileFromTemplateExecutor.Instance.execute(mainExportsGeneration);
 

@@ -39,6 +39,7 @@ export class GeneratePipeline extends GenerateCommonPipelineFilesProcessor {
         pipelineGeneration.creationOptions['processors'] = args.processorsModels.map(x => x.generatedClassName);
         pipelineGeneration.yeomanGenerator = args.yeomanGenerator;
         pipelineGeneration.suffix = "Pipeline";
+        pipelineGeneration.subdirectoryCaseTuner = args.commonSubdirectoryCaseTuner;
 
         await GenerateFileFromTemplateExecutor.Instance.execute(pipelineGeneration);
 

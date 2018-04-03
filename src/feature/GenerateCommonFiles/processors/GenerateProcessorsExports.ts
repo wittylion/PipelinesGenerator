@@ -20,6 +20,7 @@ export class GenerateProcessorsExports extends GenerateCommonPipelineFilesProces
         processorsExportsGeneration.creationOptions['exportFileNames'] = 
             args.processorsModels.map(x => path.basename(x.generatedFileName, '.ts'));
         processorsExportsGeneration.yeomanGenerator = args.yeomanGenerator;
+        processorsExportsGeneration.subdirectoryCaseTuner = args.commonSubdirectoryCaseTuner;
 
         await GenerateFileFromTemplateExecutor.Instance.execute(processorsExportsGeneration);
 

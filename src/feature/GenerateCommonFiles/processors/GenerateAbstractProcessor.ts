@@ -52,6 +52,7 @@ export class GenerateAbstractProcessor extends GenerateCommonPipelineFilesProces
         abstractProcessorGeneration.creationOptions['argumentsClassName'] = args.argumentsModel.generatedClassName;
         abstractProcessorGeneration.creationOptions['argumentsFileName'] = argsPath;
         abstractProcessorGeneration.suffix = "Processor";
+        abstractProcessorGeneration.subdirectoryCaseTuner = args.commonSubdirectoryCaseTuner;
 
         await GenerateFileFromTemplateExecutor.Instance.execute(abstractProcessorGeneration);
 

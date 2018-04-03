@@ -5,6 +5,7 @@ import { MessageFilter } from "solid-pipelines";
 import path = require("path");
 import { GenerateCommonPipelineFilesArguments, GenerateCommonPipelineFilesExecutor } from "../src/feature/GenerateCommonFiles";
 import { GenerateFileModel } from "../src/feature/GenerateCommonFiles/GenerateFileModel";
+import _ = require('lodash');
 
 class PipelinesGenerator extends Generator {
     answersListener: Promise<Generator.Answers>;
@@ -67,6 +68,7 @@ class PipelinesGenerator extends Generator {
         generateCommonFilesArguments.extension = extension;
         generateCommonFilesArguments.createSubfolderWithPipelineName = createSubfolder;
         generateCommonFilesArguments.yeomanGenerator = this;
+        generateCommonFilesArguments.commonSubdirectoryCaseTuner = x => _.upperFirst(_.camelCase(x))
 
         generateCommonFilesArguments.argumentsModel = new GenerateFileModel();
         generateCommonFilesArguments.argumentsModel.templateName = "_Arguments.cs.ejs";

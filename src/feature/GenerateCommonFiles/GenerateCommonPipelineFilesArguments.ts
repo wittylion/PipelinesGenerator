@@ -9,6 +9,7 @@ export class GenerateCommonPipelineFilesArguments extends PipelineContext {
     pipelineNameSpecifiedByUser: string;
     createSubfolderWithPipelineName: boolean = false;
 
+    commonSubdirectoryCaseTuner: (subdirectory: string) => string;
     commonSubfolders: string[] = [];
 
     argumentsModel: GenerateFileModel;
@@ -17,5 +18,5 @@ export class GenerateCommonPipelineFilesArguments extends PipelineContext {
     processorsExportsModel: GenerateFileModel;
     pipelineModel: GenerateFileModel;
     executorModel: GenerateFileModel;
-    mainExportsModel: GenerateFileModel;
+    mainExportsModel: GenerateFileModel;    
 }
