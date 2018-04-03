@@ -2,6 +2,7 @@ import { GenerateCommonPipelineFilesProcessor } from "../GenerateCommonPipelineF
 import { GenerateCommonPipelineFilesArguments } from "../GenerateCommonPipelineFilesArguments";
 import S from "string";
 import { GenerateFileFromTemplateArguments, GenerateFileFromTemplateExecutor } from "../../GenerateFileFromTemplate";
+import { EnsureFileModelExecutor, EnsureFileModelArguments } from "../../EnsureFileModel";
 
 export class GenerateArguments extends GenerateCommonPipelineFilesProcessor {
     public static readonly Instance = new GenerateArguments();
@@ -13,18 +14,11 @@ export class GenerateArguments extends GenerateCommonPipelineFilesProcessor {
             return;
         }
 
-        if (S(model.templateName).isEmpty()) {
-            args.AbortPipelineWithErrorMessage("You have to provide a template name to generate arguments.");
-            return;
-        }
-
-        if (S(model.className).isEmpty()) {
-            model.className = args.pipelineNameSpecifiedByUser;
-        }
-
-        if (S(model.fileName).isEmpty()) {
-            model.fileName = args.pipelineNameSpecifiedByUser;
-        }
+        EnsureFileModelExecutor.Instance.execute(EnsureFileModelArguments.Create(
+            args.yeomanGenerator,
+            args.pipelineNameSpecifiedByUser,
+            args.extension
+        ));
 
         let subfolders = [...args.commonSubfolders, ...model.subdirectories];
 

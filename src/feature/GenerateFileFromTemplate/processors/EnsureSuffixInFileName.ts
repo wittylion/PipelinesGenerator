@@ -22,7 +22,8 @@ export class EnsureSuffixInFileName extends GenerateFileFromTemplateProcessor {
         let safeCondition =
             args.ensureSuffixInFileName
             && S(args.destination).isEmpty()
-            && !S(args.suffix).isEmpty();
+            && !S(args.suffix).isEmpty()
+            && !S(args.fileName).isEmpty();
         return safeCondition;
     }
 }

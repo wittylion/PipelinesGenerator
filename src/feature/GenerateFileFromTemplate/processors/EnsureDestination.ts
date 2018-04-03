@@ -17,7 +17,7 @@ export class EnsureDestination extends GenerateFileFromTemplateProcessor {
     }
 
     public CustomCondition(args: GenerateFileFromTemplateArguments): boolean {
-        let safeCondition = S(args.destination).isEmpty();
+        let safeCondition = S(args.destination).isEmpty() && !S(args.fileName).isEmpty();
         return safeCondition;
     }
 }

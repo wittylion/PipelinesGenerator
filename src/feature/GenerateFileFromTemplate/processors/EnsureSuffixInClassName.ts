@@ -15,7 +15,7 @@ export class EnsureSuffixInClassName extends GenerateFileFromTemplateProcessor {
     }
 
     public CustomCondition(args: GenerateFileFromTemplateArguments): boolean {
-        let safeCondition = args.ensureSuffixInClassName && !S(args.suffix).isEmpty();
+        let safeCondition = args.ensureSuffixInClassName && !S(args.suffix).isEmpty() && !S(args.className).isEmpty();
         return safeCondition;
     }
 }
