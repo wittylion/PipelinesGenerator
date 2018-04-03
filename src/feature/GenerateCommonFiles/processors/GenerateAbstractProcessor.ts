@@ -29,13 +29,14 @@ export class GenerateAbstractProcessor extends GenerateCommonPipelineFilesProces
 
         if (S(args.generatedArgumentsClassName).isEmpty() || S(args.generatedArgumentsFileName).isEmpty()) {
             args.AbortPipelineWithErrorMessage("Arguments must be created before abstract processor will be created.");
+            return;
         }
 
         let subfolders = [...args.commonSubfolders, ...model.subdirectories];
         let argsPath =
             path.basename(
                 path.relative(
-                    path.join(...subfolders),
+                    args.yeomanGenerator.destinationRoot(),
                     args.yeomanGenerator.destinationPath(args.generatedArgumentsFileName)
                 ), args.extension);
 
