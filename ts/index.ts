@@ -21,20 +21,17 @@ class PipelinesGenerator extends Generator {
     }
 
     async default() {
-        var pipelineName: string = await EnsureOptionExecutor.obtainByKey(this, "pipelineName");
         var processorNames: string = await EnsureOptionExecutor.obtainByKey(this, "processorNames");
         var processorNameStrings: string[] = S(processorNames).isEmpty() ? [] : processorNames.split(' ');
         var subfolder: boolean = S(await EnsureOptionExecutor.obtainByKey(this, "subfolder", InputTypeEnum.Confirm, true, false)).toBoolean();
 
-        await this._createPipelineInfrastructure(pipelineName, processorNameStrings, subfolder);
+        await this._createPipelineInfrastructure(processorNameStrings, subfolder);
     }
 
-    async _createPipelineInfrastructure(pipelineName: string, processors: string[], createSubfolder: boolean = true) {
+    async _createPipelineInfrastructure(processors: string[], createSubfolder: boolean = true) {
         const extension = ".ts";
-        let subfolders = createSubfolder ? [pipelineName] : [];
 
         let generateCommonFilesArguments = new GenerateCommonPipelineFilesArguments();
-        generateCommonFilesArguments.pipelineNameSpecifiedByUser = pipelineName;
         generateCommonFilesArguments.extension = extension;
         generateCommonFilesArguments.createSubfolderWithPipelineName = createSubfolder;
         generateCommonFilesArguments.yeomanGenerator = this;
