@@ -15,6 +15,21 @@ describe('Testing typescript pipelines generator.', function () {
                 // The object returned acts like a promise, so return it to wait until the process is done
                 helpers.run(path.join(__dirname, '../ts'))
                     .on('end', done);
+            })
+
+            it('Doesn not create a file.', function () {
+                assert.noFile();
+            });
+        });
+
+        describe('When simple Hello World pipeline is created by providing answers', function () {
+            before(function (done) {
+                // The object returned acts like a promise, so return it to wait until the process is done
+                helpers.run(path.join(__dirname, '../ts'))
+                    .withPrompts({ pipelineName: 'HelloWorld' })
+                    .withPrompts({ processorNames: 'HelloWorld' })
+                    .withPrompts({ subfolder: 'n' })
+                    .on('end', done);
             });
 
             it('Сreates default Hello World files', function () {
@@ -100,11 +115,13 @@ describe('Testing typescript pipelines generator.', function () {
             });
         });
 
-        describe('When subdirectory is requested', function () {
+        describe('When subdirectory is requested for simple Hello World processor', function () {
             before(function (done) {
                 // The object returned acts like a promise, so return it to wait until the process is done
                 helpers.run(path.join(__dirname, '../ts'))
-                    .withOptions({'--subfolder':'true'})
+                    .withPrompts({ pipelineName: 'HelloWorld' })
+                    .withPrompts({ processorNames: 'HelloWorld' })
+                    .withOptions({ '--subfolder': 'true' })
                     .on('end', done);
             });
 
@@ -122,6 +139,7 @@ describe('Testing typescript pipelines generator.', function () {
                 // The object returned acts like a promise, so return it to wait until the process is done
                 helpers.run(path.join(__dirname, '../ts'))
                     .withPrompts({ pipelineName: 'TestedSome' })
+                    .withArguments(['--no-subfolder'])
                     .on('end', done);
             });
 
@@ -135,6 +153,7 @@ describe('Testing typescript pipelines generator.', function () {
                 // The object returned acts like a promise, so return it to wait until the process is done
                 helpers.run(path.join(__dirname, '../ts'))
                     .withPrompts({ pipelineName: 'TestedPipeline' })
+                    .withArguments(['--no-subfolder'])
                     .on('end', done);
             });
 
@@ -156,6 +175,7 @@ describe('Testing typescript pipelines generator.', function () {
                 helpers.run(path.join(__dirname, '../ts'))
                     .withPrompts({ pipelineName: 'TestedPipeline' })
                     .withPrompts({ processorNames: 'A B' })
+                    .withArguments(['--no-subfolder'])
                     .on('end', done);
             });
 

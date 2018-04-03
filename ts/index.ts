@@ -23,7 +23,7 @@ class PipelinesGenerator extends Generator {
     async default() {
         var pipelineName: string = await EnsureOptionExecutor.obtainByKey(this, "pipelineName");
         var processorNames: string = await EnsureOptionExecutor.obtainByKey(this, "processorNames");
-        var processorNameStrings: string[] = processorNames.split(' ');
+        var processorNameStrings: string[] = S(processorNames).isEmpty() ? [] : processorNames.split(' ');
         var subfolder: boolean = S(await EnsureOptionExecutor.obtainByKey(this, "subfolder", InputTypeEnum.Confirm, true, false)).toBoolean();
 
         await this._createPipelineInfrastructure(pipelineName, processorNameStrings, subfolder);
