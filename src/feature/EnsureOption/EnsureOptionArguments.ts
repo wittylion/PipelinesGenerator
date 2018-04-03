@@ -7,6 +7,7 @@ export class EnsureOptionArguments extends PipelineContext {
     public static Create(
         generator: Generator,
         optionName: string,
+        inputType: InputTypeEnum = InputTypeEnum.Input,
         storeAsSuggestionForNextTime: boolean = false,
         storeAsDefaultForNextTime: boolean = false,
         defaultValue?: string
@@ -14,6 +15,7 @@ export class EnsureOptionArguments extends PipelineContext {
 
         let result = new EnsureOptionArguments();
 
+        result.inputType = inputType;
         result.yeomanGenerator = generator;
         result.optionName = optionName;
         result.suggestionOfDefaultValue = defaultValue;
@@ -28,7 +30,7 @@ export class EnsureOptionArguments extends PipelineContext {
     optionName: string;
     questionMessage: string;
     inputType: InputTypeEnum;
-    suggestionOfDefaultValue: string = "None";
+    suggestionOfDefaultValue: string;
 
     storeAsSuggestionForNextTime: boolean;
     storeAsDefaultForNextTime: boolean;

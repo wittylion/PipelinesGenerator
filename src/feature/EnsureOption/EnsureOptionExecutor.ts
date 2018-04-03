@@ -2,6 +2,7 @@ import { PipelineRunner } from "solid-pipelines";
 import { EnsureOptionArguments } from './EnsureOptionArguments'
 import { EnsureOptionPipeline } from './EnsureOptionPipeline'
 import Generator = require('yeoman-generator');
+import { InputTypeEnum } from "./InputTypeEnum";
 
 export class EnsureOptionExecutor {
     public static Instance: EnsureOptionExecutor = new EnsureOptionExecutor();
@@ -9,6 +10,7 @@ export class EnsureOptionExecutor {
     public static obtainByKey(
         generator: Generator,
         option: string,
+        inputType: InputTypeEnum = InputTypeEnum.Input,
         storeAsSuggestionForNextTime: boolean = false,
         storeAsDefaultForNextTime: boolean = false,
         defaultValue?: string
@@ -17,6 +19,7 @@ export class EnsureOptionExecutor {
         return EnsureOptionExecutor.Instance.obtainByKey(
             generator,
             option,
+            inputType,
             storeAsSuggestionForNextTime,
             storeAsDefaultForNextTime,
             defaultValue
@@ -26,6 +29,7 @@ export class EnsureOptionExecutor {
     async obtainByKey(
         generator: Generator,
         option: string,
+        inputType: InputTypeEnum = InputTypeEnum.Input,
         storeAsSuggestionForNextTime: boolean = false,
         storeAsDefaultForNextTime: boolean = false,
         defaultValue?: string
@@ -34,6 +38,7 @@ export class EnsureOptionExecutor {
         let args = EnsureOptionArguments.Create(
             generator,
             option,
+            inputType,
             storeAsSuggestionForNextTime,
             storeAsDefaultForNextTime,
             defaultValue

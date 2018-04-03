@@ -6,18 +6,10 @@ import path = require("path");
 import { GenerateCommonPipelineFilesArguments, GenerateCommonPipelineFilesExecutor } from "../src/feature/GenerateCommonFiles";
 import { GenerateFileModel } from "../src/feature/GenerateCommonFiles/GenerateFileModel";
 import { EnsureOptionExecutor, EnsureOptionArguments } from "../src/feature/EnsureOption";
+import { InputTypeEnum } from "../src/feature/EnsureOption/InputTypeEnum";
+import S = require("string");
 
 class PipelinesGenerator extends Generator {
-    constructor(args: string | string[], options: {}) {
-        super(args, options);
-
-        let subfolderArgumentConfig: Generator.OptionConfig = {
-            description: "Specififes, whether to create a subfolder for the current item.",
-            default: false
-        };
-        this.option("subfolder", subfolderArgumentConfig);
-    }
-
     initializing() {
     }
 
@@ -32,8 +24,9 @@ class PipelinesGenerator extends Generator {
         var pipelineName: string = await EnsureOptionExecutor.obtainByKey(this, "pipelineName");
         var processorNames: string = await EnsureOptionExecutor.obtainByKey(this, "processorNames");
         var processorNameStrings: string[] = processorNames.split(' ');
+        var subfolder: boolean = S(await EnsureOptionExecutor.obtainByKey(this, "subfolder", InputTypeEnum.Confirm, true, false)).toBoolean();
 
-        await this._createPipelineInfrastructure(pipelineName, processorNameStrings, this.options["subfolder"]);
+        await this._createPipelineInfrastructure(pipelineName, processorNameStrings, subfolder);
     }
 
     async _createPipelineInfrastructure(pipelineName: string, processors: string[], createSubfolder: boolean = true) {

@@ -1,18 +1,13 @@
 import { EnsureOptionProcessor } from "../EnsureOptionProcessor";
 import { EnsureOptionArguments } from "../EnsureOptionArguments";
 import S from "string";
+import { InputTypeEnum } from "../InputTypeEnum";
 
-export class TryGetDefaultValueFromConfig extends EnsureOptionProcessor {
-    public static readonly Instance = new TryGetDefaultValueFromConfig();
+export class AdjustDefaultValuesForConfirm extends EnsureOptionProcessor {
+    public static readonly Instance = new AdjustDefaultValuesForConfirm();
 
     public async SafeExecute(args: EnsureOptionArguments): Promise<void> {
-        let dict: {} = args.yeomanGenerator.config.get(EnsureOptionProcessor.DefaultValuesKey);
-
-        if (!dict || S(dict[args.optionName]).isEmpty()) {
-            return;
-        }
-
-        args.suggestionOfDefaultValue = dict[args.optionName];
+        args.suggestionOfDefaultValue = S(args.suggestionOfDefaultValue).toBoolean() ? "Yes" : "No";
     }
 
     public SafeCondition(args: EnsureOptionArguments): boolean {
@@ -20,7 +15,7 @@ export class TryGetDefaultValueFromConfig extends EnsureOptionProcessor {
     }
 
     public CustomCondition(args: EnsureOptionArguments): boolean {
-        let safeCondition = S(args.suggestionOfDefaultValue).isEmpty();
+        let safeCondition = !S(args.suggestionOfDefaultValue).isEmpty() && args.inputType === InputTypeEnum.Confirm;
         return safeCondition;
     }
 }
