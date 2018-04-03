@@ -7,30 +7,44 @@ export class EnsureOptionExecutor {
     public static Instance: EnsureOptionExecutor = new EnsureOptionExecutor();
 
     public static obtainByKey(
-        generator: Generator, 
+        generator: Generator,
         option: string,
         storeAsSuggestionForNextTime: boolean = false,
         storeAsDefaultForNextTime: boolean = false,
         defaultValue?: string
-    ) : Promise<string> {
-        return EnsureOptionExecutor.Instance.obtainByKey(generator, option);
+    ): Promise<string> {
+
+        return EnsureOptionExecutor.Instance.obtainByKey(
+            generator,
+            option,
+            storeAsSuggestionForNextTime,
+            storeAsDefaultForNextTime,
+            defaultValue
+        );
     }
 
     async obtainByKey(
-        generator: Generator, 
+        generator: Generator,
         option: string,
         storeAsSuggestionForNextTime: boolean = false,
         storeAsDefaultForNextTime: boolean = false,
         defaultValue?: string
-    ) : Promise<string> {
-        let args = EnsureOptionArguments.Create(generator, option, storeAsSuggestionForNextTime, storeAsDefaultForNextTime, defaultValue);
+    ): Promise<string> {
+
+        let args = EnsureOptionArguments.Create(
+            generator,
+            option,
+            storeAsSuggestionForNextTime,
+            storeAsDefaultForNextTime,
+            defaultValue
+        );
 
         await this.execute(args);
         return args.result;
     }
 
-    execute(args: EnsureOptionArguments) : Promise<void> {
-        var runner:PipelineRunner = new PipelineRunner();
+    execute(args: EnsureOptionArguments): Promise<void> {
+        var runner: PipelineRunner = new PipelineRunner();
 
         return runner.RunPipeline(EnsureOptionPipeline.Instance, args);
     }

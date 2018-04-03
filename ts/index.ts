@@ -29,7 +29,7 @@ class PipelinesGenerator extends Generator {
     }
 
     async default() {
-        var pipelineName: string = await EnsureOptionExecutor.obtainByKey(this, "pipelineName", true);
+        var pipelineName: string = await EnsureOptionExecutor.obtainByKey(this, "pipelineName");
         var processorNames: string = await EnsureOptionExecutor.obtainByKey(this, "processorNames");
         var processorNameStrings: string[] = processorNames.split(' ');
 
@@ -79,6 +79,10 @@ class PipelinesGenerator extends Generator {
         if (messages.length > 0) {
             console.log(messages);
         }
+    }
+
+    end() {
+        this.config.save();
     }
 }
 
