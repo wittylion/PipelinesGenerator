@@ -15,6 +15,21 @@ describe('Testing C# pipelines generator.', function () {
                 // The object returned acts like a promise, so return it to wait until the process is done
                 helpers.run(path.join(__dirname, '../cs'))
                     .on('end', done);
+            })
+
+            it('Does not create files.', function () {
+                assert.noFile();
+            });
+        });
+
+        describe('When simple HelloWorld pipeline name is provided', function () {
+            before(function (done) {
+                // The object returned acts like a promise, so return it to wait until the process is done
+                helpers.run(path.join(__dirname, '../cs'))
+                    .withPrompts({ pipelineName: 'HelloWorld' })
+                    .withPrompts({ processorNames: 'HelloWorld' })
+                    .withPrompts({ subfolder: 'n' })
+                    .on('end', done);
             });
 
             it('Сreates default abstract processor', function () {

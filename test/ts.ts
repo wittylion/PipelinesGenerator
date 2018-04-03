@@ -17,7 +17,7 @@ describe('Testing typescript pipelines generator.', function () {
                     .on('end', done);
             })
 
-            it('Doesn not create a file.', function () {
+            it('Does not create a file.', function () {
                 assert.noFile();
             });
         });
