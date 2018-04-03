@@ -7,7 +7,7 @@ export class GenerateCommonPipelineFilesArguments extends PipelineContext {
 
     extension: string;
     pipelineNameSpecifiedByUser: string;
-    createSubfolderWithPipelineName: boolean = false;
+    createSubfolderWithPipelineName: boolean;
 
     commonSubdirectoryCaseTuner: (subdirectory: string) => string;
     commonSubfolders: string[] = [];

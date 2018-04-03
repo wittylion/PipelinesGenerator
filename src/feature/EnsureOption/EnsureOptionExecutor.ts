@@ -13,7 +13,7 @@ export class EnsureOptionExecutor {
         inputType: InputTypeEnum = InputTypeEnum.Input,
         storeAsSuggestionForNextTime: boolean = false,
         storeAsDefaultForNextTime: boolean = false,
-        defaultValue?: string
+        defaultValue?: any
     ): Promise<string> {
 
         return EnsureOptionExecutor.Instance.obtainByKey(
@@ -32,7 +32,7 @@ export class EnsureOptionExecutor {
         inputType: InputTypeEnum = InputTypeEnum.Input,
         storeAsSuggestionForNextTime: boolean = false,
         storeAsDefaultForNextTime: boolean = false,
-        defaultValue?: string
+        defaultValue?: any
     ): Promise<string> {
 
         let args = EnsureOptionArguments.Create(
