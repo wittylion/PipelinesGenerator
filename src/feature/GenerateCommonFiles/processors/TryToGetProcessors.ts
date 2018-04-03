@@ -25,12 +25,7 @@ export class TryToGetProcessors extends GenerateCommonPipelineFilesProcessor {
                 defaultValue
             );
 
-        var processorNameStrings: string[] = S(processorNames).isEmpty() ? [] : processorNames.split(' ');
-
-        args.processorsModels = processorNameStrings.map(processor => {
-            let model = args.modelsProvider.getProcessorModel();
-            return model;
-        });
+        args.processorsNames = S(processorNames).isEmpty() ? [] : processorNames.split(' ');
     }
 
     public SafeCondition(args: GenerateCommonPipelineFilesArguments): boolean {
@@ -38,7 +33,7 @@ export class TryToGetProcessors extends GenerateCommonPipelineFilesProcessor {
     }
 
     public CustomCondition(args: GenerateCommonPipelineFilesArguments): boolean {
-        let safeCondition = args.processorsModels.length < 1;
+        let safeCondition = args.processorsNames.length < 1;
         return safeCondition;
     }
 }

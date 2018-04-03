@@ -7,7 +7,7 @@ export class GenerateArguments extends GenerateCommonPipelineFilesProcessor {
     public static readonly Instance = new GenerateArguments();
 
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
-        let model = args.argumentsModel = args.modelsProvider.getArgumentsModel();
+        let model = args.modelsProvider.getArgumentsModel();
         if (!model) {
             args.AbortPipelineWithErrorMessage("You have to specify some data for arguments generation.");
             return;
@@ -43,8 +43,8 @@ export class GenerateArguments extends GenerateCommonPipelineFilesProcessor {
 
         await GenerateFileFromTemplateExecutor.Instance.execute(argumentsGeneration);
 
-        model.generatedClassName = argumentsGeneration.className;
-        model.generatedFileName = argumentsGeneration.fileName;
+        args.generatedArgumentsClassName = argumentsGeneration.className;
+        args.generatedArgumentsFileName = argumentsGeneration.fileName;
     }
 
     public SafeCondition(args: GenerateCommonPipelineFilesArguments): boolean {
@@ -52,7 +52,7 @@ export class GenerateArguments extends GenerateCommonPipelineFilesProcessor {
     }
 
     public CustomCondition(args: GenerateCommonPipelineFilesArguments): boolean {
-        let safeCondition = !!args.argumentsModel;
+        let safeCondition = true;
         return safeCondition;
     }
 }

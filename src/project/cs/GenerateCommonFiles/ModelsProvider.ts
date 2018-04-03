@@ -5,10 +5,10 @@ import _ from "lodash";
 
 export class ModelsProvider implements IModelsProvider {
     getProcessorsExportsModel(): GenerateFileModel {
-        throw new Error("Method not implemented.");
+        return undefined;
     }
     getMainExportsModel(): GenerateFileModel {
-        throw new Error("Method not implemented.");
+        return undefined;
     }
     getArgumentsModel(): GenerateFileModel {
         return _.clone(Defaults.argumentsModel);

@@ -7,7 +7,7 @@ export class GeneratePipeline extends GenerateCommonPipelineFilesProcessor {
     public static readonly Instance = new GeneratePipeline();
 
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
-        let model = args.pipelineModel = args.modelsProvider.getPipelineModel();
+        let model = args.modelsProvider.getPipelineModel();
         if (!model) {
             args.AbortPipelineWithErrorMessage("You have to specify some data for pipeline file to be generated.");
             return;
@@ -36,15 +36,15 @@ export class GeneratePipeline extends GenerateCommonPipelineFilesProcessor {
         pipelineGeneration.ensureSuffixInClassName = true;
         pipelineGeneration.ensureSuffixInFileName = true;
         pipelineGeneration.templateFileName = model.templateName;
-        pipelineGeneration.creationOptions['processors'] = args.processorsModels.map(x => x.generatedClassName);
+        pipelineGeneration.creationOptions['processors'] = args.processorsNames;
         pipelineGeneration.yeomanGenerator = args.yeomanGenerator;
         pipelineGeneration.suffix = "Pipeline";
         pipelineGeneration.subdirectoryCaseTuner = args.commonSubdirectoryCaseTuner;
 
         await GenerateFileFromTemplateExecutor.Instance.execute(pipelineGeneration);
 
-        model.generatedClassName = pipelineGeneration.className;
-        model.generatedFileName = pipelineGeneration.fileName;
+        args.generatedPipelineClassName = pipelineGeneration.className;
+        args.generatedPipelineFileName = pipelineGeneration.fileName;
     }
 
     public SafeCondition(args: GenerateCommonPipelineFilesArguments): boolean {
@@ -52,7 +52,7 @@ export class GeneratePipeline extends GenerateCommonPipelineFilesProcessor {
     }
 
     public CustomCondition(args: GenerateCommonPipelineFilesArguments): boolean {
-        let safeCondition = !!args.pipelineModel;
+        let safeCondition = true;
         return safeCondition;
     }
 }

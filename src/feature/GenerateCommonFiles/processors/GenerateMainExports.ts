@@ -8,7 +8,7 @@ export class GenerateMainExports extends GenerateCommonPipelineFilesProcessor {
     public static readonly Instance = new GenerateMainExports();
 
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
-        let model = args.mainExportsModel = args.modelsProvider.getMainExportsModel();
+        let model = args.modelsProvider.getMainExportsModel();
         if (!model) {
             args.AbortPipelineWithErrorMessage("You have to specify some data for index.ts file to be generated.");
             return;
@@ -34,15 +34,13 @@ export class GenerateMainExports extends GenerateCommonPipelineFilesProcessor {
         mainExportsGeneration.ensureSuffixInFileName = false;
         mainExportsGeneration.templateFileName = model.templateName;
         mainExportsGeneration.creationOptions['exportFileNames'] = [
-            path.basename(args.executorModel.generatedFileName, args.extension),
-            path.basename(args.argumentsModel.generatedFileName, args.extension)
+            path.basename(args.generatedExecutorFileName, args.extension),
+            path.basename(args.generatedArgumentsFileName, args.extension)
         ];
         mainExportsGeneration.yeomanGenerator = args.yeomanGenerator;
         mainExportsGeneration.subdirectoryCaseTuner = args.commonSubdirectoryCaseTuner;
 
         await GenerateFileFromTemplateExecutor.Instance.execute(mainExportsGeneration);
-
-        model.generatedFileName = mainExportsGeneration.fileName;
     }
 
     public SafeCondition(args: GenerateCommonPipelineFilesArguments): boolean {
@@ -50,7 +48,7 @@ export class GenerateMainExports extends GenerateCommonPipelineFilesProcessor {
     }
 
     public CustomCondition(args: GenerateCommonPipelineFilesArguments): boolean {
-        let safeCondition = !!args.mainExportsModel;
+        let safeCondition = true;
         return safeCondition;
     }
 }

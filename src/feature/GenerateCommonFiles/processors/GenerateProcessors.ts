@@ -9,7 +9,14 @@ export class GenerateProcessors extends GenerateCommonPipelineFilesProcessor {
 
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
 
-        for (const model of args.processorsModels) {
+        let processorsModels = args.processorsNames.map(processor => {
+            let model = args.modelsProvider.getProcessorModel();
+            model.className = processor;
+            model.fileName = processor;
+            return model;
+        });
+
+        for (const model of processorsModels) {
             if (!model) {
                 args.AddError("You have to specify some data for processor generation.");
                 continue;
@@ -41,25 +48,24 @@ export class GenerateProcessors extends GenerateCommonPipelineFilesProcessor {
             processorGeneration.templateFileName = model.templateName;
             processorGeneration.yeomanGenerator = args.yeomanGenerator;
 
-            processorGeneration.creationOptions['argumentsClassName'] = args.argumentsModel.generatedClassName;
+            processorGeneration.creationOptions['argumentsClassName'] = args.generatedArgumentsClassName;
             processorGeneration.creationOptions['argumentsFileName']
                 = path.basename(
-                    args.argumentsModel.generatedFileName,
+                    args.generatedArgumentsFileName,
                     args.extension
                 );
 
-            processorGeneration.creationOptions['abstractProcessorClassName'] = args.abstractProcessorModel.generatedClassName;
+            processorGeneration.creationOptions['abstractProcessorClassName'] = args.generatedProcessorClassName;
             processorGeneration.creationOptions['abstractProcessorFileName']
                 = path.basename(
-                    args.abstractProcessorModel.generatedFileName,
+                    args.generatedProcessorFileName,
                     args.extension
                 );
             processorGeneration.subdirectoryCaseTuner = args.commonSubdirectoryCaseTuner;
 
             await GenerateFileFromTemplateExecutor.Instance.execute(processorGeneration);
 
-            model.generatedClassName = processorGeneration.className;
-            model.generatedFileName = processorGeneration.fileName;
+            args.processorsNames.push(processorGeneration.fileName);
         }
     }
 
@@ -68,7 +74,7 @@ export class GenerateProcessors extends GenerateCommonPipelineFilesProcessor {
     }
 
     public CustomCondition(args: GenerateCommonPipelineFilesArguments): boolean {
-        let safeCondition = args.processorsModels.length > 0;
+        let safeCondition = args.processorsNames.length > 0;
         return safeCondition;
     }
 }

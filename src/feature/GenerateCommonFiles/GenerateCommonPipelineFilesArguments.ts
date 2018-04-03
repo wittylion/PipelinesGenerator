@@ -13,13 +13,19 @@ export class GenerateCommonPipelineFilesArguments extends PipelineContext {
     commonSubdirectoryCaseTuner: (subdirectory: string) => string;
     commonSubfolders: string[] = [];
 
-    argumentsModel: GenerateFileModel;
-    abstractProcessorModel: GenerateFileModel;
-    processorsModels: GenerateFileModel[] = [];
-    processorsExportsModel: GenerateFileModel;
-    pipelineModel: GenerateFileModel;
-    executorModel: GenerateFileModel;
-    mainExportsModel: GenerateFileModel;
+    generatedArgumentsClassName: string;
+    generatedArgumentsFileName: string;
+
+    generatedProcessorClassName: string;
+    generatedProcessorFileName: string;
+
+    processorsNames: string[] = [];
+
+    generatedPipelineClassName: string;
+    generatedPipelineFileName: string;
+
+    generatedExecutorClassName: string;
+    generatedExecutorFileName: string;
 
     modelsProvider: IModelsProvider;
 }

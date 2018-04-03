@@ -8,7 +8,7 @@ export class GenerateAbstractProcessor extends GenerateCommonPipelineFilesProces
     public static readonly Instance = new GenerateAbstractProcessor();
 
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
-        let model = args.abstractProcessorModel = args.modelsProvider.getAbstractProcessorModel();
+        let model = args.modelsProvider.getAbstractProcessorModel();
         if (!model) {
             args.AbortPipelineWithErrorMessage("You have to specify some data for abstract processor generation.");
             return;
@@ -27,7 +27,7 @@ export class GenerateAbstractProcessor extends GenerateCommonPipelineFilesProces
             model.fileName = args.pipelineNameSpecifiedByUser;
         }
 
-        if (S(args.argumentsModel.generatedClassName).isEmpty() || S(args.argumentsModel.generatedFileName).isEmpty()) {
+        if (S(args.generatedArgumentsClassName).isEmpty() || S(args.generatedArgumentsFileName).isEmpty()) {
             args.AbortPipelineWithErrorMessage("Arguments must be created before abstract processor will be created.");
         }
 
@@ -36,7 +36,7 @@ export class GenerateAbstractProcessor extends GenerateCommonPipelineFilesProces
             path.basename(
                 path.relative(
                     path.join(...subfolders),
-                    args.yeomanGenerator.destinationPath(args.argumentsModel.generatedFileName)
+                    args.yeomanGenerator.destinationPath(args.generatedArgumentsFileName)
                 ), args.extension);
 
         let abstractProcessorGeneration = new GenerateFileFromTemplateArguments();
@@ -49,15 +49,15 @@ export class GenerateAbstractProcessor extends GenerateCommonPipelineFilesProces
         abstractProcessorGeneration.ensureSuffixInFileName = true;
         abstractProcessorGeneration.templateFileName = model.templateName;
         abstractProcessorGeneration.yeomanGenerator = args.yeomanGenerator;
-        abstractProcessorGeneration.creationOptions['argumentsClassName'] = args.argumentsModel.generatedClassName;
+        abstractProcessorGeneration.creationOptions['argumentsClassName'] = args.generatedArgumentsClassName;
         abstractProcessorGeneration.creationOptions['argumentsFileName'] = argsPath;
         abstractProcessorGeneration.suffix = "Processor";
         abstractProcessorGeneration.subdirectoryCaseTuner = args.commonSubdirectoryCaseTuner;
 
         await GenerateFileFromTemplateExecutor.Instance.execute(abstractProcessorGeneration);
 
-        model.generatedClassName = abstractProcessorGeneration.className;
-        model.generatedFileName = abstractProcessorGeneration.fileName;
+        args.generatedProcessorClassName = abstractProcessorGeneration.className;
+        args.generatedProcessorFileName = abstractProcessorGeneration.fileName;
     }
 
     public SafeCondition(args: GenerateCommonPipelineFilesArguments): boolean {
@@ -65,7 +65,7 @@ export class GenerateAbstractProcessor extends GenerateCommonPipelineFilesProces
     }
 
     public CustomCondition(args: GenerateCommonPipelineFilesArguments): boolean {
-        let safeCondition = !!args.abstractProcessorModel;
+        let safeCondition = true;
         return safeCondition;
     }
 }

@@ -8,7 +8,13 @@ export class GenerateProcessorsExports extends GenerateCommonPipelineFilesProces
     public static readonly Instance = new GenerateProcessorsExports();
 
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
-        let model = args.processorsExportsModel;
+        let model = args.modelsProvider.getProcessorsExportsModel();
+
+        if (!model) {
+            args.AbortPipelineWithErrorMessage("Cannot find model for the file, exporting processors.");
+            return;
+        }
+
         let subfolders = [...args.commonSubfolders, ...model.subdirectories, 'processors'];
         let processorsExportsGeneration = new GenerateFileFromTemplateArguments();
 
@@ -18,14 +24,12 @@ export class GenerateProcessorsExports extends GenerateCommonPipelineFilesProces
         processorsExportsGeneration.ensureSuffixInClassName = false;
         processorsExportsGeneration.ensureSuffixInFileName = false;
         processorsExportsGeneration.templateFileName = model.templateName;
-        processorsExportsGeneration.creationOptions['exportFileNames'] = 
-            args.processorsModels.map(x => path.basename(x.generatedFileName, '.ts'));
+        processorsExportsGeneration.creationOptions['exportFileNames'] =
+            args.processorsNames.map(x => path.basename(x, '.ts'));
         processorsExportsGeneration.yeomanGenerator = args.yeomanGenerator;
         processorsExportsGeneration.subdirectoryCaseTuner = args.commonSubdirectoryCaseTuner;
 
         await GenerateFileFromTemplateExecutor.Instance.execute(processorsExportsGeneration);
-
-        model.generatedFileName = processorsExportsGeneration.fileName;
     }
 
     public SafeCondition(args: GenerateCommonPipelineFilesArguments): boolean {
@@ -33,9 +37,7 @@ export class GenerateProcessorsExports extends GenerateCommonPipelineFilesProces
     }
 
     public CustomCondition(args: GenerateCommonPipelineFilesArguments): boolean {
-        let safeCondition = !!args.processorsExportsModel 
-            && args.processorsModels.length > 0
-            && args.processorsModels.filter(x => !S(x.generatedFileName).isEmpty()).length > 0;
+        let safeCondition = args.processorsNames.filter(x => !S(x).isEmpty()).length > 0;
         return safeCondition;
     }
 }
