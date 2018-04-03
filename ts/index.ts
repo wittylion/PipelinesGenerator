@@ -5,10 +5,9 @@ import { MessageFilter } from "solid-pipelines";
 import path = require("path");
 import { GenerateCommonPipelineFilesArguments, GenerateCommonPipelineFilesExecutor } from "../src/feature/GenerateCommonFiles";
 import { GenerateFileModel } from "../src/feature/GenerateCommonFiles/GenerateFileModel";
+import { EnsureOptionExecutor, EnsureOptionArguments } from "../src/feature/EnsureOption";
 
 class PipelinesGenerator extends Generator {
-    answersListener: Promise<Generator.Answers>;
-
     constructor(args: string | string[], options: {}) {
         super(args, options);
 
@@ -22,27 +21,7 @@ class PipelinesGenerator extends Generator {
     initializing() {
     }
 
-    async prompting() {
-        var pipelineNameQuestion: Question = {
-            type: 'input',
-            name: 'pipelineName',
-            message: 'Enter a pipeline name: ',
-            default: 'HelloWorld'
-        };
-
-        var processorsNameQuestion: Question = {
-            type: 'input',
-            name: 'processorNames',
-            message: 'Enter processors names (separate them via whitespace): ',
-            default: 'HelloWorld'
-        };
-
-        var questions: Generator.Question[] = [
-            pipelineNameQuestion,
-            processorsNameQuestion
-        ];
-
-        this.answersListener = this.prompt(questions);
+    prompting() {
     }
 
     configuring() {
@@ -50,9 +29,8 @@ class PipelinesGenerator extends Generator {
     }
 
     async default() {
-        var answers: Generator.Answers = await this.answersListener;
-        var pipelineName: string = answers["pipelineName"];
-        var processorNames: string = answers["processorNames"];
+        var pipelineName: string = await EnsureOptionExecutor.obtainByKey(this, "pipelineName");
+        var processorNames: string = await EnsureOptionExecutor.obtainByKey(this, "processorNames");
         var processorNameStrings: string[] = processorNames.split(' ');
 
         await this._createPipelineInfrastructure(pipelineName, processorNameStrings, this.options["subfolder"]);
