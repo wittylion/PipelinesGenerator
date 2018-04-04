@@ -27,7 +27,6 @@ export class Defaults {
 
         Defaults.pipelineModel = new GenerateFileModel();
         Defaults.pipelineModel.templateName = "_Pipeline.cs.ejs";
-        Defaults.pipelineModel.templateName = "_pipeline.ts.ejs";
         Defaults.pipelineModel.suffix = "Pipeline";
         Defaults.pipelineModel.extension = Defaults.extension;
         Defaults.pipelineModel.ensureSuffixInClassName = true;
