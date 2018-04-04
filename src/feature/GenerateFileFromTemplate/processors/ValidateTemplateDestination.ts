@@ -9,7 +9,7 @@ export class ValidateTemplateDestination extends GenerateFileFromTemplateProcess
 
     public async SafeExecute(args: GenerateFileFromTemplateArguments): Promise<void> {
         if (S(args.templateDestination).isEmpty()) {
-            if (S(args.templateFileName).isEmpty()) {
+            if (S(args.fileModel.templateName).isEmpty()) {
                 args.AbortPipelineWithErrorMessage("We couldn't find a pipeline template. You have to provide a templpate file name, so we can create a pipeline from this file.");
             }
             else {

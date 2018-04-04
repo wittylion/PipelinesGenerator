@@ -3,6 +3,6 @@ import { GenerateCommonPipelineFilesArguments } from "./GenerateCommonPipelineFi
 
 export abstract class GenerateCommonPipelineFilesProcessor extends SafeProcessor<GenerateCommonPipelineFilesArguments> {
     SafeCondition(args: GenerateCommonPipelineFilesArguments): boolean {
-        return !args.IsAborted;
+        return super.SafeCondition(args) && !args.IsAborted;
     }
 }

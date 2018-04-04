@@ -1,14 +1,16 @@
-import { GenerateCommonPipelineFilesProcessor } from "../GenerateCommonPipelineFilesProcessor";
-import { GenerateCommonPipelineFilesArguments } from "../GenerateCommonPipelineFilesArguments";
-import { GenerateFileFromTemplateArguments, GenerateFileFromTemplateExecutor } from "../../GenerateFileFromTemplate";
 import S from "string";
 import path = require("path");
+import { GenerateCommonPipelineFilesProcessor } from "../../../../feature/GenerateCommonFiles/GenerateCommonPipelineFilesProcessor";
+import { GenerateCommonPipelineFilesArguments } from "../../../../feature/GenerateCommonFiles";
+import { GenerateFileFromTemplateArguments, GenerateFileFromTemplateExecutor } from "../../../../feature/GenerateFileFromTemplate";
+import { Defaults } from "../../Defaults";
+import _ from "lodash";
 
 export class GenerateMainExports extends GenerateCommonPipelineFilesProcessor {
     public static readonly Instance = new GenerateMainExports();
 
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
-        let model = args.mainExportsModel;
+        let model = _.clone(Defaults.mainExportsModel);
         if (!model) {
             args.AbortPipelineWithErrorMessage("You have to specify some data for index.ts file to be generated.");
             return;
@@ -23,26 +25,18 @@ export class GenerateMainExports extends GenerateCommonPipelineFilesProcessor {
             model.fileName = "index.ts";
         }
 
-        let subfolders = [...args.commonSubfolders, ...model.subdirectories];
+        model.subdirectories = [...args.commonSubfolders, ...model.subdirectories];
 
         let mainExportsGeneration = new GenerateFileFromTemplateArguments();
 
-        mainExportsGeneration.fileName = model.fileName;
-        mainExportsGeneration.extension = args.extension;
-        mainExportsGeneration.subdirectoriesNames = subfolders;
-        mainExportsGeneration.ensureSuffixInClassName = false;
-        mainExportsGeneration.ensureSuffixInFileName = false;
-        mainExportsGeneration.templateFileName = model.templateName;
+        mainExportsGeneration.fileModel = model;
         mainExportsGeneration.creationOptions['exportFileNames'] = [
-            path.basename(args.executorModel.generatedFileName, args.extension),
-            path.basename(args.argumentsModel.generatedFileName, args.extension)
+            path.basename(args.generatedExecutorFileName, args.extension),
+            path.basename(args.generatedArgumentsFileName, args.extension)
         ];
         mainExportsGeneration.yeomanGenerator = args.yeomanGenerator;
-        mainExportsGeneration.subdirectoryCaseTuner = args.commonSubdirectoryCaseTuner;
 
         await GenerateFileFromTemplateExecutor.Instance.execute(mainExportsGeneration);
-
-        model.generatedFileName = mainExportsGeneration.fileName;
     }
 
     public SafeCondition(args: GenerateCommonPipelineFilesArguments): boolean {
@@ -50,7 +44,7 @@ export class GenerateMainExports extends GenerateCommonPipelineFilesProcessor {
     }
 
     public CustomCondition(args: GenerateCommonPipelineFilesArguments): boolean {
-        let safeCondition = !!args.mainExportsModel;
+        let safeCondition = true;
         return safeCondition;
     }
 }

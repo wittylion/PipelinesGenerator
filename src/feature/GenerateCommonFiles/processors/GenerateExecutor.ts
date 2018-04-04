@@ -8,7 +8,7 @@ export class GenerateExecutor extends GenerateCommonPipelineFilesProcessor {
     public static readonly Instance = new GenerateExecutor();
 
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
-        let model = args.executorModel;
+        let model = args.modelsProvider.getExecutorModel();
         if (!model) {
             args.AbortPipelineWithErrorMessage("You have to specify some data for executor file to be generated.");
             return;
@@ -27,30 +27,22 @@ export class GenerateExecutor extends GenerateCommonPipelineFilesProcessor {
             model.fileName = args.pipelineNameSpecifiedByUser;
         }
 
-        let subfolders = [...args.commonSubfolders, ...model.subdirectories];
+        model.subdirectories = [...args.commonSubfolders, ...model.subdirectories];
         let executorGeneration = new GenerateFileFromTemplateArguments();
 
-        executorGeneration.className = model.className;
-        executorGeneration.fileName = model.fileName;
-        executorGeneration.extension = args.extension;
-        executorGeneration.subdirectoriesNames = subfolders;
-        executorGeneration.ensureSuffixInClassName = true;
-        executorGeneration.ensureSuffixInFileName = true;
-        executorGeneration.templateFileName = model.templateName;
+        executorGeneration.fileModel = model;
         executorGeneration.yeomanGenerator = args.yeomanGenerator;
-        executorGeneration.creationOptions['argumentsClassName'] = args.argumentsModel.generatedClassName;
-        executorGeneration.creationOptions['argumentsFileName'] 
-            = args.argumentsModel.baseGeneratedFileName(args.extension);
-        executorGeneration.creationOptions['pipelineClassName'] = args.pipelineModel.generatedClassName;
-        executorGeneration.creationOptions['pipelineFileName'] 
-            = args.pipelineModel.baseGeneratedFileName(args.extension);
-        executorGeneration.suffix = "Executor";
-        executorGeneration.subdirectoryCaseTuner = args.commonSubdirectoryCaseTuner;
+        executorGeneration.creationOptions['argumentsClassName'] = args.generatedArgumentsClassName;
+        executorGeneration.creationOptions['argumentsFileName']
+            = path.basename(args.generatedArgumentsFileName, args.extension);
+        executorGeneration.creationOptions['pipelineClassName'] = args.generatedPipelineClassName;
+        executorGeneration.creationOptions['pipelineFileName']
+            = path.basename(args.generatedPipelineFileName, args.extension);
 
         await GenerateFileFromTemplateExecutor.Instance.execute(executorGeneration);
-
-        model.generatedClassName = executorGeneration.className;
-        model.generatedFileName = executorGeneration.fileName;
+        
+        args.generatedExecutorClassName = executorGeneration.fileModel.className;
+        args.generatedExecutorFileName = executorGeneration.fileModel.fileName;
     }
 
     public SafeCondition(args: GenerateCommonPipelineFilesArguments): boolean {
@@ -58,7 +50,7 @@ export class GenerateExecutor extends GenerateCommonPipelineFilesProcessor {
     }
 
     public CustomCondition(args: GenerateCommonPipelineFilesArguments): boolean {
-        let safeCondition = !!args.executorModel;
+        let safeCondition = true;
         return safeCondition;
     }
 }

@@ -5,7 +5,7 @@ export class FillCreationOptions extends GenerateFileFromTemplateProcessor {
     public static readonly Instance = new FillCreationOptions();
 
     public async SafeExecute(args: GenerateFileFromTemplateArguments): Promise<void> {
-        args.creationOptions["name"] = args.className;
+        args.creationOptions["name"] = args.fileModel.className;
     }
 
     public SafeCondition(args: GenerateFileFromTemplateArguments): boolean {

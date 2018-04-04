@@ -36,6 +36,10 @@ describe('Testing C# pipelines generator.', function () {
                 assert.file('./HelloWorldProcessor.cs');
             });
 
+            it('Сreates default messages class', function () {
+                assert.file('./HelloWorldMessages.cs');
+            });
+
             it('Сreates default Hello World processor', function () {
                 assert.file('./Processors/HelloWorld.cs');
             });
@@ -46,6 +50,28 @@ describe('Testing C# pipelines generator.', function () {
 
             it('Сreates default Arguments', function () {
                 assert.file('HelloWorldArguments.cs');
+            });
+        });
+
+        describe('When members are requested', function () {
+            before(function (done) {
+                // The object returned acts like a promise, so return it to wait until the process is done
+                helpers.run(path.join(__dirname, '../cs'))
+                    .withPrompts({ pipelineName: 'TestedPipeline' })
+                    .withArguments(['--no-subfolder'])
+                    .withOptions({'--arguments-members' : 'Hello World'})
+                    .on('end', done);
+            });
+
+            it('Сreates members in arguments file', function () {
+                assert.fileContent(
+                    './TestedPipelineArguments.cs',
+                    /public string Hello { get; set; }/
+                );
+                assert.fileContent(
+                    './TestedPipelineArguments.cs',
+                    /public string World { get; set; }/
+                );
             });
         });
 

@@ -7,7 +7,12 @@ export class EnsureFileNameIsSet extends GenerateFileFromTemplateProcessor {
     public static readonly Instance = new EnsureFileNameIsSet();
 
     public async SafeExecute(args: GenerateFileFromTemplateArguments): Promise<void> {
-        args.fileName = args.className;
+        if (S(args.fileModel.className).isEmpty()) {
+            args.AbortPipelineWithErrorMessage("You have to provide either file name or class name to generate a file.");
+            return;
+        }
+
+        args.fileModel.fileName = args.fileModel.className;
     }
 
     public SafeCondition(args: GenerateFileFromTemplateArguments): boolean {
@@ -15,7 +20,7 @@ export class EnsureFileNameIsSet extends GenerateFileFromTemplateProcessor {
     }
 
     public CustomCondition(args: GenerateFileFromTemplateArguments): boolean {
-        let safeCondition = S(args.fileName).isEmpty() && !S(args.className).isEmpty();
+        let safeCondition = S(args.fileModel.fileName).isEmpty() && !S(args.fileModel.className).isEmpty();
         return safeCondition;
     }
 }

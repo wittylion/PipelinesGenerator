@@ -4,7 +4,6 @@ import S from "string";
 import { EnsureOptionExecutor } from "../../EnsureOption";
 import { InputTypeEnum } from "../../EnsureOption/InputTypeEnum";
 import path = require("path");
-import { GenerateFileModel } from "../GenerateFileModel";
 
 export class TryToGetProcessors extends GenerateCommonPipelineFilesProcessor {
     public static readonly Instance = new TryToGetProcessors();
@@ -25,14 +24,7 @@ export class TryToGetProcessors extends GenerateCommonPipelineFilesProcessor {
                 defaultValue
             );
 
-        var processorNameStrings: string[] = S(processorNames).isEmpty() ? [] : processorNames.split(' ');
-
-        args.processorsModels = processorNameStrings.map(processor => {
-            let model = new GenerateFileModel();
-            model.className = processor;
-            model.templateName = "_predefinedProcessor.ts.ejs";
-            return model;
-        });
+        args.processorsNames = S(processorNames).isEmpty() ? [] : processorNames.split(' ');
     }
 
     public SafeCondition(args: GenerateCommonPipelineFilesArguments): boolean {
@@ -40,7 +32,7 @@ export class TryToGetProcessors extends GenerateCommonPipelineFilesProcessor {
     }
 
     public CustomCondition(args: GenerateCommonPipelineFilesArguments): boolean {
-        let safeCondition = args.processorsModels.length < 1;
+        let safeCondition = args.processorsNames.length < 1;
         return safeCondition;
     }
 }

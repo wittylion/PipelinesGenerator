@@ -1,5 +1,6 @@
 import { GenerateFileFromTemplateProcessor } from "../GenerateFileFromTemplateProcessor";
 import { GenerateFileFromTemplateArguments } from "../GenerateFileFromTemplateArguments";
+import S from "string";
 
 export class CreateFileFromTemplate extends GenerateFileFromTemplateProcessor {
     public static readonly Instance = new CreateFileFromTemplate();
@@ -16,7 +17,7 @@ export class CreateFileFromTemplate extends GenerateFileFromTemplateProcessor {
     }
 
     public CustomCondition(args: GenerateFileFromTemplateArguments): boolean {
-        let safeCondition = true;
+        let safeCondition = !S(args.destination).isEmpty() && !S(args.templateDestination).isEmpty();
         return safeCondition;
     }
 }

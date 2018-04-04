@@ -2,49 +2,34 @@ import { GenerateCommonPipelineFilesProcessor } from "../GenerateCommonPipelineF
 import { GenerateCommonPipelineFilesArguments } from "../GenerateCommonPipelineFilesArguments";
 import S from "string";
 import { GenerateFileFromTemplateArguments, GenerateFileFromTemplateExecutor } from "../../GenerateFileFromTemplate";
+import { EnsureFileModelExecutor, EnsureFileModelArguments } from "../../EnsureFileModel";
+import { GenerateArgumentsFileArguments, GenerateArgumentsFileExecutor } from "../../GenerateArgumentsFile";
 
 export class GenerateArguments extends GenerateCommonPipelineFilesProcessor {
     public static readonly Instance = new GenerateArguments();
 
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
-        let model = args.argumentsModel;
+        let model = args.modelsProvider.getArgumentsModel();
         if (!model) {
             args.AbortPipelineWithErrorMessage("You have to specify some data for arguments generation.");
             return;
         }
+        model.subdirectories = [
+            ...args.commonSubfolders, 
+            ...model.subdirectories
+        ];
 
-        if (S(model.templateName).isEmpty()) {
-            args.AbortPipelineWithErrorMessage("You have to provide a template name to generate arguments.");
-            return;
-        }
+        let argumentsGeneration = GenerateArgumentsFileArguments.Create(
+            model, 
+            args.yeomanGenerator,
+            args.pipelineNameSpecifiedByUser,
+            args.extension
+        );
 
-        if (S(model.className).isEmpty()) {
-            model.className = args.pipelineNameSpecifiedByUser;
-        }
+        await GenerateArgumentsFileExecutor.Instance.execute(argumentsGeneration);
 
-        if (S(model.fileName).isEmpty()) {
-            model.fileName = args.pipelineNameSpecifiedByUser;
-        }
-
-        let subfolders = [...args.commonSubfolders, ...model.subdirectories];
-
-        let argumentsGeneration = new GenerateFileFromTemplateArguments();
-
-        argumentsGeneration.fileName = model.fileName;
-        argumentsGeneration.className = model.className;
-        argumentsGeneration.extension = args.extension;
-        argumentsGeneration.subdirectoriesNames = subfolders;
-        argumentsGeneration.templateFileName = model.templateName;
-        argumentsGeneration.yeomanGenerator = args.yeomanGenerator;
-        argumentsGeneration.suffix = "Arguments";
-        argumentsGeneration.ensureSuffixInFileName = true;
-        argumentsGeneration.ensureSuffixInClassName = true;
-        argumentsGeneration.subdirectoryCaseTuner = args.commonSubdirectoryCaseTuner;
-
-        await GenerateFileFromTemplateExecutor.Instance.execute(argumentsGeneration);
-
-        model.generatedClassName = argumentsGeneration.className;
-        model.generatedFileName = argumentsGeneration.fileName;
+        args.generatedArgumentsClassName = argumentsGeneration.fileModel.className;
+        args.generatedArgumentsFileName = argumentsGeneration.fileModel.fileName;
     }
 
     public SafeCondition(args: GenerateCommonPipelineFilesArguments): boolean {
@@ -52,7 +37,7 @@ export class GenerateArguments extends GenerateCommonPipelineFilesProcessor {
     }
 
     public CustomCondition(args: GenerateCommonPipelineFilesArguments): boolean {
-        let safeCondition = !!args.argumentsModel;
+        let safeCondition = true;
         return safeCondition;
     }
 }

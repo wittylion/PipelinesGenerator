@@ -1,6 +1,6 @@
 import { PipelineContext } from "solid-pipelines";
-import { GenerateFileModel } from './GenerateFileModel'
 import Generator = require("yeoman-generator");
+import { IModelsProvider } from "./IModelsProvider";
 
 export class GenerateCommonPipelineFilesArguments extends PipelineContext {
     yeomanGenerator: Generator;
@@ -8,15 +8,24 @@ export class GenerateCommonPipelineFilesArguments extends PipelineContext {
     extension: string;
     pipelineNameSpecifiedByUser: string;
     createSubfolderWithPipelineName: boolean;
-
-    commonSubdirectoryCaseTuner: (subdirectory: string) => string;
     commonSubfolders: string[] = [];
 
-    argumentsModel: GenerateFileModel;
-    abstractProcessorModel: GenerateFileModel;
-    processorsModels: GenerateFileModel[] = [];
-    processorsExportsModel: GenerateFileModel;
-    pipelineModel: GenerateFileModel;
-    executorModel: GenerateFileModel;
-    mainExportsModel: GenerateFileModel;    
+    generatedArgumentsClassName: string;
+    generatedArgumentsFileName: string;
+
+    generatedMessagesClassName: string;
+    generatedMessagesFileName: string;
+
+    generatedProcessorClassName: string;
+    generatedProcessorFileName: string;
+
+    processorsNames: string[] = [];
+
+    generatedPipelineClassName: string;
+    generatedPipelineFileName: string;
+
+    generatedExecutorClassName: string;
+    generatedExecutorFileName: string;
+
+    modelsProvider: IModelsProvider;
 }

@@ -6,12 +6,12 @@ export class EnsureSuffixInFileName extends GenerateFileFromTemplateProcessor {
     public static readonly Instance = new EnsureSuffixInFileName();
 
     public async SafeExecute(args: GenerateFileFromTemplateArguments): Promise<void> {
-        let fileName = S(args.fileName);
-        if (fileName.endsWith(args.extension)) {
-            fileName = fileName.chompRight(args.extension);
+        let fileName = S(args.fileModel.fileName);
+        if (fileName.endsWith(args.fileModel.extension)) {
+            fileName = fileName.chompRight(args.fileModel.extension);
         }
 
-        args.fileName = fileName.ensureRight(args.suffix).s;
+        args.fileModel.fileName = fileName.ensureRight(args.fileModel.suffix).s;
     }
 
     public SafeCondition(args: GenerateFileFromTemplateArguments): boolean {
@@ -20,9 +20,10 @@ export class EnsureSuffixInFileName extends GenerateFileFromTemplateProcessor {
 
     public CustomCondition(args: GenerateFileFromTemplateArguments): boolean {
         let safeCondition =
-            args.ensureSuffixInFileName
+            args.fileModel.ensureSuffixInFileName
             && S(args.destination).isEmpty()
-            && !S(args.suffix).isEmpty();
+            && !S(args.fileModel.suffix).isEmpty()
+            && !S(args.fileModel.fileName).isEmpty();
         return safeCondition;
     }
 }
