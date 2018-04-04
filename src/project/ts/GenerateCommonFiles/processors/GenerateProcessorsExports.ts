@@ -17,15 +17,10 @@ export class GenerateProcessorsExports extends GenerateCommonPipelineFilesProces
             return;
         }
 
-        let subfolders = [...args.commonSubfolders, ...model.subdirectories, 'processors'];
+        model.subdirectories = [...args.commonSubfolders, ...model.subdirectories, 'processors'];
         let processorsExportsGeneration = new GenerateFileFromTemplateArguments();
 
-        processorsExportsGeneration.fileName = model.fileName;
-        processorsExportsGeneration.extension = args.extension;
-        processorsExportsGeneration.subdirectoriesNames = subfolders;
-        processorsExportsGeneration.ensureSuffixInClassName = false;
-        processorsExportsGeneration.ensureSuffixInFileName = false;
-        processorsExportsGeneration.templateFileName = model.templateName;
+        processorsExportsGeneration.fileModel = model;
         processorsExportsGeneration.creationOptions['exportFileNames'] =
             args.processorsNames.map(x => path.basename(x, '.ts'));
         processorsExportsGeneration.yeomanGenerator = args.yeomanGenerator;

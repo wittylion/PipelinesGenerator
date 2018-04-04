@@ -6,7 +6,7 @@ export class EnsureClassNameAsLeadingSubdirectory extends GenerateFileFromTempla
     public static readonly Instance = new EnsureClassNameAsLeadingSubdirectory();
 
     public async SafeExecute(args: GenerateFileFromTemplateArguments): Promise<void> {
-        args.subdirectoriesNames = [args.className, ...args.subdirectoriesNames];
+        args.fileModel.subdirectories = [args.fileModel.className, ...args.fileModel.subdirectories];
     }
 
     public SafeCondition(args: GenerateFileFromTemplateArguments): boolean {

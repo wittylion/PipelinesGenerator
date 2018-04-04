@@ -35,17 +35,11 @@ export class GenerateProcessors extends GenerateCommonPipelineFilesProcessor {
             if (S(model.fileName).isEmpty()) {
                 model.fileName = model.className;
             }
-            let subfolders = [...args.commonSubfolders, ...model.subdirectories, 'processors'];
+            model.subdirectories = [...args.commonSubfolders, ...model.subdirectories, 'processors'];
 
             let processorGeneration = new GenerateFileFromTemplateArguments();
 
-            processorGeneration.className = model.className;
-            processorGeneration.fileName = model.fileName;
-            processorGeneration.extension = args.extension;
-            processorGeneration.subdirectoriesNames = subfolders;
-            processorGeneration.ensureSuffixInClassName = false;
-            processorGeneration.ensureSuffixInFileName = false;
-            processorGeneration.templateFileName = model.templateName;
+            processorGeneration.fileModel = model;
             processorGeneration.yeomanGenerator = args.yeomanGenerator;
 
             processorGeneration.creationOptions['argumentsClassName'] = args.generatedArgumentsClassName;

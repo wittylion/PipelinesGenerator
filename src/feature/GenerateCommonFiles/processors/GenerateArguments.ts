@@ -22,25 +22,18 @@ export class GenerateArguments extends GenerateCommonPipelineFilesProcessor {
         );
         await EnsureFileModelExecutor.Instance.execute(ensurer);
 
-        let subfolders = [...args.commonSubfolders, ...model.subdirectories];
+        model.subdirectories = [...args.commonSubfolders, ...model.subdirectories];
 
         let argumentsGeneration = new GenerateFileFromTemplateArguments();
 
-        argumentsGeneration.fileName = model.fileName;
-        argumentsGeneration.className = model.className;
-        argumentsGeneration.extension = args.extension;
-        argumentsGeneration.subdirectoriesNames = subfolders;
-        argumentsGeneration.templateFileName = model.templateName;
         argumentsGeneration.yeomanGenerator = args.yeomanGenerator;
-        argumentsGeneration.suffix = "Arguments";
-        argumentsGeneration.ensureSuffixInFileName = true;
-        argumentsGeneration.ensureSuffixInClassName = true;
+        argumentsGeneration.fileModel = model;
         argumentsGeneration.subdirectoryCaseTuner = args.commonSubdirectoryCaseTuner;
 
         await GenerateFileFromTemplateExecutor.Instance.execute(argumentsGeneration);
 
-        args.generatedArgumentsClassName = argumentsGeneration.className;
-        args.generatedArgumentsFileName = argumentsGeneration.fileName;
+        args.generatedArgumentsClassName = argumentsGeneration.fileModel.className;
+        args.generatedArgumentsFileName = argumentsGeneration.fileModel.fileName;
     }
 
     public SafeCondition(args: GenerateCommonPipelineFilesArguments): boolean {

@@ -7,4 +7,9 @@ export class GenerateFileModel {
     templateName: string;
     subdirectories: string[] = [];
     extension: string;
+    
+    ensureSuffixInFileName: boolean = true;
+    ensureSuffixInClassName: boolean = true;
+
+    suffix: string;
 }

@@ -7,7 +7,7 @@ export class EnsureExtensionInFileName extends GenerateFileFromTemplateProcessor
     public static readonly Instance = new EnsureExtensionInFileName();
 
     public async SafeExecute(args: GenerateFileFromTemplateArguments): Promise<void> {
-        args.fileName = S(args.fileName).ensureRight(args.extension).s;
+        args.fileModel.fileName = S(args.fileModel.fileName).ensureRight(args.fileModel.extension).s;
     }
 
     public SafeCondition(args: GenerateFileFromTemplateArguments): boolean {
@@ -15,7 +15,9 @@ export class EnsureExtensionInFileName extends GenerateFileFromTemplateProcessor
     }
 
     public CustomCondition(args: GenerateFileFromTemplateArguments): boolean {
-        let safeCondition = !S(args.fileName).isEmpty();
+        let safeCondition = 
+            !S(args.fileModel.fileName).isEmpty() 
+            && !S(args.fileModel.extension).isEmpty();
         return safeCondition;
     }
 }

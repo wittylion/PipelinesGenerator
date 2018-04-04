@@ -25,16 +25,11 @@ export class GenerateMainExports extends GenerateCommonPipelineFilesProcessor {
             model.fileName = "index.ts";
         }
 
-        let subfolders = [...args.commonSubfolders, ...model.subdirectories];
+        model.subdirectories = [...args.commonSubfolders, ...model.subdirectories];
 
         let mainExportsGeneration = new GenerateFileFromTemplateArguments();
 
-        mainExportsGeneration.fileName = model.fileName;
-        mainExportsGeneration.extension = args.extension;
-        mainExportsGeneration.subdirectoriesNames = subfolders;
-        mainExportsGeneration.ensureSuffixInClassName = false;
-        mainExportsGeneration.ensureSuffixInFileName = false;
-        mainExportsGeneration.templateFileName = model.templateName;
+        mainExportsGeneration.fileModel = model;
         mainExportsGeneration.creationOptions['exportFileNames'] = [
             path.basename(args.generatedExecutorFileName, args.extension),
             path.basename(args.generatedArgumentsFileName, args.extension)

@@ -8,8 +8,8 @@ export class EnsureDestination extends GenerateFileFromTemplateProcessor {
     public static readonly Instance = new EnsureDestination();
 
     public async SafeExecute(args: GenerateFileFromTemplateArguments): Promise<void> {
-        args.fileName = path.join(...args.subdirectoriesNames, args.fileName);
-        args.destination = args.yeomanGenerator.destinationPath(args.fileName);
+        args.fileModel.fileName = path.join(...args.fileModel.subdirectories, args.fileModel.fileName);
+        args.destination = args.yeomanGenerator.destinationPath(args.fileModel.fileName);
     }
 
     public SafeCondition(args: GenerateFileFromTemplateArguments): boolean {
@@ -17,7 +17,7 @@ export class EnsureDestination extends GenerateFileFromTemplateProcessor {
     }
 
     public CustomCondition(args: GenerateFileFromTemplateArguments): boolean {
-        let safeCondition = S(args.destination).isEmpty() && !S(args.fileName).isEmpty();
+        let safeCondition = S(args.destination).isEmpty() && !S(args.fileModel.fileName).isEmpty();
         return safeCondition;
     }
 }

@@ -27,16 +27,10 @@ export class GenerateExecutor extends GenerateCommonPipelineFilesProcessor {
             model.fileName = args.pipelineNameSpecifiedByUser;
         }
 
-        let subfolders = [...args.commonSubfolders, ...model.subdirectories];
+        model.subdirectories = [...args.commonSubfolders, ...model.subdirectories];
         let executorGeneration = new GenerateFileFromTemplateArguments();
 
-        executorGeneration.className = model.className;
-        executorGeneration.fileName = model.fileName;
-        executorGeneration.extension = args.extension;
-        executorGeneration.subdirectoriesNames = subfolders;
-        executorGeneration.ensureSuffixInClassName = true;
-        executorGeneration.ensureSuffixInFileName = true;
-        executorGeneration.templateFileName = model.templateName;
+        executorGeneration.fileModel = model;
         executorGeneration.yeomanGenerator = args.yeomanGenerator;
         executorGeneration.creationOptions['argumentsClassName'] = args.generatedArgumentsClassName;
         executorGeneration.creationOptions['argumentsFileName']
@@ -44,13 +38,12 @@ export class GenerateExecutor extends GenerateCommonPipelineFilesProcessor {
         executorGeneration.creationOptions['pipelineClassName'] = args.generatedPipelineClassName;
         executorGeneration.creationOptions['pipelineFileName']
             = path.basename(args.generatedPipelineFileName, args.extension);
-            executorGeneration.suffix = "Executor";
         executorGeneration.subdirectoryCaseTuner = args.commonSubdirectoryCaseTuner;
 
         await GenerateFileFromTemplateExecutor.Instance.execute(executorGeneration);
-
-        args.generatedExecutorClassName = executorGeneration.className;
-        args.generatedExecutorFileName = executorGeneration.fileName;
+        
+        args.generatedExecutorClassName = executorGeneration.fileModel.className;
+        args.generatedExecutorFileName = executorGeneration.fileModel.fileName;
     }
 
     public SafeCondition(args: GenerateCommonPipelineFilesArguments): boolean {

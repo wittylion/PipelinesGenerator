@@ -8,7 +8,7 @@ export class AdjustCaseOfSubdirectories extends GenerateFileFromTemplateProcesso
     public static readonly Instance = new AdjustCaseOfSubdirectories();
 
     public async SafeExecute(args: GenerateFileFromTemplateArguments): Promise<void> {
-        const array = args.subdirectoriesNames;
+        const array = args.fileModel.subdirectories;
         for (let index = 0; index < array.length; index++) {
             array[index] = args.subdirectoryCaseTuner(array[index]);
         }
@@ -19,7 +19,7 @@ export class AdjustCaseOfSubdirectories extends GenerateFileFromTemplateProcesso
     }
 
     public CustomCondition(args: GenerateFileFromTemplateArguments): boolean {
-        let safeCondition = args.subdirectoriesNames.length > 0 && !!args.subdirectoryCaseTuner;
+        let safeCondition = args.fileModel.subdirectories.length > 0 && !!args.subdirectoryCaseTuner;
         return safeCondition;
     }
 }

@@ -7,7 +7,7 @@ export class EnsureSuffixInClassName extends GenerateFileFromTemplateProcessor {
     public static readonly Instance = new EnsureSuffixInClassName();
 
     public async SafeExecute(args: GenerateFileFromTemplateArguments): Promise<void> {
-        args.className = S(args.className).ensureRight(args.suffix).s;
+        args.fileModel.className = S(args.fileModel.className).ensureRight(args.fileModel.suffix).s;
     }
 
     public SafeCondition(args: GenerateFileFromTemplateArguments): boolean {
@@ -15,7 +15,9 @@ export class EnsureSuffixInClassName extends GenerateFileFromTemplateProcessor {
     }
 
     public CustomCondition(args: GenerateFileFromTemplateArguments): boolean {
-        let safeCondition = args.ensureSuffixInClassName && !S(args.suffix).isEmpty() && !S(args.className).isEmpty();
+        let safeCondition = args.fileModel.ensureSuffixInClassName
+            && !S(args.fileModel.suffix).isEmpty()
+            && !S(args.fileModel.className).isEmpty();
         return safeCondition;
     }
 }

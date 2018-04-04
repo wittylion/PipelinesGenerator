@@ -32,7 +32,7 @@ export class GenerateAbstractProcessor extends GenerateCommonPipelineFilesProces
             return;
         }
 
-        let subfolders = [...args.commonSubfolders, ...model.subdirectories];
+        model.subdirectories = [...args.commonSubfolders, ...model.subdirectories];
         let argsPath =
             path.basename(
                 path.relative(
@@ -42,23 +42,16 @@ export class GenerateAbstractProcessor extends GenerateCommonPipelineFilesProces
 
         let abstractProcessorGeneration = new GenerateFileFromTemplateArguments();
 
-        abstractProcessorGeneration.className = model.className;
-        abstractProcessorGeneration.fileName = model.fileName;
-        abstractProcessorGeneration.extension = args.extension;
-        abstractProcessorGeneration.subdirectoriesNames = subfolders;
-        abstractProcessorGeneration.ensureSuffixInClassName = true;
-        abstractProcessorGeneration.ensureSuffixInFileName = true;
-        abstractProcessorGeneration.templateFileName = model.templateName;
+        abstractProcessorGeneration.fileModel = model;
         abstractProcessorGeneration.yeomanGenerator = args.yeomanGenerator;
         abstractProcessorGeneration.creationOptions['argumentsClassName'] = args.generatedArgumentsClassName;
         abstractProcessorGeneration.creationOptions['argumentsFileName'] = argsPath;
-        abstractProcessorGeneration.suffix = "Processor";
         abstractProcessorGeneration.subdirectoryCaseTuner = args.commonSubdirectoryCaseTuner;
 
         await GenerateFileFromTemplateExecutor.Instance.execute(abstractProcessorGeneration);
 
-        args.generatedProcessorClassName = abstractProcessorGeneration.className;
-        args.generatedProcessorFileName = abstractProcessorGeneration.fileName;
+        args.generatedProcessorClassName = abstractProcessorGeneration.fileModel.className;
+        args.generatedProcessorFileName = abstractProcessorGeneration.fileModel.fileName;
     }
 
     public SafeCondition(args: GenerateCommonPipelineFilesArguments): boolean {
