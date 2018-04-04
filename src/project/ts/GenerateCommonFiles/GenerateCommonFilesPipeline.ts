@@ -7,8 +7,11 @@ export class GenerateCommonFilesPipeline extends GenerateCommonPipelineFilesPipe
 
     GetExtraGeneratorProcessors(): IProcessor[] {
         return [
-            Processors.GenerateProcessorsExports.Instance,
             Processors.GenerateMainExports.Instance
         ];
+    }
+
+    GenerateProcessors(): IProcessor[] {
+        return [...super.GenerateProcessors(), Processors.GenerateProcessorsExports.Instance];
     }
 }
