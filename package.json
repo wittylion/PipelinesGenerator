@@ -1,5 +1,5 @@
 {
-  "name": "generator-pipe",
+  "name": "generator-chain",
   "version": "1.0.0",
   "description": "Generates SOLID pipelines from SOLID Pipelines package.",
   "main": "./app/index.js",
