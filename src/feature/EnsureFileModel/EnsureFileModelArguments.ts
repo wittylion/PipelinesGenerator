@@ -6,12 +6,14 @@ import Generator = require("yeoman-generator");
 export class EnsureFileModelArguments extends PipelineContext {
     public static Create(
         yeomanGenerator: Generator,
+        model?: GenerateFileModel,
         possibleName?: string,
         possibleExtension?: string,
         interactionMode?: InteractionModeEnum
     ): EnsureFileModelArguments {
         return new EnsureFileModelArguments(
             yeomanGenerator,
+            model,
             possibleName,
             possibleExtension,
             interactionMode
@@ -20,6 +22,7 @@ export class EnsureFileModelArguments extends PipelineContext {
 
     public constructor(
         yeomanGenerator: Generator,
+        model?: GenerateFileModel,
         possibleName?: string,
         possibleExtension?: string,
         interactionMode?: InteractionModeEnum
@@ -29,6 +32,7 @@ export class EnsureFileModelArguments extends PipelineContext {
         this.interactionMode = interactionMode;
         this.possibleName = possibleName;
         this.possibleExtension = possibleExtension;
+        this.fileModel = !model ? new GenerateFileModel() : model;
     }
 
     interactionMode: InteractionModeEnum;
@@ -36,5 +40,5 @@ export class EnsureFileModelArguments extends PipelineContext {
     possibleName: string;
     possibleExtension: string;
 
-    fileModel: GenerateFileModel = new GenerateFileModel();
+    fileModel: GenerateFileModel;
 }

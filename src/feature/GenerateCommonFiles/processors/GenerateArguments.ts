@@ -14,11 +14,13 @@ export class GenerateArguments extends GenerateCommonPipelineFilesProcessor {
             return;
         }
 
-        EnsureFileModelExecutor.Instance.execute(EnsureFileModelArguments.Create(
+        let ensurer = EnsureFileModelArguments.Create(
             args.yeomanGenerator,
+            model,
             args.pipelineNameSpecifiedByUser,
             args.extension
-        ));
+        );
+        await EnsureFileModelExecutor.Instance.execute(ensurer);
 
         let subfolders = [...args.commonSubfolders, ...model.subdirectories];
 
