@@ -1,5 +1,4 @@
 import { PipelineContext } from "solid-pipelines";
-import { GenerateFileModel } from './GenerateFileModel'
 import Generator = require("yeoman-generator");
 import { IModelsProvider } from "./IModelsProvider";
 
