@@ -4,7 +4,6 @@ import S from "string";
 import { EnsureOptionExecutor } from "../../EnsureOption";
 import { InputTypeEnum } from "../../EnsureOption/InputTypeEnum";
 import path = require("path");
-import { GenerateFileModel } from "../GenerateFileModel";
 
 export class TryToGetProcessors extends GenerateCommonPipelineFilesProcessor {
     public static readonly Instance = new TryToGetProcessors();
