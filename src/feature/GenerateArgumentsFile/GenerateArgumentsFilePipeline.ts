@@ -6,6 +6,7 @@ export class GenerateArgumentsFilePipeline implements IPipeline {
 
     GetProcessors(): IProcessor[] {
         return [
+            Processors.EnsureMembers.Instance,
             Processors.EnsureFileModel.Instance,
             Processors.GenerateArgumentsFile.Instance,
         

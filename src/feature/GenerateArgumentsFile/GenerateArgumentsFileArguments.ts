@@ -19,7 +19,10 @@ export class GenerateArgumentsFileArguments extends PipelineContext {
         public yeomanGenerator: Generator,
         public possibleName?: string,
         public possibleExtension?: string,
-        public interactionMode?: InteractionModeEnum) {
+        public interactionMode?: InteractionModeEnum,
+        public askForMembers?: boolean,
+        public members: string[] = []
+    ) {
         super();
 
     }

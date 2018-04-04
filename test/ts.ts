@@ -195,6 +195,45 @@ describe('Testing typescript pipelines generator.', function () {
             });
         });
 
+        describe('When members are requested', function () {
+            before(function (done) {
+                // The object returned acts like a promise, so return it to wait until the process is done
+                helpers.run(path.join(__dirname, '../ts'))
+                    .withPrompts({ pipelineName: 'TestedPipeline' })
+                    .withArguments(['--no-subfolder'])
+                    .withOptions({'--arguments-members' : 'Hello World'})
+                    .on('end', done);
+            });
+
+            it('Сreates members in arguments file', function () {
+                assert.fileContent(
+                    './TestedPipelineArguments.ts',
+                    /Hello: string;/
+                );
+                assert.fileContent(
+                    './TestedPipelineArguments.ts',
+                    /World: string;/
+                );
+            });
+        });
+
+        describe('When arguments members are skipped from arguments', function () {
+            before(function (done) {
+                // The object returned acts like a promise, so return it to wait until the process is done
+                helpers.run(path.join(__dirname, '../ts'))
+                    .withPrompts({ pipelineName: 'TestedPipeline' })
+                    .withArguments(['--no-subfolder', '--no-arguments-members'])
+                    .on('end', done);
+            });
+
+            it('Сreates members in arguments file', function () {
+                assert.noFileContent(
+                    './TestedPipelineArguments.ts',
+                    /: string;/
+                );
+            });
+        });
+
     });
 
 });
