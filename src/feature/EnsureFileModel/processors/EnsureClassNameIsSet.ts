@@ -9,20 +9,19 @@ export class EnsureClassNameIsSet extends EnsureFileModelProcessor {
     public static readonly Instance = new EnsureClassNameIsSet();
 
     public async SafeExecute(args: EnsureFileModelArguments): Promise<void> {
-
-        if (args.interactionMode == InteractionModeEnum.Maximum) {
-            args.fileModel.className = await EnsureOptionExecutor.Instance.obtainByKey(
-                args.yeomanGenerator,
-                `className`,
-                InputTypeEnum.Input,
-                false,
-                false,
-                path.basename(args.possibleName)
-            );
-        }
-        else {
+        if (args.interactionMode == InteractionModeEnum.Minimum && !S(args.possibleName).isEmpty()) {
             args.fileModel.className = args.possibleName;
+            return;
         }
+
+        args.fileModel.className = await EnsureOptionExecutor.Instance.obtainByKey(
+            args.yeomanGenerator,
+            `argumentsName`,
+            InputTypeEnum.Input,
+            false,
+            false,
+            !args.possibleName ? null : path.basename(args.possibleName)
+        );
     }
 
     public SafeCondition(args: EnsureFileModelArguments): boolean {

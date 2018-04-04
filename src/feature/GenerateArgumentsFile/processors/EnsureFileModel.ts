@@ -8,7 +8,10 @@ export class EnsureFileModel extends GenerateArgumentsFileProcessor {
     public async SafeExecute(args: GenerateArgumentsFileArguments): Promise<void> {
         let ensurer = EnsureFileModelArguments.Create(
             args.yeomanGenerator,
-            args.fileModel
+            args.fileModel,
+            args.possibleName,
+            args.possibleExtension,
+            args.interactionMode
         );
         await EnsureFileModelExecutor.Instance.execute(ensurer);
     }
