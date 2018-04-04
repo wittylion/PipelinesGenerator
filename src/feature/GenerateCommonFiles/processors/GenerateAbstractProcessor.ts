@@ -46,7 +46,6 @@ export class GenerateAbstractProcessor extends GenerateCommonPipelineFilesProces
         abstractProcessorGeneration.yeomanGenerator = args.yeomanGenerator;
         abstractProcessorGeneration.creationOptions['argumentsClassName'] = args.generatedArgumentsClassName;
         abstractProcessorGeneration.creationOptions['argumentsFileName'] = argsPath;
-        abstractProcessorGeneration.subdirectoryCaseTuner = args.commonSubdirectoryCaseTuner;
 
         await GenerateFileFromTemplateExecutor.Instance.execute(abstractProcessorGeneration);
 

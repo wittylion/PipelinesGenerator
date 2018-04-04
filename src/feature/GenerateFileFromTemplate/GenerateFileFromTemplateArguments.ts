@@ -9,7 +9,6 @@ export class GenerateFileFromTemplateArguments extends PipelineContext {
     destination: string;
     templateDestination: string;
     ensureLeadingClassNameSubdirectory: boolean = false;
-    subdirectoryCaseTuner: (subdirectory: string) => string;
 
     creationOptions: {} = {};
 }

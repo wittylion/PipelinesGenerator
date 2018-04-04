@@ -3,6 +3,7 @@ import { GenerateCommonPipelineFilesArguments } from "../GenerateCommonPipelineF
 import S from "string";
 import { GenerateFileFromTemplateArguments, GenerateFileFromTemplateExecutor } from "../../GenerateFileFromTemplate";
 import { EnsureFileModelExecutor, EnsureFileModelArguments } from "../../EnsureFileModel";
+import { GenerateArgumentsFileArguments, GenerateArgumentsFileExecutor } from "../../GenerateArgumentsFile";
 
 export class GenerateArguments extends GenerateCommonPipelineFilesProcessor {
     public static readonly Instance = new GenerateArguments();
@@ -13,24 +14,14 @@ export class GenerateArguments extends GenerateCommonPipelineFilesProcessor {
             args.AbortPipelineWithErrorMessage("You have to specify some data for arguments generation.");
             return;
         }
+        model.subdirectories = [
+            ...args.commonSubfolders, 
+            ...model.subdirectories
+        ];
 
-        let ensurer = EnsureFileModelArguments.Create(
-            args.yeomanGenerator,
-            model,
-            args.pipelineNameSpecifiedByUser,
-            args.extension
-        );
-        await EnsureFileModelExecutor.Instance.execute(ensurer);
+        let argumentsGeneration = GenerateArgumentsFileArguments.Create(model, args.yeomanGenerator);
 
-        model.subdirectories = [...args.commonSubfolders, ...model.subdirectories];
-
-        let argumentsGeneration = new GenerateFileFromTemplateArguments();
-
-        argumentsGeneration.yeomanGenerator = args.yeomanGenerator;
-        argumentsGeneration.fileModel = model;
-        argumentsGeneration.subdirectoryCaseTuner = args.commonSubdirectoryCaseTuner;
-
-        await GenerateFileFromTemplateExecutor.Instance.execute(argumentsGeneration);
+        await GenerateArgumentsFileExecutor.Instance.execute(argumentsGeneration);
 
         args.generatedArgumentsClassName = argumentsGeneration.fileModel.className;
         args.generatedArgumentsFileName = argumentsGeneration.fileModel.fileName;

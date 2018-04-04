@@ -38,7 +38,6 @@ export class GenerateExecutor extends GenerateCommonPipelineFilesProcessor {
         executorGeneration.creationOptions['pipelineClassName'] = args.generatedPipelineClassName;
         executorGeneration.creationOptions['pipelineFileName']
             = path.basename(args.generatedPipelineFileName, args.extension);
-        executorGeneration.subdirectoryCaseTuner = args.commonSubdirectoryCaseTuner;
 
         await GenerateFileFromTemplateExecutor.Instance.execute(executorGeneration);
         

@@ -6,6 +6,7 @@ export class GenerateFileModel {
     fileName: string;
     templateName: string;
     subdirectories: string[] = [];
+    subdirectoryNameTuner: (subdirectory: string) => string;
     extension: string;
     
     ensureSuffixInFileName: boolean = true;

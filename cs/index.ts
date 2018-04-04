@@ -21,7 +21,6 @@ class PipelinesGenerator extends Generator {
         let generateCommonFilesArguments = new GenerateCommonPipelineFilesArguments();
         generateCommonFilesArguments.extension = Defaults.extension;
         generateCommonFilesArguments.yeomanGenerator = this;
-        generateCommonFilesArguments.commonSubdirectoryCaseTuner = x => _.upperFirst(_.camelCase(x))
         generateCommonFilesArguments.modelsProvider = new ModelsProvider();
         
         await GenerateCommonPipelineFilesExecutor.Instance.execute(generateCommonFilesArguments);
