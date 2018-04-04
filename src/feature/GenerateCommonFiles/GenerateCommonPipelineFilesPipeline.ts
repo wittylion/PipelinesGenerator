@@ -18,8 +18,11 @@ export class GenerateCommonPipelineFilesPipeline implements IPipeline {
             Processors.GenerateProcessors.Instance,
             Processors.GeneratePipeline.Instance,
             Processors.GenerateExecutor.Instance,
-            Processors.GenerateProcessorsExports.Instance,
-            Processors.GenerateMainExports.Instance
+            ...this.GetExtraGeneratorProcessors()
         ];
+    }
+
+    GetExtraGeneratorProcessors(): IProcessor[] {
+        return [];
     }
 }

@@ -4,12 +4,6 @@ import { Defaults } from "../Defaults";
 import _ from "lodash";
 
 export class ModelsProvider implements IModelsProvider {
-    getProcessorsExportsModel(): GenerateFileModel {
-        return undefined;
-    }
-    getMainExportsModel(): GenerateFileModel {
-        return undefined;
-    }
     getArgumentsModel(): GenerateFileModel {
         return _.clone(Defaults.argumentsModel);
     }

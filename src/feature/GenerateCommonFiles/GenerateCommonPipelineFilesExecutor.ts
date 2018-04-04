@@ -3,12 +3,15 @@ import { GenerateCommonPipelineFilesArguments } from './GenerateCommonPipelineFi
 import { GenerateCommonPipelineFilesPipeline } from './GenerateCommonPipelineFilesPipeline'
 
 export class GenerateCommonPipelineFilesExecutor {
-    public static Instance: GenerateCommonPipelineFilesExecutor = new GenerateCommonPipelineFilesExecutor();
+    public static Instance: GenerateCommonPipelineFilesExecutor = new GenerateCommonPipelineFilesExecutor(GenerateCommonPipelineFilesPipeline.Instance);
+
+    constructor(public pipeline: GenerateCommonPipelineFilesPipeline) {
+    }
 
     async execute(args: GenerateCommonPipelineFilesArguments) : Promise<void> {
         var runner:PipelineRunner = new PipelineRunner();
 
-        await runner.RunPipeline(GenerateCommonPipelineFilesPipeline.Instance, args);
+        await runner.RunPipeline(this.pipeline, args);
 
         let messages = args.GetMessages(MessageFilter.Errors | MessageFilter.Warnings);
         if (messages.length > 0) {

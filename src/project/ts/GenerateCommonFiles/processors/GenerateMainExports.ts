@@ -1,14 +1,16 @@
-import { GenerateCommonPipelineFilesProcessor } from "../GenerateCommonPipelineFilesProcessor";
-import { GenerateCommonPipelineFilesArguments } from "../GenerateCommonPipelineFilesArguments";
-import { GenerateFileFromTemplateArguments, GenerateFileFromTemplateExecutor } from "../../GenerateFileFromTemplate";
 import S from "string";
 import path = require("path");
+import { GenerateCommonPipelineFilesProcessor } from "../../../../feature/GenerateCommonFiles/GenerateCommonPipelineFilesProcessor";
+import { GenerateCommonPipelineFilesArguments } from "../../../../feature/GenerateCommonFiles";
+import { GenerateFileFromTemplateArguments, GenerateFileFromTemplateExecutor } from "../../../../feature/GenerateFileFromTemplate";
+import { Defaults } from "../../Defaults";
+import _ from "lodash";
 
 export class GenerateMainExports extends GenerateCommonPipelineFilesProcessor {
     public static readonly Instance = new GenerateMainExports();
 
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
-        let model = args.modelsProvider.getMainExportsModel();
+        let model = _.clone(Defaults.mainExportsModel);
         if (!model) {
             args.AbortPipelineWithErrorMessage("You have to specify some data for index.ts file to be generated.");
             return;

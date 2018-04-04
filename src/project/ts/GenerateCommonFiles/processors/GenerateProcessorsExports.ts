@@ -1,14 +1,16 @@
-import { GenerateCommonPipelineFilesProcessor } from "../GenerateCommonPipelineFilesProcessor";
-import { GenerateCommonPipelineFilesArguments } from "../GenerateCommonPipelineFilesArguments";
-import { GenerateFileFromTemplateArguments, GenerateFileFromTemplateExecutor } from "../../GenerateFileFromTemplate";
 import path = require('path');
 import S from "string";
+import { GenerateCommonPipelineFilesProcessor } from "../../../../feature/GenerateCommonFiles/GenerateCommonPipelineFilesProcessor";
+import { GenerateCommonPipelineFilesArguments } from "../../../../feature/GenerateCommonFiles";
+import { GenerateFileFromTemplateArguments, GenerateFileFromTemplateExecutor } from "../../../../feature/GenerateFileFromTemplate";
+import { Defaults } from '../../Defaults';
+import _ from 'lodash';
 
 export class GenerateProcessorsExports extends GenerateCommonPipelineFilesProcessor {
     public static readonly Instance = new GenerateProcessorsExports();
 
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
-        let model = args.modelsProvider.getProcessorsExportsModel();
+        let model = _.clone(Defaults.processorsExportsModel);
 
         if (!model) {
             args.AbortPipelineWithErrorMessage("Cannot find model for the file, exporting processors.");

@@ -19,10 +19,4 @@ export class ModelsProvider implements IModelsProvider {
     getExecutorModel(): GenerateFileModel {
         return _.clone(Defaults.executorModel);
     }
-    getProcessorsExportsModel(): GenerateFileModel {
-        return _.clone(Defaults.processorsExportsModel);
-    }
-    getMainExportsModel(): GenerateFileModel {
-        return _.clone(Defaults.mainExportsModel);
-    }
 }
