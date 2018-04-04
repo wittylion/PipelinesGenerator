@@ -6,4 +6,5 @@ export interface IModelsProvider {
     getProcessorModel(): GenerateFileModel;
     getPipelineModel(): GenerateFileModel;
     getExecutorModel(): GenerateFileModel;
+    getMessagesContainerModel(): GenerateFileModel;
 }

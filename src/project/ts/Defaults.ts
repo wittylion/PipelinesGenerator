@@ -9,6 +9,7 @@ export class Defaults {
     public static executorModel: GenerateFileModel;
     public static mainExportsModel: GenerateFileModel;
     public static processorModel: GenerateFileModel;
+    public static messagesModel: GenerateFileModel;
 
     public static extension: string = ".ts";
 
@@ -19,6 +20,13 @@ export class Defaults {
         Defaults.argumentsModel.extension = Defaults.extension;
         Defaults.argumentsModel.ensureSuffixInClassName = true;
         Defaults.argumentsModel.ensureSuffixInFileName = true;
+        
+        Defaults.messagesModel = new GenerateFileModel();
+        Defaults.messagesModel.templateName = "_messages.ts.ejs";
+        Defaults.messagesModel.suffix = "Messages";
+        Defaults.messagesModel.extension = Defaults.extension;
+        Defaults.messagesModel.ensureSuffixInClassName = true;
+        Defaults.messagesModel.ensureSuffixInFileName = true;
 
         Defaults.abstractProcessorModel = new GenerateFileModel();
         Defaults.abstractProcessorModel.templateName = "_abstractProcessor.ts.ejs";

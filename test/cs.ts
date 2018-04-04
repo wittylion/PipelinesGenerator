@@ -36,6 +36,10 @@ describe('Testing C# pipelines generator.', function () {
                 assert.file('./HelloWorldProcessor.cs');
             });
 
+            it('Сreates default messages class', function () {
+                assert.file('./HelloWorldMessages.cs');
+            });
+
             it('Сreates default Hello World processor', function () {
                 assert.file('./Processors/HelloWorld.cs');
             });

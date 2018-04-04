@@ -13,6 +13,9 @@ export class GenerateCommonPipelineFilesArguments extends PipelineContext {
     generatedArgumentsClassName: string;
     generatedArgumentsFileName: string;
 
+    generatedMessagesClassName: string;
+    generatedMessagesFileName: string;
+
     generatedProcessorClassName: string;
     generatedProcessorFileName: string;
 

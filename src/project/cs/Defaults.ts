@@ -8,6 +8,7 @@ export class Defaults {
     public static pipelineModel: GenerateFileModel;
     public static executorModel: GenerateFileModel;
     public static processorModel: GenerateFileModel;
+    public static messagesModel: GenerateFileModel;
 
     public static extension: string = ".cs";
 
@@ -23,6 +24,14 @@ export class Defaults {
         Defaults.argumentsModel.ensureSuffixInClassName = true;
         Defaults.argumentsModel.ensureSuffixInFileName = true;
         Defaults.argumentsModel.subdirectoryNameTuner = Defaults.commonSubdirectoryCaseTuner;
+        
+        Defaults.messagesModel = new GenerateFileModel();
+        Defaults.messagesModel.templateName = "_messages.cs.ejs";
+        Defaults.messagesModel.suffix = "Messages";
+        Defaults.messagesModel.extension = Defaults.extension;
+        Defaults.messagesModel.ensureSuffixInClassName = true;
+        Defaults.messagesModel.ensureSuffixInFileName = true;
+        Defaults.messagesModel.subdirectoryNameTuner = Defaults.commonSubdirectoryCaseTuner;
 
         Defaults.abstractProcessorModel = new GenerateFileModel();
         Defaults.abstractProcessorModel.templateName = "_AbstractProcessor.cs.ejs";

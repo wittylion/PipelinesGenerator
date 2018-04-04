@@ -4,6 +4,9 @@ import { Defaults } from "../Defaults";
 import _ from "lodash";
 
 export class ModelsProvider implements IModelsProvider {
+    getMessagesContainerModel(): GenerateFileModel {
+        return _.clone(Defaults.messagesModel);
+    }
     getArgumentsModel(): GenerateFileModel {
         return _.clone(Defaults.argumentsModel);
     }

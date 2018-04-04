@@ -16,7 +16,7 @@ export class EnsureClassNameIsSet extends EnsureFileModelProcessor {
 
         args.fileModel.className = await EnsureOptionExecutor.Instance.obtainByKey(
             args.yeomanGenerator,
-            `argumentsName`,
+            `name`,
             InputTypeEnum.Input,
             false,
             false,

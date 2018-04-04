@@ -42,6 +42,10 @@ describe('Testing typescript pipelines generator.', function () {
                 assert.file('./HelloWorldPipeline.ts');
             });
 
+            it('Сreates default messages class', function () {
+                assert.file('./HelloWorldMessages.ts');
+            });
+
             it('Сreates default Arguments', function () {
                 assert.file('HelloWorldArguments.ts');
             });
