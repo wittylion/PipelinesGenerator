@@ -10,6 +10,7 @@ export class GeneratePipeline extends GenerateCommonPipelineFilesProcessor {
 
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
         let model = args.modelsProvider.getPipelineModel();
+        model.subdirectories = [...args.commonSubfolders, ...model.subdirectories];
 
         let ensurer = EnsureFileModelArguments.Create(
             args.yeomanGenerator,
@@ -19,7 +20,6 @@ export class GeneratePipeline extends GenerateCommonPipelineFilesProcessor {
         );
         await EnsureFileModelExecutor.Instance.execute(ensurer);
 
-        let subfolders = [...args.commonSubfolders, ...model.subdirectories];
         let pipelineGeneration = new GenerateFileFromTemplateArguments();
 
         pipelineGeneration.fileModel = model;

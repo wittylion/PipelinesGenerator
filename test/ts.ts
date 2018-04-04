@@ -129,6 +129,14 @@ describe('Testing typescript pipelines generator.', function () {
                 assert.file('./HelloWorld/HelloWorldExecutor.ts');
             });
 
+            it('Creates pipeline in the subfolder', function () {
+                assert.file('./HelloWorld/HelloWorldPipeline.ts');
+            });
+
+            it('Creates arguments in the subfolder', function () {
+                assert.file('./HelloWorld/HelloWorldArguments.ts');
+            });
+
             it('Creates processors in the subfolder', function () {
                 assert.file('./HelloWorld/processors/HelloWorld.ts');
             });
