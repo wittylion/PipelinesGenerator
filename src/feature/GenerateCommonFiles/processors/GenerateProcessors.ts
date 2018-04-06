@@ -1,8 +1,8 @@
 import { GenerateCommonPipelineFilesProcessor } from "../GenerateCommonPipelineFilesProcessor";
 import { GenerateCommonPipelineFilesArguments } from "../GenerateCommonPipelineFilesArguments";
-import { GenerateFileFromTemplateArguments, GenerateFileFromTemplateExecutor } from "../../GenerateFileFromTemplate";
 import S from "string";
 import path = require("path");
+import { GenerateProcessorFileArguments, GenerateProcessorFileExecutor } from "../../GenerateProcessorFile";
 
 export class GenerateProcessors extends GenerateCommonPipelineFilesProcessor {
     public static readonly Instance = new GenerateProcessors();
@@ -17,46 +17,28 @@ export class GenerateProcessors extends GenerateCommonPipelineFilesProcessor {
         });
 
         for (const model of processorsModels) {
-            if (!model) {
-                args.AddError("You have to specify some data for processor generation.");
-                continue;
-            }
-
-            if (S(model.templateName).isEmpty()) {
-                args.AddError("You have to provide a template name to generate processor.");
-                continue;
-            }
-
-            if (S(model.className).isEmpty()) {
-                args.AddError("You have to provide non-empty name for the processor.");
-                continue;
-            }
-
-            if (S(model.fileName).isEmpty()) {
-                model.fileName = model.className;
-            }
             model.subdirectories = [...args.commonSubfolders, ...model.subdirectories, 'processors'];
 
-            let processorGeneration = new GenerateFileFromTemplateArguments();
+            let processorGeneration = new GenerateProcessorFileArguments(
+                model,
+                args.yeomanGenerator
+            );
 
-            processorGeneration.fileModel = model;
-            processorGeneration.yeomanGenerator = args.yeomanGenerator;
-
-            processorGeneration.creationOptions['argumentsClassName'] = args.generatedArgumentsClassName;
-            processorGeneration.creationOptions['argumentsFileName']
+            processorGeneration.argumentsClassName = args.generatedArgumentsClassName;
+            processorGeneration.argumentsFileName
                 = path.basename(
                     args.generatedArgumentsFileName,
                     args.extension
                 );
 
-            processorGeneration.creationOptions['abstractProcessorClassName'] = args.generatedProcessorClassName;
-            processorGeneration.creationOptions['abstractProcessorFileName']
+            processorGeneration.abstractProcessorClassName = args.generatedProcessorClassName;
+            processorGeneration.abstractProcessorFileName
                 = path.basename(
                     args.generatedProcessorFileName,
                     args.extension
                 );
 
-            await GenerateFileFromTemplateExecutor.Instance.execute(processorGeneration);
+            await GenerateProcessorFileExecutor.Instance.execute(processorGeneration);
         }
     }
 
