@@ -2,6 +2,7 @@ import { PipelineContext } from "solid-pipelines";
 import { GenerateFileModel } from "../GenerateFileFromTemplate/models/GenerateFileModel";
 import Generator = require("yeoman-generator");
 import { InteractionModeEnum } from "../EnsureFileModel/InteractionModeEnum";
+import { GenerateArgumentsResult } from "./models/GenerateArgumentsResult";
 
 export class GenerateArgumentsFileArguments extends PipelineContext {
     public static Create(
@@ -26,4 +27,6 @@ export class GenerateArgumentsFileArguments extends PipelineContext {
         super();
 
     }
+
+    result: GenerateArgumentsResult;
 }

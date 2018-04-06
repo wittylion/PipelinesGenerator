@@ -17,7 +17,8 @@ export class GenerateFileFromTemplatePipeline implements IPipeline {
             Processors.AdjustCaseOfSubdirectories.Instance,
             Processors.EnsureDestination.Instance,
             Processors.FillCreationOptions.Instance,
-            Processors.CreateFileFromTemplate.Instance
+            Processors.CreateFileFromTemplate.Instance,
+            Processors.GenerateResult.Instance,
         ];
     }
 }

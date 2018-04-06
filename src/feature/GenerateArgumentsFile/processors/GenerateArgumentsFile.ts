@@ -2,23 +2,24 @@ import { GenerateArgumentsFileProcessor } from "../GenerateArgumentsFileProcesso
 import { GenerateArgumentsFileArguments } from "../GenerateArgumentsFileArguments";
 import { GenerateFileFromTemplateArguments, GenerateFileFromTemplateExecutor } from "../../GenerateFileFromTemplate";
 import _ from "lodash";
+import { GenerateArgumentsResult } from "../models/GenerateArgumentsResult";
 
 export class GenerateArgumentsFile extends GenerateArgumentsFileProcessor {
     public static readonly Instance = new GenerateArgumentsFile();
 
     public async SafeExecute(args: GenerateArgumentsFileArguments): Promise<void> {
-        let argumentsGeneration = new GenerateFileFromTemplateArguments();
-
-        argumentsGeneration.yeomanGenerator = args.yeomanGenerator;
-        argumentsGeneration.fileModel = args.fileModel;
-        _.assign(
-            argumentsGeneration.creationOptions,
+        let res = await GenerateFileFromTemplateExecutor.Instance.create(
+            args.fileModel,
+            args.yeomanGenerator,
             {
                 argumentsMemebers: args.members
             }
         );
 
-        await GenerateFileFromTemplateExecutor.Instance.execute(argumentsGeneration);
+        args.result = new GenerateArgumentsResult();
+        args.result.creationResult = res["0"];
+        let messages = res["1"];
+        messages.forEach(x => args.AddMessageObject(x));
     }
 
     public SafeCondition(args: GenerateArgumentsFileArguments): boolean {
