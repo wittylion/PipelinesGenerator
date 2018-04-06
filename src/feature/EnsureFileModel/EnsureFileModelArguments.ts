@@ -1,6 +1,6 @@
 import { PipelineContext } from "solid-pipelines";
 import { InteractionModeEnum } from './InteractionModeEnum'
-import { GenerateFileModel } from "../GenerateFileFromTemplate/GenerateFileModel";
+import { GenerateFileModel } from "../GenerateFileFromTemplate/models/GenerateFileModel";
 import Generator = require("yeoman-generator");
 
 export class EnsureFileModelArguments extends PipelineContext {

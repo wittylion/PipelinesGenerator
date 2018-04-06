@@ -1,4 +1,4 @@
-import { GenerateFileModel } from "../../feature/GenerateFileFromTemplate/GenerateFileModel";
+import { GenerateFileModel } from "../../feature/GenerateFileFromTemplate/models/GenerateFileModel";
 import _ from "lodash";
 
 export class Defaults {

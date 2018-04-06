@@ -1,4 +1,4 @@
-import { GenerateFileModel } from "../GenerateFileFromTemplate/GenerateFileModel";
+import { GenerateFileModel } from "../GenerateFileFromTemplate/models/GenerateFileModel";
 
 export interface IModelsProvider {
     getArgumentsModel(): GenerateFileModel;

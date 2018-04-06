@@ -1,4 +1,4 @@
-import { GenerateFileModel } from "../../feature/GenerateFileFromTemplate/GenerateFileModel";
+import { GenerateFileModel } from "../../feature/GenerateFileFromTemplate/models/GenerateFileModel";
 
 export class Defaults {
 

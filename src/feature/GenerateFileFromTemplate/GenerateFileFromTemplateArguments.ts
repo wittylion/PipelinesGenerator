@@ -1,6 +1,6 @@
 import { PipelineContext } from "solid-pipelines";
 import Generator = require("yeoman-generator");
-import { GenerateFileModel } from "./GenerateFileModel";
+import { GenerateFileModel } from "./models/GenerateFileModel";
 
 export class GenerateFileFromTemplateArguments extends PipelineContext {
     yeomanGenerator: Generator;
