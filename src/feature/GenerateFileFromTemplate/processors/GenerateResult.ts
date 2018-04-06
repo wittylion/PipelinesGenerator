@@ -1,7 +1,6 @@
 import { GenerateFileFromTemplateProcessor } from "../GenerateFileFromTemplateProcessor";
 import { GenerateFileFromTemplateArguments } from "../GenerateFileFromTemplateArguments";
 
-import fs = require("fs");
 import S = require("string");
 import { CreatedFileResult } from "../models/CreatedFileResult";
 
@@ -9,7 +8,7 @@ export class GenerateResult extends GenerateFileFromTemplateProcessor {
     public static readonly Instance = new GenerateResult();
 
     public async SafeExecute(args: GenerateFileFromTemplateArguments): Promise<void> {
-        if (!fs.existsSync(args.destination)) {
+        if (!args.yeomanGenerator.fs.exists(args.destination)) {
             args.AbortPipelineWithErrorMessage("The file '" + args.destination + "' was not created, please review passed data or contact developers.");
             return;
         }
@@ -17,6 +16,7 @@ export class GenerateResult extends GenerateFileFromTemplateProcessor {
         let res = new CreatedFileResult();
         res.className = args.fileModel.className;
         res.fileName = args.fileModel.fileName;
+        args.result = res;
     }
 
     public SafeCondition(args: GenerateFileFromTemplateArguments): boolean {

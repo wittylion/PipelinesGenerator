@@ -13,7 +13,7 @@ export class GenerateFileFromTemplateExecutor {
         fileModel: GenerateFileModel,
         yeomanGenerator: Generator,
         creationOptions?: {}
-    ) : Promise<[CreatedFileResult, PipelineMessage[]]> {
+    ) : Promise<{result: CreatedFileResult, messages: PipelineMessage[]}> {
         let args: GenerateFileFromTemplateArguments = new GenerateFileFromTemplateArguments();
 
         args.fileModel = fileModel;
@@ -24,7 +24,7 @@ export class GenerateFileFromTemplateExecutor {
         
         await this.execute(args);
 
-        return [args.result, args.GetMessages(MessageFilter.All)];
+        return {result: args.result, messages: args.GetMessages(MessageFilter.All)};
     }
 
     execute(args: GenerateFileFromTemplateArguments) : Promise<void> {

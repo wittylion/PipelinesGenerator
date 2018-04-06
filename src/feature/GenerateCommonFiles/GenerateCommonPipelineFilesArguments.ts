@@ -20,6 +20,7 @@ export class GenerateCommonPipelineFilesArguments extends PipelineContext {
     generatedProcessorFileName: string;
 
     processorsNames: string[] = [];
+    processorsFileNames: string[] = [];
 
     generatedPipelineClassName: string;
     generatedPipelineFileName: string;

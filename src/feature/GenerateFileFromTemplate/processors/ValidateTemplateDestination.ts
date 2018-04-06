@@ -1,7 +1,6 @@
 import { GenerateFileFromTemplateProcessor } from "../GenerateFileFromTemplateProcessor";
 import { GenerateFileFromTemplateArguments } from "../GenerateFileFromTemplateArguments";
 
-import fs = require("fs");
 import S = require("string");
 
 export class ValidateTemplateDestination extends GenerateFileFromTemplateProcessor {
@@ -19,7 +18,7 @@ export class ValidateTemplateDestination extends GenerateFileFromTemplateProcess
             return;
         }
 
-        if (!fs.existsSync(args.templateDestination)) {
+        if (!args.yeomanGenerator.fs.exists(args.templateDestination)) {
             args.AbortPipelineWithErrorMessage("The file in '" + args.templateDestination + "' templpate destination was not found. Please ensure the existence of the file and try again.");
             return;
         }

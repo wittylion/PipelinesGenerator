@@ -11,6 +11,8 @@ export class Defaults {
     public static processorModel: GenerateFileModel;
     public static messagesModel: GenerateFileModel;
 
+    public static exportDeclaration: string = "export {{classes}} from '{{file}}'";
+
     public static extension: string = ".ts";
 
     public static initializeModels() {

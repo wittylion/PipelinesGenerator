@@ -5,27 +5,16 @@ import { GenerateCommonPipelineFilesArguments } from "../../../../feature/Genera
 import { GenerateFileFromTemplateArguments, GenerateFileFromTemplateExecutor } from "../../../../feature/GenerateFileFromTemplate";
 import { Defaults } from '../../Defaults';
 import _ from 'lodash';
+import { GenerateExportsExecutor } from '../../GenerateExports';
 
 export class GenerateProcessorsExports extends GenerateCommonPipelineFilesProcessor {
     public static readonly Instance = new GenerateProcessorsExports();
 
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
-        let model = _.clone(Defaults.processorsExportsModel);
-
-        if (!model) {
-            args.AbortPipelineWithErrorMessage("Cannot find model for the file, exporting processors.");
-            return;
-        }
-
-        model.subdirectories = [...args.commonSubfolders, ...model.subdirectories, 'processors'];
-        let processorsExportsGeneration = new GenerateFileFromTemplateArguments();
-
-        processorsExportsGeneration.fileModel = model;
-        processorsExportsGeneration.creationOptions['exportFileNames'] =
-            args.processorsNames.map(x => path.basename(x, '.ts'));
-        processorsExportsGeneration.yeomanGenerator = args.yeomanGenerator;
-
-        await GenerateFileFromTemplateExecutor.Instance.execute(processorsExportsGeneration);
+        await GenerateExportsExecutor.exportAllFiles(
+            args.yeomanGenerator,
+            ...args.processorsFileNames
+        );
     }
 
     public SafeCondition(args: GenerateCommonPipelineFilesArguments): boolean {

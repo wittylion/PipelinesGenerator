@@ -7,22 +7,31 @@ export class GenerateProcessorFile extends GenerateProcessorFileProcessor {
     public static readonly Instance = new GenerateProcessorFile();
 
     public async SafeExecute(args: GenerateProcessorFileArguments): Promise<void> {
-        let argumentsGeneration = new GenerateFileFromTemplateArguments();
+        let res =
+            await GenerateFileFromTemplateExecutor.Instance.create(
+                args.fileModel,
+                args.yeomanGenerator,
+                {
+                    argumentsClassName: args.argumentsClassName,
+                    argumentsFileName: args.argumentsFileName,
 
-        argumentsGeneration.yeomanGenerator = args.yeomanGenerator;
-        argumentsGeneration.fileModel = args.fileModel;
-        _.assign(
-            argumentsGeneration.creationOptions,
-            {
-                argumentsClassName: args.argumentsClassName,
-                argumentsFileName: args.argumentsFileName,
-                
-                abstractProcessorClassName: args.abstractProcessorClassName,
-                abstractProcessorFileName: args.abstractProcessorFileName,
+                    abstractProcessorClassName: args.abstractProcessorClassName,
+                    abstractProcessorFileName: args.abstractProcessorFileName,
+                }
+            );
+
+        if (res.result) {
+            args.AddInformation(`File '${res.result.fileName}' was created.`);
+            return;
+        }
+        else {
+            if (res.messages.length > 0) {
+                res.messages.forEach(x => args.AddMessageObject(x));
             }
-        );
-
-        await GenerateFileFromTemplateExecutor.Instance.execute(argumentsGeneration);
+            else {
+                args.AddError(`Processor with name '${args.fileModel.className}' was not created.`);
+            }
+        }
     }
 
     public SafeCondition(args: GenerateProcessorFileArguments): boolean {

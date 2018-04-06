@@ -3,6 +3,7 @@ import { GenerateCommonPipelineFilesArguments } from "../GenerateCommonPipelineF
 import S from "string";
 import path = require("path");
 import { GenerateProcessorFileArguments, GenerateProcessorFileExecutor } from "../../GenerateProcessorFile";
+import { MessageFilter } from "solid-pipelines";
 
 export class GenerateProcessors extends GenerateCommonPipelineFilesProcessor {
     public static readonly Instance = new GenerateProcessors();
@@ -39,6 +40,8 @@ export class GenerateProcessors extends GenerateCommonPipelineFilesProcessor {
                 );
 
             await GenerateProcessorFileExecutor.Instance.execute(processorGeneration);
+
+            args.processorsFileNames.push(processorGeneration.fileModel.fileName);
         }
     }
 

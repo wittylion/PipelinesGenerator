@@ -16,10 +16,17 @@ export class GenerateArgumentsFile extends GenerateArgumentsFileProcessor {
             }
         );
 
-        args.result = new GenerateArgumentsResult();
-        args.result.creationResult = res["0"];
-        let messages = res["1"];
-        messages.forEach(x => args.AddMessageObject(x));
+        if (args.result) {
+            args.result = new GenerateArgumentsResult();
+            args.result.creationResult = res.result;
+            args.AddInformation(`Arguments were created on path '${res.result.fileName}'.`);
+            return;
+        }
+        
+        let messages = res.messages;
+        if (messages.length > 0) {
+            messages.forEach(x => args.AddMessageObject(x));
+        }
     }
 
     public SafeCondition(args: GenerateArgumentsFileArguments): boolean {
