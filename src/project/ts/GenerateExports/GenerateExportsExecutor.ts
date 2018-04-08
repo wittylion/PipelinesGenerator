@@ -1,4 +1,4 @@
-import { PipelineRunner } from "solid-pipelines";
+import { PipelineRunner, MessageFilter, PipelineMessage } from "solid-pipelines";
 import { GenerateExportsArguments } from './GenerateExportsArguments'
 import { GenerateExportsPipeline } from './GenerateExportsPipeline'
 
@@ -7,39 +7,41 @@ import Generator = require("yeoman-generator");
 export class GenerateExportsExecutor {
     public static Instance: GenerateExportsExecutor = new GenerateExportsExecutor();
 
-    public static exportAllFromDirectory(dir: string, yeomanGenerator: Generator) : Promise<void> {
+    public static exportAllFromDirectory(dir: string, yeomanGenerator: Generator) : Promise<{messages:PipelineMessage[]}> {
         return GenerateExportsExecutor.Instance.exportAllFromDirectory(dir, yeomanGenerator);
     }
 
-    public static exportAllFiles(yeomanGenerator: Generator, dir:string, ...files: string[]) : Promise<void> {
+    public static exportAllFiles(yeomanGenerator: Generator, dir:string, ...files: string[]) : Promise<{messages:PipelineMessage[]}> {
         return GenerateExportsExecutor.Instance.exportAllFiles(yeomanGenerator, dir, ...files);
     }
 
-    async exportAllFromDirectory(dir: string, yeomanGenerator: Generator) : Promise<void> {
+    exportAllFromDirectory(dir: string, yeomanGenerator: Generator) : Promise<{messages:PipelineMessage[]}> {
         let args = new GenerateExportsArguments();
         args.yeomanGenerator = yeomanGenerator;
         args.exportFileDestination = dir;
         args.exportAllFromDestination = true;
         args.filterOnlyNeededExports = true;
 
-        await this.execute(args);
+        return this.execute(args);
     }
 
-    async exportAllFiles(yeomanGenerator: Generator, dir:string, ...files: string[]) : Promise<void> {
+    async exportAllFiles(yeomanGenerator: Generator, dir:string, ...files: string[]) : Promise<{messages:PipelineMessage[]}> {
         let args = new GenerateExportsArguments();
 
         args.exportFileDestination = dir;
         args.yeomanGenerator = yeomanGenerator;
         args.exportFileNames = files;
-        args.exportAllFromDestination = true;
+        args.exportAllFromDestination = false;
         args.filterOnlyNeededExports = true;
 
-        await this.execute(args);
+        return this.execute(args);
     }
 
-    execute(args: GenerateExportsArguments) : Promise<void> {
+    async execute(args: GenerateExportsArguments) : Promise<{messages:PipelineMessage[]}> {
         var runner:PipelineRunner = new PipelineRunner();
 
-        return runner.RunPipeline(GenerateExportsPipeline.Instance, args);
+        await runner.RunPipeline(GenerateExportsPipeline.Instance, args);
+
+        return {messages: args.GetMessages(MessageFilter.All)};
     }
 }

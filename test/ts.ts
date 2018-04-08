@@ -2,7 +2,9 @@
 var yeoman = require('yeoman-generator');
 var path = require('path');
 var assert = require('yeoman-assert');
-var helpers = require('yeoman-test');
+import helpers = require('yeoman-test');
+import Generator = require('yeoman-generator');
+import chalk = require('chalk');
 
 /*
  * Test for all subgenerators NOT requiring a name argument
@@ -19,6 +21,41 @@ describe('Testing typescript pipelines generator.', function () {
 
             it('Does not create a file.', function () {
                 assert.noFile();
+            });
+        });
+
+        describe('When generates file with exports declaration.', function () {
+            before(function (done) {
+
+                helpers.run(path.join(__dirname, '../ts'))
+                    .withArguments('--export-dir')
+                    .on('ready', (generator: Generator) => {
+                        generator.fs.write('./Export.ts', 'Export');
+                        generator.fs.write('./Files.ts', 'Files');
+                    })
+                    .on('end', done);
+            })
+
+            it('Creates a proper structure.', function () {
+                assert.file(['./Export.ts', './Files.ts']);
+            });
+
+            it(`Generates index.ts file`, function () {
+                assert.file('./index.ts');
+            });
+
+            it(`Creates export decalration for Export.ts of the files`, function () {
+                assert.fileContent(
+                    './index.ts',
+                    /export \* from '\.\/Export'/
+                );
+            });
+
+            it(`Creates export decalration for Files.ts of the files`, function () {
+                assert.fileContent(
+                    './index.ts',
+                    /export \* from '\.\/Files'/
+                );
             });
         });
 
@@ -205,7 +242,7 @@ describe('Testing typescript pipelines generator.', function () {
                 helpers.run(path.join(__dirname, '../ts'))
                     .withPrompts({ pipelineName: 'TestedPipeline' })
                     .withArguments(['--no-subfolder'])
-                    .withOptions({'--arguments-members' : 'Hello World'})
+                    .withOptions({ '--arguments-members': 'Hello World' })
                     .on('end', done);
             });
 

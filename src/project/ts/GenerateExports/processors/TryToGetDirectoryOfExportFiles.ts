@@ -10,13 +10,24 @@ export class TryToGetDirectoryOfExportFiles extends GenerateExportsProcessor {
         let option: string
             = await ObtainOptionExecutor.obtainByKey(
                 args.yeomanGenerator,
-                "exportFrom"
+                "exportDir"
             );
+
+        if (!<any> option) {
+            return;
+        }
+
+        if (S(option).toBoolean() || S(option).isEmpty()) {
+            args.exportFileDestination = '.';
+            return;
+        }
 
         if (!args.yeomanGenerator.fs.exists(option)) {
             args.AbortPipelineWithErrorMessage("Can't find a folder of export files.");
             return;
         }
+
+        args.exportFileDestination = option;
     }
 
     public SafeCondition(args: GenerateExportsArguments): boolean {
@@ -25,8 +36,7 @@ export class TryToGetDirectoryOfExportFiles extends GenerateExportsProcessor {
 
     public CustomCondition(args: GenerateExportsArguments): boolean {
         let safeCondition =
-            args.exportAllFromDestination
-            && S(args.exportFileDestination).isEmpty();
+            S(args.exportFileDestination).isEmpty();
         return safeCondition;
     }
 }

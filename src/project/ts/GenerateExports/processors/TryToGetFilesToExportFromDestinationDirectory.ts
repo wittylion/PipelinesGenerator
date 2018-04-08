@@ -10,21 +10,20 @@ export class TryToGetFilesToExportFromDestinationDirectory extends GenerateExpor
         if (args.exportAllFromDestination) {
 
             if (!fs.existsSync(args.exportFileDestination)) {
-                args.AbortPipelineWithWarningMessage("No directory found.");
-                return;
+                args.AddWarning(`You passed an option to export everything from a directory, but the [${args.exportFileDestination}] directory was not found.`);
             }
-
-            fs.readdirSync(args.exportFileDestination).forEach(dir => {
-                if (args.exportFileNames.indexOf(dir) === -1) {
-                    args.exportFileNames.push(dir);
-                }
-            });
+            else {
+                fs.readdirSync(args.exportFileDestination).forEach(dir => {
+                    if (args.exportFileNames.indexOf(dir) === -1) {
+                        args.exportFileNames.push(dir);
+                    }
+                });
+            }
         }
-        else {
-            if (args.exportFileNames.length < 1) {
-                args.AbortPipelineWithInformationMessage("No files to export");
-                return;
-            }
+
+        if (args.exportFileNames.length < 1) {
+            args.AbortPipelineWithInformationMessage("No files to export");
+            return;
         }
     }
 
