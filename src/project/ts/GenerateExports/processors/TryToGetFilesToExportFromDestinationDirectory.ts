@@ -3,8 +3,8 @@ import { GenerateExportsArguments } from "../GenerateExportsArguments";
 
 import fs = require("fs");
 
-export class TryToGetFilesToExport extends GenerateExportsProcessor {
-    public static readonly Instance = new TryToGetFilesToExport();
+export class TryToGetFilesToExportFromDestinationDirectory extends GenerateExportsProcessor {
+    public static readonly Instance = new TryToGetFilesToExportFromDestinationDirectory();
 
     public async SafeExecute(args: GenerateExportsArguments): Promise<void> {
         if (args.exportAllFromDestination) {

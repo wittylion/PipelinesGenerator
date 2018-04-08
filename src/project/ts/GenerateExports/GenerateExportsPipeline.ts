@@ -6,13 +6,14 @@ export class GenerateExportsPipeline implements IPipeline {
 
     GetProcessors(): IProcessor[] {
         return [
-            Processors.TryToGetFilesToExport.Instance,
+            Processors.TryToGetDirectoryOfExportFiles.Instance,
+            Processors.TryToGetFilesToExportFromDestinationDirectory.Instance,
             Processors.TryToDefineDestination.Instance,
             Processors.GenerateExportsRelativePaths.Instance,
             Processors.EnsureExportsFile.Instance,
             Processors.FilterOnlyNeededExports.Instance,
             Processors.UpdateExportsFile.Instance,
-        
+
         ];
     }
 }

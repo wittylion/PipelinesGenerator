@@ -1,4 +1,5 @@
-export * from './TryToGetFilesToExport'
+export * from './TryToGetFilesToExportFromDestinationDirectory'
+export * from './TryToGetDirectoryOfExportFiles'
 export * from './TryToDefineDestination'
 export * from './GenerateExportsRelativePaths'
 export * from './EnsureExportsFile'
