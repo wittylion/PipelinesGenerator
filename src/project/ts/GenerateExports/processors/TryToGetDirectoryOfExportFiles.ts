@@ -14,7 +14,7 @@ export class TryToGetDirectoryOfExportFiles extends GenerateExportsProcessor {
             );
 
         if (!args.yeomanGenerator.fs.exists(option)) {
-            args.AbortPipelineWithErrorMessage("Cann't find a folder of export files.");
+            args.AbortPipelineWithErrorMessage("Can't find a folder of export files.");
             return;
         }
     }
