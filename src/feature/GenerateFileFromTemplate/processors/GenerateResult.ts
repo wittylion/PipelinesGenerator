@@ -8,6 +8,13 @@ export class GenerateResult extends GenerateFileFromTemplateProcessor {
     public static readonly Instance = new GenerateResult();
 
     public async SafeExecute(args: GenerateFileFromTemplateArguments): Promise<void> {
+        if (S(args.destination).isEmpty()) {
+            args.AbortPipelineWithErrorMessage(
+                "Destination path was not created."
+            );
+            return;
+        }
+
         if (!args.yeomanGenerator.fs.exists(args.destination)) {
             args.AbortPipelineWithErrorMessage("The file '" + args.destination + "' was not created, please review passed data or contact developers.");
             return;

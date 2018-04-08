@@ -24,6 +24,19 @@ describe('Testing typescript pipelines generator.', function () {
             });
         });
 
+        describe('When generates a single processor:', function () {
+            before(function (done) {
+
+                helpers.run(path.join(__dirname, '../ts'))
+                    .withOptions({'--processor': 'P'})
+                    .on('end', done);
+            })
+
+            it(`Generates processor file;`, function () {
+                assert.file('./P.ts');
+            });
+        });
+
         describe('When generates file with exports declaration:', function () {
             before(function (done) {
 
