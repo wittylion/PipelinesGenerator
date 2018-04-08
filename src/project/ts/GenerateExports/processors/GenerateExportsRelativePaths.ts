@@ -2,15 +2,24 @@ import { GenerateExportsProcessor } from "../GenerateExportsProcessor";
 import { GenerateExportsArguments } from "../GenerateExportsArguments";
 
 import path = require("path");
+import S from "string";
 
 export class GenerateExportsRelativePaths extends GenerateExportsProcessor {
     public static readonly Instance = new GenerateExportsRelativePaths();
 
     public async SafeExecute(args: GenerateExportsArguments): Promise<void> {
-        let destination = args.getFilnalName();
+        let destination = path.dirname(args.getFilnalName());
 
-        args.exportRelativePaths = args.exportFileNames.map(name => {
-            return path.relative(destination, name);
+        args.exportRelativePaths = args.exportFileNames
+        .map(name => name.replace(path.extname(name), ''))
+        .map(name => {
+            let result = path.relative(destination, name);
+
+            if (result.indexOf('/') === -1) {
+                result = S(result).ensureLeft('./').s;
+            }
+
+            return result;
         });
     }
 

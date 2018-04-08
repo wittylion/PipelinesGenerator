@@ -2,6 +2,7 @@ import { GenerateExportsProcessor } from "../GenerateExportsProcessor";
 import { GenerateExportsArguments } from "../GenerateExportsArguments";
 import { Defaults } from "../../Defaults";
 import S from "string";
+import path = require("path");
 
 export class UpdateExportsFile extends GenerateExportsProcessor {
     public static readonly Instance = new UpdateExportsFile();
@@ -11,18 +12,18 @@ export class UpdateExportsFile extends GenerateExportsProcessor {
         const name = args.getFilnalName();
         let result = "";
 
-        args.exportRelativePaths.map(path => {
-            return S(Defaults.exportDeclaration).template({
-                classes: "*",
-                file: path
-            }).s
-        }).forEach(row => {
-             result.concat(row, '\n');
-        });
+        args.exportRelativePaths
+            .map(relativePath => {
+                return S(Defaults.exportDeclaration).template({
+                    classes: "*",
+                    file: relativePath
+                }).s
+            }).forEach(row => {
+                result = result.concat(row, '\n');
+            });
 
         const content = args.yeomanGenerator.fs.read(name) + '\n' + result;
         args.yeomanGenerator.fs.write(name, content);
-
     }
 
     public SafeCondition(args: GenerateExportsArguments): boolean {
@@ -30,7 +31,6 @@ export class UpdateExportsFile extends GenerateExportsProcessor {
     }
 
     public CustomCondition(args: GenerateExportsArguments): boolean {
-        console.log(args.exportFileNames);
         let safeCondition = args.exportRelativePaths.length > 0;
         return safeCondition;
     }

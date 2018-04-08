@@ -6,13 +6,13 @@ import Generator = require("yeoman-generator");
 
 export class GenerateExportsExecutor {
     public static Instance: GenerateExportsExecutor = new GenerateExportsExecutor();
-    
+
     public static exportAllFromDirectory(dir: string, yeomanGenerator: Generator) : Promise<void> {
         return GenerateExportsExecutor.Instance.exportAllFromDirectory(dir, yeomanGenerator);
     }
-    
-    public static exportAllFiles(yeomanGenerator: Generator, ...files: string[]) : Promise<void> {
-        return GenerateExportsExecutor.Instance.exportAllFiles(yeomanGenerator, ...files);
+
+    public static exportAllFiles(yeomanGenerator: Generator, dir:string, ...files: string[]) : Promise<void> {
+        return GenerateExportsExecutor.Instance.exportAllFiles(yeomanGenerator, dir, ...files);
     }
 
     async exportAllFromDirectory(dir: string, yeomanGenerator: Generator) : Promise<void> {
@@ -25,8 +25,10 @@ export class GenerateExportsExecutor {
         await this.execute(args);
     }
 
-    async exportAllFiles(yeomanGenerator: Generator, ...files: string[]) : Promise<void> {
+    async exportAllFiles(yeomanGenerator: Generator, dir:string, ...files: string[]) : Promise<void> {
         let args = new GenerateExportsArguments();
+
+        args.exportFileDestination = dir;
         args.yeomanGenerator = yeomanGenerator;
         args.exportFileNames = files;
         args.exportAllFromDestination = true;

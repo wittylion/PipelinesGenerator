@@ -13,6 +13,7 @@ export class GenerateProcessorsExports extends GenerateCommonPipelineFilesProces
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
         await GenerateExportsExecutor.exportAllFiles(
             args.yeomanGenerator,
+            './processors/',
             ...args.processorsFileNames
         );
     }
