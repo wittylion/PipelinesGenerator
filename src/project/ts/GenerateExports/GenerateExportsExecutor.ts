@@ -7,15 +7,18 @@ import Generator = require("yeoman-generator");
 export class GenerateExportsExecutor {
     public static Instance: GenerateExportsExecutor = new GenerateExportsExecutor();
 
-    public static exportAllFromDirectory(dir: string, yeomanGenerator: Generator) : Promise<{messages:PipelineMessage[]}> {
-        return GenerateExportsExecutor.Instance.exportAllFromDirectory(dir, yeomanGenerator);
+    public static exportAllFromDirectory(yeomanGenerator: Generator, dir?: string) : Promise<{messages:PipelineMessage[]}> {
+        return GenerateExportsExecutor.Instance.exportAllFromDirectory(yeomanGenerator, dir);
     }
 
     public static exportAllFiles(yeomanGenerator: Generator, dir:string, ...files: string[]) : Promise<{messages:PipelineMessage[]}> {
         return GenerateExportsExecutor.Instance.exportAllFiles(yeomanGenerator, dir, ...files);
     }
 
-    exportAllFromDirectory(dir: string, yeomanGenerator: Generator) : Promise<{messages:PipelineMessage[]}> {
+    exportAllFromDirectory(
+        yeomanGenerator: Generator,
+        dir?: string
+    ) : Promise<{messages:PipelineMessage[]}> {
         let args = new GenerateExportsArguments();
         args.yeomanGenerator = yeomanGenerator;
         args.exportFileDestination = dir;
@@ -25,7 +28,11 @@ export class GenerateExportsExecutor {
         return this.execute(args);
     }
 
-    async exportAllFiles(yeomanGenerator: Generator, dir:string, ...files: string[]) : Promise<{messages:PipelineMessage[]}> {
+    async exportAllFiles(
+        yeomanGenerator: Generator,
+        dir:string,
+        ...files: string[]
+    ) : Promise<{messages:PipelineMessage[]}> {
         let args = new GenerateExportsArguments();
 
         args.exportFileDestination = dir;

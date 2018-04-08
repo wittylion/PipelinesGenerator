@@ -28,10 +28,11 @@ describe('Testing typescript pipelines generator.', function () {
             before(function (done) {
 
                 helpers.run(path.join(__dirname, '../ts'))
-                    .withArguments('--export-dir')
+                    .withOptions({'--export-dir': 'true'})
                     .on('ready', (generator: Generator) => {
                         generator.fs.write('./Export.ts', 'Export');
                         generator.fs.write('./Files.ts', 'Files');
+                        generator.fs.commit(() => {});
                     })
                     .on('end', done);
             })

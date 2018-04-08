@@ -2,6 +2,7 @@ import { GenerateExportsProcessor } from "../GenerateExportsProcessor";
 import { GenerateExportsArguments } from "../GenerateExportsArguments";
 import { ObtainOptionExecutor } from "../../../../feature/ObtainOption";
 import S from "string";
+import { GenerateExportsOptionNames } from "../GenerateExportsOptionNames";
 
 export class TryToGetDirectoryOfExportFiles extends GenerateExportsProcessor {
     public static readonly Instance = new TryToGetDirectoryOfExportFiles();
@@ -10,7 +11,7 @@ export class TryToGetDirectoryOfExportFiles extends GenerateExportsProcessor {
         let option: string
             = await ObtainOptionExecutor.obtainByKey(
                 args.yeomanGenerator,
-                "exportDir"
+                GenerateExportsOptionNames.EXPORT_DIRECTORY
             );
 
         if (!<any> option) {

@@ -7,23 +7,15 @@ export class TryToGetFilesToExportFromDestinationDirectory extends GenerateExpor
     public static readonly Instance = new TryToGetFilesToExportFromDestinationDirectory();
 
     public async SafeExecute(args: GenerateExportsArguments): Promise<void> {
-        if (args.exportAllFromDestination) {
-
-            if (!fs.existsSync(args.exportFileDestination)) {
-                args.AddWarning(`You passed an option to export everything from a directory, but the [${args.exportFileDestination}] directory was not found.`);
-            }
-            else {
-                fs.readdirSync(args.exportFileDestination).forEach(dir => {
-                    if (args.exportFileNames.indexOf(dir) === -1) {
-                        args.exportFileNames.push(dir);
-                    }
-                });
-            }
+        if (!fs.existsSync(args.exportFileDestination)) {
+            args.AddWarning(`You passed an option to export everything from a directory, but the [${args.exportFileDestination}] directory was not found.`);
         }
-
-        if (args.exportFileNames.length < 1) {
-            args.AbortPipelineWithInformationMessage("No files to export");
-            return;
+        else {
+            fs.readdirSync(args.exportFileDestination).forEach(dir => {
+                if (args.exportFileNames.indexOf(dir) === -1) {
+                    args.exportFileNames.push(dir);
+                }
+            });
         }
     }
 
@@ -32,7 +24,7 @@ export class TryToGetFilesToExportFromDestinationDirectory extends GenerateExpor
     }
 
     public CustomCondition(args: GenerateExportsArguments): boolean {
-        let safeCondition = true;
+        let safeCondition = args.exportAllFromDestination;
         return safeCondition;
     }
 }
