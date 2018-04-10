@@ -6,12 +6,22 @@ import { GenerateCommonFilesArguments } from "../src/project/ts/GenerateCommonFi
 import { ProgramFlowArguments, ProgramFlowExecutor } from "../src/feature/ProgramFlow";
 import { TypescriptProgramFlowPipeline } from "../src/project/ts/TypescriptProgramFlow/TypescriptProgramFlowPipeline";
 
+import yosay from "yosay";
+import c from "chalk";
+
 class PipelinesGenerator extends Generator {
     initializing() {
         Defaults.initializeModels();
     }
 
     prompting() {
+        this.log(
+            yosay(
+                `Hello there, this is a ${c.green("Typescript generator")}. `
+                + "You're about to create a new pipeline. "
+                + "Let's provide some options."
+            )
+        );
     }
 
     configuring() {
@@ -27,7 +37,7 @@ class PipelinesGenerator extends Generator {
         generateCommonFilesArguments.yeomanGenerator = this;
         generateCommonFilesArguments.extension = Defaults.extension;
         generateCommonFilesArguments.modelsProvider = new ModelsProvider();
-        generateCommonFilesArguments.processorGenerator = Defaults.ProcessorGenerator; 
+        generateCommonFilesArguments.processorGenerator = Defaults.ProcessorGenerator;
 
         let executor = new GenerateCommonPipelineFilesExecutor(GenerateCommonFilesPipeline.Instance);
 

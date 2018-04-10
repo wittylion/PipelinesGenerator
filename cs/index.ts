@@ -4,9 +4,22 @@ import { GenerateCommonPipelineFilesArguments, GenerateCommonPipelineFilesExecut
 import Generator = require("yeoman-generator");
 import _ = require("lodash");
 
+import yosay from "yosay";
+import c from "chalk";
+
 class PipelinesGenerator extends Generator {
     initializing() {
         Defaults.initializeModels();
+    }
+
+    prompting() {
+        this.log(
+            yosay(
+                `Hello there, this is a ${c.green("C# generator")}. `
+                + "You're about to create a new pipeline. "
+                + "Let's provide some options."
+            )
+        );
     }
 
     configuring() {
