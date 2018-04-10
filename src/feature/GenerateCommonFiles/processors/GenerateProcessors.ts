@@ -39,7 +39,7 @@ export class GenerateProcessors extends GenerateCommonPipelineFilesProcessor {
                     args.extension
                 );
 
-            await args.processorGenerator.execute(processorGeneration);
+            await args.generatorsProvider.getProcessorGenerator().execute(processorGeneration);
 
             args.processorsFileNames.push(processorGeneration.fileModel.fileName);
         }

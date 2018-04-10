@@ -31,7 +31,6 @@ export class GenerateMainExports extends GenerateCommonPipelineFilesProcessor {
 
         mainExportsGeneration.fileModel = model;
         mainExportsGeneration.creationOptions['exportFileNames'] = [
-            path.basename(args.generatedExecutorFileName, args.extension),
             path.basename(args.generatedArgumentsFileName, args.extension)
         ];
         mainExportsGeneration.yeomanGenerator = args.yeomanGenerator;

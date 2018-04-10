@@ -8,6 +8,7 @@ import { TypescriptProgramFlowPipeline } from "../src/project/ts/TypescriptProgr
 
 import yosay from "yosay";
 import c from "chalk";
+import { GeneratorsProvider } from "../src/project/ts/GenerateCommonFiles/GeneratorsProvider";
 
 class PipelinesGenerator extends Generator {
     initializing() {
@@ -36,8 +37,8 @@ class PipelinesGenerator extends Generator {
         let generateCommonFilesArguments = new GenerateCommonFilesArguments();
         generateCommonFilesArguments.yeomanGenerator = this;
         generateCommonFilesArguments.extension = Defaults.extension;
-        generateCommonFilesArguments.modelsProvider = new ModelsProvider();
-        generateCommonFilesArguments.processorGenerator = Defaults.ProcessorGenerator;
+        generateCommonFilesArguments.modelsProvider = ModelsProvider.Instance;
+        generateCommonFilesArguments.generatorsProvider = GeneratorsProvider.Instance;
 
         let executor = new GenerateCommonPipelineFilesExecutor(GenerateCommonFilesPipeline.Instance);
 

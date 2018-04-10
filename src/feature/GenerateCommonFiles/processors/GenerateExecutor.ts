@@ -3,44 +3,56 @@ import { GenerateCommonPipelineFilesArguments } from "../GenerateCommonPipelineF
 import { GenerateFileFromTemplateArguments, GenerateFileFromTemplateExecutor } from "../../GenerateFileFromTemplate";
 import S from "string";
 import path = require("path");
+import { GenerateExecutorFileArguments, GenerateExecutorFileExecutor } from "../../GenerateExecutorFile";
+import { InteractionModeEnum } from "../../EnsureFileModel/InteractionModeEnum";
 
 export class GenerateExecutor extends GenerateCommonPipelineFilesProcessor {
     public static readonly Instance = new GenerateExecutor();
 
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
         let model = args.modelsProvider.getExecutorModel();
-        if (!model) {
-            args.AbortPipelineWithErrorMessage("You have to specify some data for executor file to be generated.");
-            return;
-        }
-
-        if (S(model.templateName).isEmpty()) {
-            args.AbortPipelineWithErrorMessage("You have to provide a template name for executor file to be generated.");
-            return;
-        }
-
-        if (S(model.className).isEmpty()) {
-            model.className = args.pipelineNameSpecifiedByUser;
-        }
-
-        if (S(model.fileName).isEmpty()) {
-            model.fileName = args.pipelineNameSpecifiedByUser;
-        }
-
         model.subdirectories = [...args.commonSubfolders, ...model.subdirectories];
-        let executorGeneration = new GenerateFileFromTemplateArguments();
 
-        executorGeneration.fileModel = model;
-        executorGeneration.yeomanGenerator = args.yeomanGenerator;
-        executorGeneration.creationOptions['argumentsClassName'] = args.generatedArgumentsClassName;
-        executorGeneration.creationOptions['argumentsFileName']
-            = path.basename(args.generatedArgumentsFileName, args.extension);
-        executorGeneration.creationOptions['pipelineClassName'] = args.generatedPipelineClassName;
-        executorGeneration.creationOptions['pipelineFileName']
-            = path.basename(args.generatedPipelineFileName, args.extension);
+        let executorGeneration = new GenerateExecutorFileArguments(
+            model,
+            args.yeomanGenerator,
+            args.pipelineNameSpecifiedByUser,
+            args.extension,
+            InteractionModeEnum.Minimum
+        );
 
-        await GenerateFileFromTemplateExecutor.Instance.execute(executorGeneration);
-        
+        if (!S(args.generatedArgumentsClassName).isEmpty()) {
+            executorGeneration.argumentsClassName = args.generatedArgumentsClassName;
+        }
+        else {
+            args.AddWarning("Cannot obtain arguments class name during the 'Pipeline executor' creation.");
+        }
+
+        if (!S(args.generatedArgumentsFileName).isEmpty()) {
+            executorGeneration.argumentsFileName
+                = path.basename(args.generatedArgumentsFileName, args.extension);
+        }
+        else {
+            args.AddWarning("Cannot obtain arguments file name during the 'Pipeline executor' creation.");
+        }
+
+        if (!S(args.generatedPipelineClassName).isEmpty()) {
+            executorGeneration.pipelineClassName = args.generatedPipelineClassName;
+        }
+        else {
+            args.AddWarning("Cannot obtain pipeline class name during the 'Pipeline executor' creation.");
+        }
+
+        if (!S(args.generatedPipelineFileName).isEmpty()) {
+            executorGeneration.pipelineFileName
+                = path.basename(args.generatedPipelineFileName, args.extension);
+        }
+        else {
+            args.AddWarning("Cannot obtain pipeline file name during the 'Pipeline executor' creation.");
+        }
+
+        await args.generatorsProvider.getExecutorGenerator().execute(executorGeneration);
+
         args.generatedExecutorClassName = executorGeneration.fileModel.className;
         args.generatedExecutorFileName = executorGeneration.fileModel.fileName;
     }

@@ -11,16 +11,17 @@ export class GenerateExportsRelativePaths extends GenerateExportsProcessor {
         let destination = path.dirname(args.getFilnalName());
 
         args.exportRelativePaths = args.exportFileNames
-        .map(name => name.replace(path.extname(name), ''))
-        .map(name => {
-            let result = path.relative(destination, name);
+            .filter(x => !S(x).isEmpty())
+            .map(name => name.replace(path.extname(name), ''))
+            .map(name => {
+                let result = path.relative(destination, name);
 
-            if (result.indexOf('/') === -1 && result.indexOf('\\\\') === -1) {
-                result = S(result).ensureLeft('./').s;
-            }
+                if (result.indexOf('/') === -1 && result.indexOf('\\\\') === -1) {
+                    result = S(result).ensureLeft('./').s;
+                }
 
-            return result;
-        });
+                return result;
+            });
     }
 
     public SafeCondition(args: GenerateExportsArguments): boolean {
