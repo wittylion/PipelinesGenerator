@@ -27,7 +27,7 @@ export class GenerateAbstractProcessor extends GenerateCommonPipelineFilesProces
             argsPath
         );
 
-        await GenerateAbstractProcessorFileExecutor.Instance.execute(abstractProcessorGeneration);
+        await args.generatorsProvider.getAbstractProcessorGenerator().execute(abstractProcessorGeneration);
 
         args.generatedProcessorClassName = abstractProcessorGeneration.fileModel.className;
         args.generatedProcessorFileName = abstractProcessorGeneration.fileModel.fileName;

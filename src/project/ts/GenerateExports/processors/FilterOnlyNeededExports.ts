@@ -1,17 +1,34 @@
 import { GenerateExportsProcessor } from "../GenerateExportsProcessor";
 import { GenerateExportsArguments } from "../GenerateExportsArguments";
+import { GenerateExportsMessages } from "../GenerateExportsMessages";
+import S from "string";
 
 export class FilterOnlyNeededExports extends GenerateExportsProcessor {
     public static readonly Instance = new FilterOnlyNeededExports();
 
     public async SafeExecute(args: GenerateExportsArguments): Promise<void> {
-        const file = args.yeomanGenerator.fs.read(args.getFilnalName(), 'utf8');
+        const fileName = args.getFilnalName();
+        const file = args.yeomanGenerator.fs.read(fileName, 'utf8');
 
-        args.exportRelativePaths = 
+        args.exportRelativePaths =
             args.exportRelativePaths.filter(path => {
-                return file.indexOf(path) === -1
-                    && !path.endsWith("/index.ts")
-                    && !path.endsWith("/index");
+                if (file.indexOf(path) !== -1) {
+                    args.AddInformation(
+                        S(GenerateExportsMessages.ExportsFileAlreadyContainsThisDeclaration)
+                            .template({ fileName: fileName, path: path }).s
+                    );
+                    return false;
+                }
+
+                if (path.endsWith("/index.ts") || path.endsWith("/index")) {
+                    args.AddInformation(
+                        S(GenerateExportsMessages.CannotAddIndexFileToExports)
+                            .template({ path: path }).s
+                    );
+                    return false;
+                }
+
+                return true;
             });
     }
 

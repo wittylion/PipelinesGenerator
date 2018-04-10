@@ -11,4 +11,8 @@ export class GeneratorsProvider extends DefaultGeneratorsProvider {
     getProcessorGenerator() {
         return Defaults.ProcessorGenerator;
     }
+
+    getArgumentsGenerator() {
+        return Defaults.ArgumentsGenerator;
+    }
 }

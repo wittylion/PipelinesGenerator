@@ -49,6 +49,6 @@ export class GenerateExportsExecutor {
 
         await runner.RunPipeline(GenerateExportsPipeline.Instance, args);
 
-        return {messages: args.GetMessages(MessageFilter.All)};
+        return {messages: args.GetAllMessages()};
     }
 }

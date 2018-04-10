@@ -3,6 +3,7 @@ import { GenerateExportsArguments } from "../GenerateExportsArguments";
 
 import path = require("path");
 import S from "string";
+import { GenerateExportsMessages } from "../GenerateExportsMessages";
 
 export class GenerateExportsRelativePaths extends GenerateExportsProcessor {
     public static readonly Instance = new GenerateExportsRelativePaths();
@@ -11,12 +12,22 @@ export class GenerateExportsRelativePaths extends GenerateExportsProcessor {
         let destination = path.dirname(args.getFilnalName());
 
         args.exportRelativePaths = args.exportFileNames
-            .filter(x => !S(x).isEmpty())
+            .filter((val, index) => {
+                if (S(val).isEmpty()) {
+                    args.AddInformation(
+                        S(GenerateExportsMessages.TheFileOnIndexContainedNoValue)
+                            .template({ index: index }).s
+                    );
+                    return false;
+                }
+
+                return true;
+            })
             .map(name => name.replace(path.extname(name), ''))
             .map(name => {
                 let result = path.relative(destination, name);
 
-                if (result.indexOf('/') === -1 && result.indexOf('\\\\') === -1) {
+                if (result.indexOf('/') === -1 && result.indexOf('\\') === -1) {
                     result = S(result).ensureLeft('./').s;
                 }
 

@@ -6,6 +6,9 @@ export class GenerateTypescriptProcessorFilePipeline extends GenerateProcessorFi
     public static readonly Instance = new GenerateTypescriptProcessorFilePipeline();
 
     GetProcessors(): IProcessor[] {
-        return [...super.GetProcessors(), Processors.UpdateExportsFile.Instance];
+        return [
+            ...super.GetProcessors(), 
+            Processors.UpdateExportsFile.Instance
+        ];
     }
 }

@@ -13,6 +13,8 @@ export class AddExportDeclaration extends GenerateExecutorFileProcessor {
             path.join(...args.fileModel.subdirectories),
             args.fileModel.fileName
         );
+
+        args.AddMessageObjects(res.messages);
     }
 
     public SafeCondition(args: GenerateExecutorFileArguments): boolean {

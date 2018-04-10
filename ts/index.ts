@@ -2,7 +2,6 @@ import Generator = require("yeoman-generator");
 import { GenerateCommonPipelineFilesArguments, GenerateCommonPipelineFilesExecutor } from "../src/feature/GenerateCommonFiles";
 import { ModelsProvider, GenerateCommonFilesPipeline } from "../src/project/ts/GenerateCommonFiles";
 import { Defaults } from "../src/project/ts/Defaults";
-import { GenerateCommonFilesArguments } from "../src/project/ts/GenerateCommonFiles/GenerateCommonFilesArguments";
 import { ProgramFlowArguments, ProgramFlowExecutor } from "../src/feature/ProgramFlow";
 import { TypescriptProgramFlowPipeline } from "../src/project/ts/TypescriptProgramFlow/TypescriptProgramFlowPipeline";
 
@@ -34,7 +33,7 @@ class PipelinesGenerator extends Generator {
     }
 
     async _createPipelineInfrastructure() {
-        let generateCommonFilesArguments = new GenerateCommonFilesArguments();
+        let generateCommonFilesArguments = new GenerateCommonPipelineFilesArguments();
         generateCommonFilesArguments.yeomanGenerator = this;
         generateCommonFilesArguments.extension = Defaults.extension;
         generateCommonFilesArguments.modelsProvider = ModelsProvider.Instance;

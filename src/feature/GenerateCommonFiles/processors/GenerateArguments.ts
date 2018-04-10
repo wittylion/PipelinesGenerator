@@ -26,7 +26,7 @@ export class GenerateArguments extends GenerateCommonPipelineFilesProcessor {
             args.extension
         );
 
-        await GenerateArgumentsFileExecutor.Instance.execute(argumentsGeneration);
+        await args.generatorsProvider.getArgumentsGenerator().execute(argumentsGeneration);
 
         args.generatedArgumentsClassName = argumentsGeneration.fileModel.className;
         args.generatedArgumentsFileName = argumentsGeneration.fileModel.fileName;

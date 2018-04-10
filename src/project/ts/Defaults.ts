@@ -3,6 +3,8 @@ import { GenerateTypescriptProcessorFilePipeline } from "./GenerateTypescriptPro
 import { GenerateProcessorFileExecutor } from "../../feature/GenerateProcessorFile";
 import { GenerateTypescriptExecutorFilePipeline } from "./GenerateTypescriptExecutorFile/GenerateTypescriptExecutorFilePipeline";
 import { GenerateExecutorFileExecutor } from "../../feature/GenerateExecutorFile";
+import { GenerateTypescriptArgumentsFilePipeline } from "./GenerateTypescriptArgumentsFile/GenerateTypescriptArgumentsFilePipeline";
+import { GenerateArgumentsFileExecutor } from "../../feature/GenerateArgumentsFile";
 
 export class Defaults {
 
@@ -15,10 +17,8 @@ export class Defaults {
     public static processorModel: GenerateFileModel;
     public static messagesModel: GenerateFileModel;
 
-    public static GenerateProcessorPipeline = GenerateTypescriptProcessorFilePipeline.Instance;
     public static ProcessorGenerator = new GenerateProcessorFileExecutor(GenerateTypescriptProcessorFilePipeline.Instance);
-
-    public static GenerateExecutorPipeline = GenerateTypescriptExecutorFilePipeline.Instance;
+    public static ArgumentsGenerator = new GenerateArgumentsFileExecutor(GenerateTypescriptArgumentsFilePipeline.Instance);
     public static ExecutorGenerator = new GenerateExecutorFileExecutor(GenerateTypescriptExecutorFilePipeline.Instance);
 
     public static exportDeclaration: string = "export {{classes}} from '{{file}}'";
