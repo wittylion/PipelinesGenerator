@@ -1,4 +1,6 @@
 import { GenerateFileModel } from "../../feature/GenerateFileFromTemplate/models/GenerateFileModel";
+import { GenerateTypescriptProcessorFilePipeline } from "./GenerateTypescriptProcessorFile/GenerateTypescriptProcessorFilePipeline";
+import { GenerateProcessorFileExecutor } from "../../feature/GenerateProcessorFile";
 
 export class Defaults {
 
@@ -10,6 +12,9 @@ export class Defaults {
     public static mainExportsModel: GenerateFileModel;
     public static processorModel: GenerateFileModel;
     public static messagesModel: GenerateFileModel;
+
+    public static GenerateProcessorPipeline = GenerateTypescriptProcessorFilePipeline.Instance;
+    public static ProcessorGenerator = new GenerateProcessorFileExecutor(GenerateTypescriptProcessorFilePipeline.Instance);
 
     public static exportDeclaration: string = "export {{classes}} from '{{file}}'";
 

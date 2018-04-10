@@ -270,6 +270,10 @@ describe('Testing typescript pipelines generator.', function () {
             it('Creates processors in the subfolder;', function () {
                 assert.file('./HelloWorld/processors/HelloWorld.ts');
             });
+
+            it('Creates processors exports file in HelloWorld subfolder and in processors subfolder;', function () {
+                assert.file('./HelloWorld/processors/index.ts');
+            });
         });
 
         describe('When only pipeline is set:', function () {

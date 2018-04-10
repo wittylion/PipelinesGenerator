@@ -1,6 +1,7 @@
 import { PipelineContext } from "solid-pipelines";
 import Generator = require("yeoman-generator");
 import { IModelsProvider } from "./IModelsProvider";
+import { GenerateProcessorFileExecutor } from "../GenerateProcessorFile";
 
 export class GenerateCommonPipelineFilesArguments extends PipelineContext {
     yeomanGenerator: Generator;
@@ -21,6 +22,7 @@ export class GenerateCommonPipelineFilesArguments extends PipelineContext {
 
     processorsNames: string[] = [];
     processorsFileNames: string[] = [];
+    processorGenerator: GenerateProcessorFileExecutor = GenerateProcessorFileExecutor.Instance;
 
     generatedPipelineClassName: string;
     generatedPipelineFileName: string;

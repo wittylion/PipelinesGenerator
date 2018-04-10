@@ -10,8 +10,4 @@ export class GenerateCommonFilesPipeline extends GenerateCommonPipelineFilesPipe
             Processors.GenerateMainExports.Instance
         ];
     }
-
-    GenerateProcessors(): IProcessor[] {
-        return [...super.GenerateProcessors(), Processors.GenerateProcessorsExports.Instance];
-    }
 }

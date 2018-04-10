@@ -27,6 +27,7 @@ class PipelinesGenerator extends Generator {
         generateCommonFilesArguments.yeomanGenerator = this;
         generateCommonFilesArguments.extension = Defaults.extension;
         generateCommonFilesArguments.modelsProvider = new ModelsProvider();
+        generateCommonFilesArguments.processorGenerator = Defaults.ProcessorGenerator; 
 
         let executor = new GenerateCommonPipelineFilesExecutor(GenerateCommonFilesPipeline.Instance);
 
