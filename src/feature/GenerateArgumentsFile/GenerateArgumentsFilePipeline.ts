@@ -9,7 +9,7 @@ export class GenerateArgumentsFilePipeline implements IPipeline {
             Processors.EnsureMembers.Instance,
             Processors.EnsureFileModel.Instance,
             Processors.GenerateArgumentsFile.Instance,
-        
+            
         ];
     }
 }

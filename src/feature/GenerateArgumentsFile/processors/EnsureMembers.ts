@@ -4,6 +4,7 @@ import { EnsureFileModelArguments, EnsureFileModelExecutor } from "../../EnsureF
 import { EnsureOptionExecutor } from "../../EnsureOption";
 import S from "string";
 import { InputTypeEnum } from "../../../foundation/YeomanQuestions";
+import { GenerateArgumentsFileOptions } from "../GenerateArgumentsFileOptions";
 
 export class EnsureMembers extends GenerateArgumentsFileProcessor {
     public static readonly Instance = new EnsureMembers();
@@ -12,7 +13,7 @@ export class EnsureMembers extends GenerateArgumentsFileProcessor {
 
         let answer: string = await EnsureOptionExecutor.Instance.obtainByKey(
             args.yeomanGenerator,
-            `argumentsMembers`,
+            GenerateArgumentsFileOptions.ARGUMENTS_MEMBERS,
             InputTypeEnum.Input,
             false,
             false

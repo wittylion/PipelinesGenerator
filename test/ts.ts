@@ -342,11 +342,11 @@ describe('Testing typescript pipelines generator.', function () {
             it('Сreates members in arguments file;', function () {
                 assert.fileContent(
                     './TestedPipelineArguments.ts',
-                    /Hello: string;/
+                    /public Hello: string,/
                 );
                 assert.fileContent(
                     './TestedPipelineArguments.ts',
-                    /World: string;/
+                    /public World: string,/
                 );
             });
         });

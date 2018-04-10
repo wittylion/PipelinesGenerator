@@ -1,7 +1,8 @@
 import { PipelineContext } from "solid-pipelines";
 
 export class <%= name %> extends PipelineContext {
-    <% argumentsMemebers.forEach(function(member){ %><%= member %>: string;
+    constructor(
+    <% argumentsMemebers.forEach(function(member){ %>public <%= member %>: string,
     <% }); %>
-    
+    ) {  }
 }
