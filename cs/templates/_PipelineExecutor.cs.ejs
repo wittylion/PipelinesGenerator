@@ -5,12 +5,19 @@ namespace MyNamespace
 {
     public class <%= name %>
     {
-        public static readonly <%= name %> Instance = new <%= name %>();
+        public static readonly <%= name %> Instance = new <%= name %>(<%= pipelineClassName %>.Instance);
+
+        public IPipeline Pipeline { get; }
+
+        public <%= name %>(IPipeline pipeline)
+        {
+            this.Pipeline = pipeline;
+        }
 
         public virtual Task Execute(<%= argumentsClassName %> arguments)
         {
             PipelineRunner runner = new PipelineRunner();
-            return runner.RunPipeline(<%= pipelineClassName %>.Instance, arguments);
+            return runner.RunPipeline(this.Pipeline, arguments);
         }
     }
 }
