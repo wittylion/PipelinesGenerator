@@ -27,7 +27,8 @@
   "dependencies": {
     "solid-pipelines": "^1.1.1",
     "string": "^3.3.3",
-    "yeoman-generator": "^2.0.3"
+    "yeoman-generator": "^2.0.3",
+    "yosay": "^2.0.2"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.106",
