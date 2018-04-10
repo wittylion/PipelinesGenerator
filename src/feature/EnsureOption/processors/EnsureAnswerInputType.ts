@@ -1,6 +1,6 @@
 import { EnsureOptionProcessor } from "../EnsureOptionProcessor";
 import { EnsureOptionArguments } from "../EnsureOptionArguments";
-import { InputTypeEnum } from "../InputTypeEnum";
+import { InputTypeEnum } from "../../../foundation/YeomanQuestions";
 
 export class EnsureAnswerInputType extends EnsureOptionProcessor {
     public static readonly Instance = new EnsureAnswerInputType();

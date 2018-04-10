@@ -2,8 +2,8 @@ import { GenerateCommonPipelineFilesProcessor } from "../GenerateCommonPipelineF
 import { GenerateCommonPipelineFilesArguments } from "../GenerateCommonPipelineFilesArguments";
 import S from "string";
 import { EnsureOptionExecutor } from "../../EnsureOption";
-import { InputTypeEnum } from "../../EnsureOption/InputTypeEnum";
 import path = require("path");
+import { InputTypeEnum } from "../../../foundation/YeomanQuestions";
 
 export class TryToGetPipelineName extends GenerateCommonPipelineFilesProcessor {
     public static readonly Instance = new TryToGetPipelineName();

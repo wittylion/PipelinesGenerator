@@ -2,7 +2,7 @@ import { PipelineRunner } from "solid-pipelines";
 import { EnsureOptionArguments } from './EnsureOptionArguments'
 import { EnsureOptionPipeline } from './EnsureOptionPipeline'
 import Generator = require('yeoman-generator');
-import { InputTypeEnum } from "./InputTypeEnum";
+import { InputTypeEnum } from "../../foundation/YeomanQuestions";
 
 export class EnsureOptionExecutor {
     public static Instance: EnsureOptionExecutor = new EnsureOptionExecutor();

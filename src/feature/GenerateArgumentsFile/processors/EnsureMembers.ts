@@ -2,8 +2,8 @@ import { GenerateArgumentsFileProcessor } from "../GenerateArgumentsFileProcesso
 import { GenerateArgumentsFileArguments } from "../GenerateArgumentsFileArguments";
 import { EnsureFileModelArguments, EnsureFileModelExecutor } from "../../EnsureFileModel";
 import { EnsureOptionExecutor } from "../../EnsureOption";
-import { InputTypeEnum } from "../../EnsureOption/InputTypeEnum";
 import S from "string";
+import { InputTypeEnum } from "../../../foundation/YeomanQuestions";
 
 export class EnsureMembers extends GenerateArgumentsFileProcessor {
     public static readonly Instance = new EnsureMembers();

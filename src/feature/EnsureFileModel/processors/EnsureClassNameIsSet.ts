@@ -1,9 +1,9 @@
 import { EnsureFileModelProcessor } from "../EnsureFileModelProcessor";
 import { EnsureFileModelArguments } from "../EnsureFileModelArguments";
 import { EnsureOptionExecutor } from "../../EnsureOption";
-import { InputTypeEnum } from "../../EnsureOption/InputTypeEnum";
 import S from "string";
 import { InteractionModeEnum } from "../InteractionModeEnum";
+import { InputTypeEnum } from "../../../foundation/YeomanQuestions";
 
 export class EnsureClassNameIsSet extends EnsureFileModelProcessor {
     public static readonly Instance = new EnsureClassNameIsSet();

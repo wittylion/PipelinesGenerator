@@ -1,7 +1,6 @@
 import { PipelineContext } from "solid-pipelines";
 import Generator = require("yeoman-generator");
-import { ResultTypeEnum } from "./ResultTypeEnum";
-import { InputTypeEnum } from "./InputTypeEnum";
+import { InputTypeEnum } from "../../foundation/YeomanQuestions";
 
 export class EnsureOptionArguments extends PipelineContext {
     public static Create(

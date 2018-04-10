@@ -1,7 +1,7 @@
 import { EnsureOptionProcessor } from "../EnsureOptionProcessor";
 import { EnsureOptionArguments } from "../EnsureOptionArguments";
 import S from "string";
-import { InputTypeEnum } from "../InputTypeEnum";
+import { InputTypeEnum } from "../../../foundation/YeomanQuestions";
 
 export class AdjustDefaultValuesForConfirm extends EnsureOptionProcessor {
     public static readonly Instance = new AdjustDefaultValuesForConfirm();
