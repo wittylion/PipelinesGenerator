@@ -15,7 +15,7 @@ export class GenerateExportsRelativePaths extends GenerateExportsProcessor {
         .map(name => {
             let result = path.relative(destination, name);
 
-            if (result.indexOf('/') === -1) {
+            if (result.indexOf('/') === -1 || result.indexOf('\\\\') === -1) {
                 result = S(result).ensureLeft('./').s;
             }
 

@@ -13,7 +13,7 @@ export class EnsureExportsFile extends GenerateExportsProcessor {
     }
 
     public CustomCondition(args: GenerateExportsArguments): boolean {
-        let safeCondition = !args.yeomanGenerator.fs.exists(args.exportFileDestination);
+        let safeCondition = !args.yeomanGenerator.fs.exists(args.getFilnalName());
         return safeCondition;
     }
 }

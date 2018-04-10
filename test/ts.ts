@@ -37,6 +37,45 @@ describe('Testing typescript pipelines generator.', function () {
             });
         });
 
+        describe('When updates file with exports declaration:', function () {
+            before(function (done) {
+
+                helpers.run(path.join(__dirname, '../ts'))
+                    .withOptions({'--export-dir': 'true'})
+                    .on('ready', (generator: Generator) => {
+                        generator.fs.write('./Update.ts', 'Update');
+                        generator.fs.write('./index.ts', 'export * from "../SomeFile"');
+                        generator.fs.commit(() => {});
+                    })
+                    .on('end', done);
+            })
+
+            it('Creates a proper structure;', function () {
+                assert.file(['./Update.ts', './index.ts']);
+            });
+
+            it(`Creates export decalration for Update.ts of the files;`, function () {
+                assert.fileContent(
+                    './index.ts',
+                    /export \* from '\.\/Update'/
+                );
+            });
+
+            it(`Doesn't delete a decalration for [SomeFile];`, function () {
+                assert.fileContent(
+                    './index.ts',
+                    /export \* from ('|")\.\.\/SomeFile('|")/
+                );
+            });
+
+            it(`Doesn't add a decalration for [index] file itself;`, function () {
+                assert.noFileContent(
+                    './index.ts',
+                    /export \* from ('|")\.\/index('|")/
+                );
+            });
+        });
+
         describe('When generates file with exports declaration:', function () {
             before(function (done) {
 

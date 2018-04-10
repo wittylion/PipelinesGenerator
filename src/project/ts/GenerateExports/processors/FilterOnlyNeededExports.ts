@@ -10,6 +10,8 @@ export class FilterOnlyNeededExports extends GenerateExportsProcessor {
         args.exportRelativePaths = 
             args.exportRelativePaths.filter(path => {
                 return file.indexOf(path) === -1
+                    && !path.endsWith("/index.ts")
+                    && !path.endsWith("/index");
             });
     }
 
