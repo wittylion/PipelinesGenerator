@@ -14,9 +14,9 @@ export class CreateExports extends ProgramFlowProcessor {
             args.yeomanGenerator,
             GenerateExportsOptionNames.EXPORT_DIRECTORY
         );
-        let dir = undefined;
+        let dir = option;
 
-        if (S(option).isEmpty()) {
+        if (S(dir).isEmpty()) {
             return;
         }
 
