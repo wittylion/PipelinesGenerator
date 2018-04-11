@@ -34,14 +34,12 @@ class PipelinesGenerator extends Generator {
 
     async _createPipelineInfrastructure() {
 
-        let executor = new GenerateCommonPipelineFilesExecutor(GenerateCommonFilesPipeline.Instance);
-
         let programFlowArguments = new ProgramFlowArguments(
             this, 
             ModelsProvider.Instance, 
             GeneratorsProvider.Instance
         );
-        programFlowArguments.commonFilesGenerator = executor;
+        programFlowArguments.commonFilesGenerator = new GenerateCommonPipelineFilesExecutor(GenerateCommonFilesPipeline.Instance);
         
         let programFlow = new ProgramFlowExecutor(TypescriptProgramFlowPipeline.Instance);
 
