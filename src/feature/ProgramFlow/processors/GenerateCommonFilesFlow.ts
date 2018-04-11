@@ -8,9 +8,8 @@ export class GenerateCommonFilesFlow extends ProgramFlowProcessor {
     public async SafeExecute(args: ProgramFlowArguments): Promise<void> {
         await args.commonFilesGenerator.execute(args.commonFilesGeneratorArguments);
 
-        args.commonFilesGeneratorArguments
-            .GetMessages(MessageFilter.All)
-            .forEach(message => args.AddMessageObject(message));
+        args.AddMessageObjects(
+            args.commonFilesGeneratorArguments.GetAllMessages());
     }
 
     public SafeCondition(args: ProgramFlowArguments): boolean {

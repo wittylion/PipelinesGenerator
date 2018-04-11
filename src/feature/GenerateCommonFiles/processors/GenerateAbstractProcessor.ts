@@ -4,6 +4,7 @@ import { GenerateFileFromTemplateArguments, GenerateFileFromTemplateExecutor } f
 import S from "string";
 import path = require("path");
 import { GenerateAbstractProcessorFileArguments, GenerateAbstractProcessorFileExecutor } from "../../GenerateAbstractProcessorFile";
+import { GenerateTypescriptPathExecutor } from "../../../foundation/GenerateTypescriptPath";
 
 export class GenerateAbstractProcessor extends GenerateCommonPipelineFilesProcessor {
     public static readonly Instance = new GenerateAbstractProcessor();
@@ -11,12 +12,15 @@ export class GenerateAbstractProcessor extends GenerateCommonPipelineFilesProces
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
         let model = args.modelsProvider.getAbstractProcessorModel();
         model.subdirectories = [...args.commonSubfolders, ...model.subdirectories];
-        let argsPath =
-            path.basename(
-                path.relative(
-                    args.yeomanGenerator.destinationRoot(),
-                    args.yeomanGenerator.destinationPath(args.generatedArgumentsFileName)
-                ), args.extension);
+
+        let importPath = await GenerateTypescriptPathExecutor.Instance.getPath(
+            args.yeomanGenerator.destinationPath(
+                model.getSubdirectory()),
+            args.generatedArgumentsFileName);
+
+        args.AddMessageObjects(importPath.messages);
+
+        let argsPath = importPath.result;
 
         let abstractProcessorGeneration = new GenerateAbstractProcessorFileArguments(
             model,

@@ -4,5 +4,7 @@ export class <%= name %> extends PipelineContext {
     constructor(
     <% argumentsMemebers.forEach(function(member){ %>public <%= member %>: string,
     <% }); %>
-    ) {  }
+    ) { 
+        super();
+    }
 }

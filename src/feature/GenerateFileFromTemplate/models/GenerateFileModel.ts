@@ -13,4 +13,8 @@ export class GenerateFileModel {
     ensureSuffixInClassName: boolean = true;
 
     suffix: string;
+
+    getSubdirectory(): string {
+        return path.join(...this.subdirectories);
+    }
 }
