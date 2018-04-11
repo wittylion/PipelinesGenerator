@@ -8,6 +8,8 @@ import { GenerateAbstractProcessorFileOptions } from "../../GenerateAbstractProc
 import { GenerateProcessorFileOptions } from "../../GenerateProcessorFile/GenerateProcessorFileOptions";
 import { MessageType } from "solid-pipelines";
 
+import fs = require("fs");
+
 export class CreateProcessor extends ProgramFlowProcessor {
     public static readonly Instance = new CreateProcessor();
 
@@ -51,6 +53,11 @@ export class CreateProcessor extends ProgramFlowProcessor {
             processorGeneration.abstractProcessorFileName = abstractProcessorName;
         }
 
+        if (!fs.existsSync(
+            args.yeomanGenerator.destinationPath(model.getSubdirectory()))) {
+            model.subdirectories = [];
+        }
+
         let result
             = await GenerateProcessorFileExecutor.Instance.execute(processorGeneration);
 
@@ -62,7 +69,7 @@ export class CreateProcessor extends ProgramFlowProcessor {
         else {
             args.AbortPipelineWithInformationMessage("Processor is created.");
         }
-        
+
         args.AddMessageObjects(result.messages);
     }
 

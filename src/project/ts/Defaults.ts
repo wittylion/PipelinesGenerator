@@ -74,5 +74,6 @@ export class Defaults {
         Defaults.processorModel = new GenerateFileModel();
         Defaults.processorModel.templateName = "_predefinedProcessor.ts.ejs";
         Defaults.processorModel.extension = Defaults.extension;
+        Defaults.processorModel.subdirectories.push('processors');
     }
 }

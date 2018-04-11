@@ -18,7 +18,7 @@ export class GenerateProcessors extends GenerateCommonPipelineFilesProcessor {
         });
 
         for (const model of processorsModels) {
-            model.subdirectories = [...args.commonSubfolders, ...model.subdirectories, 'processors'];
+            model.subdirectories = [...args.commonSubfolders, ...model.subdirectories];
 
             let processorGeneration = new GenerateProcessorFileArguments(
                 model,

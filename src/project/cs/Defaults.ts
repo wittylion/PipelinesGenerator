@@ -61,5 +61,6 @@ export class Defaults {
         Defaults.processorModel.templateName = "_PredefinedProcessor.cs.ejs";
         Defaults.processorModel.extension = Defaults.extension;
         Defaults.processorModel.subdirectoryNameTuner = Defaults.commonSubdirectoryCaseTuner;
+        Defaults.processorModel.subdirectories.push('Processors');
     }
 }

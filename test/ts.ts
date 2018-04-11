@@ -24,7 +24,7 @@ describe('Testing typescript pipelines generator.', function () {
             });
         });
 
-        describe('When generates a single processor:', function () {
+        describe('When generates a single processor in empty directory:', function () {
             before(function (done) {
 
                 helpers.run(path.join(__dirname, '../ts'))
@@ -34,6 +34,32 @@ describe('Testing typescript pipelines generator.', function () {
 
             it(`Generates processor file;`, function () {
                 assert.file('./P.ts');
+            });
+        });
+        
+
+        describe('When generates a single processor in directory with processors folder:', function () {
+            before(function (done) {
+
+                helpers.run(path.join(__dirname, '../ts'))
+                    .withOptions({'--processor': 'P'})
+                    .on('ready', (generator: Generator) => {
+                        generator.fs.write('./processors/AnotherProcessor.ts', '');
+                        generator.fs.commit(() => {});
+                    })
+                    .on('end', done);
+            })
+
+            it(`Creates a proper structure;`, function () {
+                assert.file('./processors/AnotherProcessor.ts');
+            });
+
+            it(`Generates processor file in processors folder;`, function () {
+                assert.file('./processors/P.ts');
+            });
+
+            it(`Does not generate processor file in root folder;`, function () {
+                assert.noFile('./P.ts');
             });
         });
 
