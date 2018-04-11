@@ -17,7 +17,6 @@ export class GenerateExecutorFileArguments extends YeomanContext {
         public fileModel: GenerateFileModel,
         public yeomanGenerator: Generator,
         public possibleName?: string,
-        public possibleExtension?: string,
         public interactionMode?: InteractionModeEnum
     ) {
         super(yeomanGenerator);

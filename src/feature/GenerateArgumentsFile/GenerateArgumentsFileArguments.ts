@@ -9,17 +9,15 @@ export class GenerateArgumentsFileArguments extends PipelineContext {
         fileModel: GenerateFileModel,
         yeomanGenerator: Generator,
         possibleName?: string,
-        possibleExtension?: string,
         interactionMode?: InteractionModeEnum
     ): GenerateArgumentsFileArguments {
-        return new GenerateArgumentsFileArguments(fileModel, yeomanGenerator, possibleName, possibleExtension, interactionMode);
+        return new GenerateArgumentsFileArguments(fileModel, yeomanGenerator, possibleName, interactionMode);
     }
 
     constructor(
         public fileModel: GenerateFileModel,
         public yeomanGenerator: Generator,
         public possibleName?: string,
-        public possibleExtension?: string,
         public interactionMode?: InteractionModeEnum,
         public askForMembers?: boolean,
         public members: string[] = []

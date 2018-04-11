@@ -11,7 +11,6 @@ export class EnsureFileModel extends GenerateProcessorFileProcessor {
             args.yeomanGenerator,
             args.fileModel,
             args.possibleName,
-            args.possibleExtension,
             GenerateProcessorFileOptions.PROCESSOR_NAME,
             args.interactionMode
         );

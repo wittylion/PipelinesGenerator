@@ -2,7 +2,7 @@ import { GenerateCommonPipelineFilesProcessor } from "../GenerateCommonPipelineF
 import { GenerateCommonPipelineFilesArguments } from "../GenerateCommonPipelineFilesArguments";
 import { GenerateFileFromTemplateArguments, GenerateFileFromTemplateExecutor } from "../../GenerateFileFromTemplate";
 import S from "string";
-import path = require("path");
+import upath = require("upath");
 import { GenerateExecutorFileArguments, GenerateExecutorFileExecutor } from "../../GenerateExecutorFile";
 import { InteractionModeEnum } from "../../EnsureFileModel/InteractionModeEnum";
 
@@ -17,7 +17,6 @@ export class GenerateExecutor extends GenerateCommonPipelineFilesProcessor {
             model,
             args.yeomanGenerator,
             args.pipelineNameSpecifiedByUser,
-            args.extension,
             InteractionModeEnum.Minimum
         );
 
@@ -30,7 +29,7 @@ export class GenerateExecutor extends GenerateCommonPipelineFilesProcessor {
 
         if (!S(args.generatedArgumentsFileName).isEmpty()) {
             executorGeneration.argumentsFileName
-                = path.basename(args.generatedArgumentsFileName, args.extension);
+                = upath.trimExt(upath.basename(args.generatedArgumentsFileName));
         }
         else {
             args.AddWarning("Cannot obtain arguments file name during the 'Pipeline executor' creation.");
@@ -45,7 +44,7 @@ export class GenerateExecutor extends GenerateCommonPipelineFilesProcessor {
 
         if (!S(args.generatedPipelineFileName).isEmpty()) {
             executorGeneration.pipelineFileName
-                = path.basename(args.generatedPipelineFileName, args.extension);
+                = upath.trimExt(upath.basename(args.generatedPipelineFileName));
         }
         else {
             args.AddWarning("Cannot obtain pipeline file name during the 'Pipeline executor' creation.");

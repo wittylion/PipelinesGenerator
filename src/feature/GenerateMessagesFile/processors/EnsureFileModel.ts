@@ -10,7 +10,6 @@ export class EnsureFileModel extends GenerateMessagesFileProcessor {
             args.yeomanGenerator,
             args.fileModel,
             args.possibleName,
-            args.possibleExtension,
             undefined,
             args.interactionMode
         );

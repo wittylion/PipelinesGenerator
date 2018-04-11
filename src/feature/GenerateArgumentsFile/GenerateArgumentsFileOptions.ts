@@ -1,4 +1,4 @@
 export enum GenerateArgumentsFileOptions {
-    ARGUMENTS_NAME = "argumentsName",
+    ARGUMENTS_NAME = "arguments",
     ARGUMENTS_MEMBERS = "argumentsMembers",
 }

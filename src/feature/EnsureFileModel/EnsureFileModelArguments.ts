@@ -10,14 +10,12 @@ export class EnsureFileModelArguments extends YeomanContext {
         model?: GenerateFileModel,
         possibleName?: string,
         possibleOption?: string,
-        possibleExtension?: string,
         interactionMode?: InteractionModeEnum
     ): EnsureFileModelArguments {
         return new EnsureFileModelArguments(
             yeomanGenerator,
             model,
             possibleName,
-            possibleExtension,
             possibleOption,
             interactionMode
         );
@@ -28,19 +26,16 @@ export class EnsureFileModelArguments extends YeomanContext {
         model?: GenerateFileModel,
         possibleName?: string,
         public possibleOption?: string,
-        possibleExtension?: string,
         interactionMode?: InteractionModeEnum
     ) {
         super(yeomanGenerator);
         this.interactionMode = interactionMode;
         this.possibleName = possibleName;
-        this.possibleExtension = possibleExtension;
         this.fileModel = !model ? new GenerateFileModel() : model;
     }
 
     interactionMode: InteractionModeEnum;
     possibleName: string;
-    possibleExtension: string;
 
     fileModel: GenerateFileModel;
 }

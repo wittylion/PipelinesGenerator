@@ -18,15 +18,11 @@ export class CreateProcessor extends ProgramFlowProcessor {
             GenerateProcessorFileOptions.PROCESSOR_NAME
         );
 
-        if (S(processorName).isEmpty()) {
+        if (S(processorName).isEmpty() && !<any>processorName) {
             return;
         }
 
-        if (!<any>processorName) {
-            return;
-        }
-
-        let model = args.commonFilesGeneratorArguments.modelsProvider.getProcessorModel();
+        let model = args.modelsProvider.getProcessorModel();
         model.className = processorName;
 
         let processorGeneration = new GenerateProcessorFileArguments(
@@ -58,18 +54,16 @@ export class CreateProcessor extends ProgramFlowProcessor {
         let result
             = await GenerateProcessorFileExecutor.Instance.execute(processorGeneration);
 
-        let failMessages = result.messages.filter(
-            x => x.MessageType == MessageType.Error
-                || x.MessageType == MessageType.Warning
-        );
+        let failMessages = processorGeneration.GetWarningsAndErrors();
 
         if (failMessages.length > 0) {
             args.AbortPipelineWithErrorMessage("Cannot create a processor");
-            result.messages.forEach(x => args.AddMessageObject(x));
         }
         else {
             args.AbortPipelineWithInformationMessage("Processor is created.");
         }
+        
+        args.AddMessageObjects(result.messages);
     }
 
     public SafeCondition(args: ProgramFlowArguments): boolean {

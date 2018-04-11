@@ -11,18 +11,14 @@ export class EnsureExtensionIsSet extends EnsureFileModelProcessor {
     public static readonly Instance = new EnsureExtensionIsSet();
 
     public async SafeExecute(args: EnsureFileModelArguments): Promise<void> {
-        if (args.interactionMode == InteractionModeEnum.Maximum) {
-            args.fileModel.extension = await EnsureOptionExecutor.Instance.obtainByKey(
-                args.yeomanGenerator,
-                `extension`,
-                InputTypeEnum.Input,
-                false,
-                false,
-                path.basename(args.yeomanGenerator.destinationRoot())
-            );
-        } else {
-            args.fileModel.extension = args.possibleExtension;
-        }
+        args.fileModel.extension = await EnsureOptionExecutor.Instance.obtainByKey(
+            args.yeomanGenerator,
+            `extension`,
+            InputTypeEnum.Input,
+            false,
+            false,
+            path.basename(args.yeomanGenerator.destinationRoot())
+        );
     }
 
     public SafeCondition(args: EnsureFileModelArguments): boolean {

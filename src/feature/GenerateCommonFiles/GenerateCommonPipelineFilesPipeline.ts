@@ -11,7 +11,6 @@ export class GenerateCommonPipelineFilesPipeline implements IPipeline {
             Processors.TryToGetProcessors.Instance,
             Processors.AskForSubfolderCreation.Instance,
             Processors.ValidatePipelineName.Instance,
-            Processors.EnsureExtensionIsSet.Instance,
             Processors.EnsureCommonSubfolders.Instance,
             ...this.GenerateArguments(),
             ...this.GenerateAbstractProcessor(),

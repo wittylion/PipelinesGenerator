@@ -17,7 +17,6 @@ export class GenerateAbstractProcessorFileArguments extends PipelineContext {
             fileModel,
             yeomanGenerator,
             possibleName,
-            possibleExtension,
             argumentsClassName,
             argumentsFileName,
             interactionMode);
@@ -27,7 +26,6 @@ export class GenerateAbstractProcessorFileArguments extends PipelineContext {
         public fileModel: GenerateFileModel,
         public yeomanGenerator: Generator,
         public possibleName?: string,
-        public possibleExtension?: string,
         public argumentsClassName?: string,
         public argumentsFileName?: string,
         public interactionMode?: InteractionModeEnum) {

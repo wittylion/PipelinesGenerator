@@ -31,9 +31,7 @@ class PipelinesGenerator extends Generator {
     }
 
     async _createPipelineInfrastructure() {
-        let generateCommonFilesArguments = new GenerateCommonPipelineFilesArguments();
-        generateCommonFilesArguments.extension = Defaults.extension;
-        generateCommonFilesArguments.yeomanGenerator = this;
+        let generateCommonFilesArguments = new GenerateCommonPipelineFilesArguments(this);
         generateCommonFilesArguments.modelsProvider = new ModelsProvider();
         
         await GenerateCommonPipelineFilesExecutor.Instance.execute(generateCommonFilesArguments);

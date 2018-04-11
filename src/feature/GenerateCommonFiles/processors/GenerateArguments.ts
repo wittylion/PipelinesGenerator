@@ -22,8 +22,7 @@ export class GenerateArguments extends GenerateCommonPipelineFilesProcessor {
         let argumentsGeneration = GenerateArgumentsFileArguments.Create(
             model, 
             args.yeomanGenerator,
-            args.pipelineNameSpecifiedByUser,
-            args.extension
+            args.pipelineNameSpecifiedByUser
         );
 
         await args.generatorsProvider.getArgumentsGenerator().execute(argumentsGeneration);

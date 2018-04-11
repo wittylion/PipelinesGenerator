@@ -1,7 +1,7 @@
 import { GenerateCommonPipelineFilesProcessor } from "../GenerateCommonPipelineFilesProcessor";
 import { GenerateCommonPipelineFilesArguments } from "../GenerateCommonPipelineFilesArguments";
 import S from "string";
-import path = require("path");
+import upath = require("upath");
 import { GenerateProcessorFileArguments, GenerateProcessorFileExecutor } from "../../GenerateProcessorFile";
 import { MessageFilter } from "solid-pipelines";
 
@@ -27,17 +27,15 @@ export class GenerateProcessors extends GenerateCommonPipelineFilesProcessor {
 
             processorGeneration.argumentsClassName = args.generatedArgumentsClassName;
             processorGeneration.argumentsFileName
-                = path.basename(
-                    args.generatedArgumentsFileName,
-                    args.extension
-                );
+                = upath.trimExt(upath.basename(
+                    args.generatedArgumentsFileName
+                ));
 
             processorGeneration.abstractProcessorClassName = args.generatedProcessorClassName;
             processorGeneration.abstractProcessorFileName
-                = path.basename(
-                    args.generatedProcessorFileName,
-                    args.extension
-                );
+                = upath.trimExt(upath.basename(
+                    args.generatedProcessorFileName
+                ));
 
             await args.generatorsProvider.getProcessorGenerator().execute(processorGeneration);
 

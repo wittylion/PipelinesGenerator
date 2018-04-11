@@ -15,8 +15,7 @@ export class GeneratePipeline extends GenerateCommonPipelineFilesProcessor {
         let ensurer = EnsureFileModelArguments.Create(
             args.yeomanGenerator,
             model,
-            args.pipelineNameSpecifiedByUser,
-            args.extension
+            args.pipelineNameSpecifiedByUser
         );
         await EnsureFileModelExecutor.Instance.execute(ensurer);
 

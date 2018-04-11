@@ -5,11 +5,9 @@ import { GenerateProcessorFileExecutor } from "../GenerateProcessorFile";
 import { GenerateExecutorFileExecutor } from "../GenerateExecutorFile";
 import { IGeneratorsProvider } from "./abstractions/IGeneratorsProvider";
 import { DefaultGeneratorsProvider } from "./DefaultGeneratorsProvider";
+import { YeomanContext } from "../../foundation/PipelinesExtensions";
 
-export class GenerateCommonPipelineFilesArguments extends PipelineContext {
-    yeomanGenerator: Generator;
-
-    extension: string;
+export class GenerateCommonPipelineFilesArguments extends YeomanContext {
     pipelineNameSpecifiedByUser: string;
     createSubfolderWithPipelineName: boolean;
     commonSubfolders: string[] = [];

@@ -2,9 +2,20 @@ import { PipelineContext } from "solid-pipelines";
 import { GenerateCommonPipelineFilesExecutor, GenerateCommonPipelineFilesArguments } from "../GenerateCommonFiles";
 
 import Generator = require("yeoman-generator");
+import { IModelsProvider } from "../GenerateCommonFiles/IModelsProvider";
+import { IGeneratorsProvider } from "../GenerateCommonFiles/abstractions/IGeneratorsProvider";
+import { DefaultGeneratorsProvider } from "../GenerateCommonFiles/DefaultGeneratorsProvider";
+import { YeomanContext } from "../../foundation/PipelinesExtensions";
 
-export class ProgramFlowArguments extends PipelineContext {
-    yeomanGenerator: Generator;
-    commonFilesGeneratorArguments: GenerateCommonPipelineFilesArguments;
+export class ProgramFlowArguments extends YeomanContext {
+
+    constructor(
+        yeomanGenerator: Generator,
+        public modelsProvider: IModelsProvider,
+        public generatorsProvider: IGeneratorsProvider = DefaultGeneratorsProvider.Instance
+    ) {
+        super(yeomanGenerator);
+    }
+
     commonFilesGenerator: GenerateCommonPipelineFilesExecutor;
 }

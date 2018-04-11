@@ -12,7 +12,6 @@ export class EnsureFileModel extends GenerateArgumentsFileProcessor {
             args.fileModel,
             args.possibleName,
             GenerateArgumentsFileOptions.ARGUMENTS_NAME,
-            args.possibleExtension,
             args.interactionMode
         );
         await EnsureFileModelExecutor.Instance.execute(ensurer);
