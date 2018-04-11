@@ -1,6 +1,7 @@
 import { GenerateProcessorFileProcessor } from "../GenerateProcessorFileProcessor";
 import { GenerateProcessorFileArguments } from "../GenerateProcessorFileArguments";
 import { EnsureFileModelArguments, EnsureFileModelExecutor } from "../../EnsureFileModel";
+import { GenerateProcessorFileOptions } from "../GenerateProcessorFileOptions";
 
 export class EnsureFileModel extends GenerateProcessorFileProcessor {
     public static readonly Instance = new EnsureFileModel();
@@ -11,6 +12,7 @@ export class EnsureFileModel extends GenerateProcessorFileProcessor {
             args.fileModel,
             args.possibleName,
             args.possibleExtension,
+            GenerateProcessorFileOptions.PROCESSOR_NAME,
             args.interactionMode
         );
         await EnsureFileModelExecutor.Instance.execute(ensurer);

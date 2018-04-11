@@ -5,6 +5,8 @@ import S from "string";
 import { InteractionModeEnum } from "../InteractionModeEnum";
 import { InputTypeEnum } from "../../../foundation/YeomanQuestions";
 
+import path = require("path");
+
 export class EnsureClassNameIsSet extends EnsureFileModelProcessor {
     public static readonly Instance = new EnsureClassNameIsSet();
 
@@ -16,7 +18,7 @@ export class EnsureClassNameIsSet extends EnsureFileModelProcessor {
 
         args.fileModel.className = await EnsureOptionExecutor.Instance.obtainByKey(
             args.yeomanGenerator,
-            `name`,
+            !args.possibleOption ? `name` : args.possibleOption,
             InputTypeEnum.Input,
             false,
             false,

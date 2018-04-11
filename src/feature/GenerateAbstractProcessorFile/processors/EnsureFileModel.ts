@@ -1,6 +1,7 @@
 import { GenerateAbstractProcessorFileProcessor } from "../GenerateAbstractProcessorFileProcessor";
 import { GenerateAbstractProcessorFileArguments } from "../GenerateAbstractProcessorFileArguments";
 import { EnsureFileModelArguments, EnsureFileModelExecutor } from "../../EnsureFileModel";
+import { GenerateAbstractProcessorFileOptions } from "../GenerateAbstractProcessorFileOptions";
 
 export class EnsureFileModel extends GenerateAbstractProcessorFileProcessor {
     public static readonly Instance = new EnsureFileModel();
@@ -10,6 +11,7 @@ export class EnsureFileModel extends GenerateAbstractProcessorFileProcessor {
             args.yeomanGenerator,
             args.fileModel,
             args.possibleName,
+            GenerateAbstractProcessorFileOptions.NAME,
             args.possibleExtension,
             args.interactionMode
         );

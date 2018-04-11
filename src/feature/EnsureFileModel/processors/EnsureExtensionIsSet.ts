@@ -5,6 +5,8 @@ import { InteractionModeEnum } from "../InteractionModeEnum";
 import { EnsureOptionExecutor } from "../../EnsureOption";
 import { InputTypeEnum } from "../../../foundation/YeomanQuestions";
 
+import path = require("path");
+
 export class EnsureExtensionIsSet extends EnsureFileModelProcessor {
     public static readonly Instance = new EnsureExtensionIsSet();
 

@@ -1,9 +1,8 @@
 import { GenerateCommonPipelineFilesProcessor } from "../GenerateCommonPipelineFilesProcessor";
 import { GenerateCommonPipelineFilesArguments } from "../GenerateCommonPipelineFilesArguments";
 import S from "string";
-import { EnsureOptionExecutor } from "../../EnsureOption";
-import path = require("path");
 import { InputTypeEnum } from "../../../foundation/YeomanQuestions";
+import { EnsureOptionExecutor } from "../../EnsureOption";
 
 export class AskForSubfolderCreation extends GenerateCommonPipelineFilesProcessor {
     public static readonly Instance = new AskForSubfolderCreation();
