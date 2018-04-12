@@ -1,6 +1,7 @@
-import { PipelineRunner, IPipeline } from "solid-pipelines";
+import { PipelineRunner, IPipeline, PipelineMessage } from "solid-pipelines";
 import { GenerateArgumentsFileArguments } from './GenerateArgumentsFileArguments'
 import { GenerateArgumentsFilePipeline } from './GenerateArgumentsFilePipeline'
+import { CreatedFileResult } from "../GenerateFileFromTemplate/models/CreatedFileResult";
 
 export class GenerateArgumentsFileExecutor {
     public static Instance: GenerateArgumentsFileExecutor = new GenerateArgumentsFileExecutor(GenerateArgumentsFilePipeline.Instance);
@@ -9,9 +10,14 @@ export class GenerateArgumentsFileExecutor {
         
     }
 
-    execute(args: GenerateArgumentsFileArguments) : Promise<void> {
+    async execute(args: GenerateArgumentsFileArguments) : Promise<{result: CreatedFileResult, messages: PipelineMessage[]}> {
         var runner:PipelineRunner = new PipelineRunner();
 
-        return runner.RunPipeline(this.pipeline, args);
+        await runner.RunPipeline(this.pipeline, args);
+
+        return {
+            messages: args.GetAllMessages(),
+            result: args.GetResult()
+        };
     }
 }

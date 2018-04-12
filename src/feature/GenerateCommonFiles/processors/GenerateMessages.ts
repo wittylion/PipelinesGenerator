@@ -31,10 +31,10 @@ export class GenerateMessages extends GenerateCommonPipelineFilesProcessor {
             args.pipelineNameSpecifiedByUser
         );
 
-        await GenerateMessagesFileExecutor.Instance.execute(messagesGeneration);
+        let result = await GenerateMessagesFileExecutor.Instance.execute(messagesGeneration);
 
-        args.generatedMessagesClassName = messagesGeneration.fileModel.className;
-        args.generatedMessagesFileName = messagesGeneration.fileModel.fileName;
+        args.generatedMessages = result.result;
+        args.AddMessageObjects(result.messages);
     }
 
     public SafeCondition(args: GenerateCommonPipelineFilesArguments): boolean {

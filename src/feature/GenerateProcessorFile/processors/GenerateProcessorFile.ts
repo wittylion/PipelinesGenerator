@@ -12,11 +12,11 @@ export class GenerateProcessorFile extends GenerateProcessorFileProcessor {
                 args.fileModel,
                 args.yeomanGenerator,
                 {
-                    argumentsClassName: args.argumentsClassName,
-                    argumentsFileName: args.argumentsFileName,
+                    argumentsClassName: args.arguments.className,
+                    argumentsFileName: args.argumentsImportStatement,
 
-                    abstractProcessorClassName: args.abstractProcessorClassName,
-                    abstractProcessorFileName: args.abstractProcessorFileName,
+                    abstractProcessorClassName: args.abstractProcessor.className,
+                    abstractProcessorFileName: args.processorImportStatement,
                 }
             );
 

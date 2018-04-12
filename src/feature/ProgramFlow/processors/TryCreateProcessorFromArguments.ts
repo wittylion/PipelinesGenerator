@@ -9,6 +9,7 @@ import { GenerateProcessorFileOptions } from "../../GenerateProcessorFile/Genera
 import { MessageType } from "solid-pipelines";
 
 import fs = require("fs");
+import { CreatedFileResult } from "../../GenerateFileFromTemplate/models/CreatedFileResult";
 
 export class TryCreateProcessorFromArguments extends ProgramFlowProcessor {
     public static readonly Instance = new TryCreateProcessorFromArguments();
@@ -38,8 +39,8 @@ export class TryCreateProcessorFromArguments extends ProgramFlowProcessor {
         );
 
         if (!S(argsName).isEmpty()) {
-            processorGeneration.argumentsClassName = argsName;
-            processorGeneration.argumentsFileName = argsName;
+            processorGeneration.arguments
+                = new CreatedFileResult(argsName, argsName);
         }
 
 
@@ -49,8 +50,8 @@ export class TryCreateProcessorFromArguments extends ProgramFlowProcessor {
         );
 
         if (!S(abstractProcessorName).isEmpty()) {
-            processorGeneration.abstractProcessorClassName = abstractProcessorName;
-            processorGeneration.abstractProcessorFileName = abstractProcessorName;
+            processorGeneration.abstractProcessor
+                = new CreatedFileResult(abstractProcessorName, abstractProcessorName);
         }
 
         if (!fs.existsSync(

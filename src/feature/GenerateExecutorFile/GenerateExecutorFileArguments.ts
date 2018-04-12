@@ -1,11 +1,12 @@
 import { PipelineContext } from "solid-pipelines";
 import { GenerateFileModel } from "../GenerateFileFromTemplate/models/GenerateFileModel";
-import { YeomanContext } from "../../foundation/PipelinesExtensions";
+import { YeomanContext, YeomanQueryContext } from "../../foundation/PipelinesExtensions";
 
 import Generator = require("yeoman-generator");
 import { InteractionModeEnum } from "../EnsureFileModel/InteractionModeEnum";
+import { CreatedFileResult } from "../GenerateFileFromTemplate/models/CreatedFileResult";
 
-export class GenerateExecutorFileArguments extends YeomanContext {
+export class GenerateExecutorFileArguments extends YeomanQueryContext<CreatedFileResult> {
     
     argumentsClassName: string;
     argumentsFileName: string;

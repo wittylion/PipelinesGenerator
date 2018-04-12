@@ -2,7 +2,8 @@ import { GenerateArgumentsFileProcessor } from "../GenerateArgumentsFileProcesso
 import { GenerateArgumentsFileArguments } from "../GenerateArgumentsFileArguments";
 import { GenerateFileFromTemplateArguments, GenerateFileFromTemplateExecutor } from "../../GenerateFileFromTemplate";
 import _ from "lodash";
-import { GenerateArgumentsResult } from "../models/GenerateArgumentsResult";
+import { GenerateArgumentsFileMessages } from "../GenerateArgumentsFileMessages";
+import S from "string";
 
 export class GenerateArgumentsFile extends GenerateArgumentsFileProcessor {
     public static readonly Instance = new GenerateArgumentsFile();
@@ -16,17 +17,15 @@ export class GenerateArgumentsFile extends GenerateArgumentsFileProcessor {
             }
         );
 
-        if (args.result) {
-            args.result = new GenerateArgumentsResult();
-            args.result.creationResult = res.result;
-            args.AddInformation(`Arguments were created on path '${res.result.fileName}'.`);
-            return;
+        if (res.result) {
+            let message = S(
+                GenerateArgumentsFileMessages.ArgumentsWereSuccessfullyGenerated
+            ).template({ name: res.result.className }).s;
+
+            args.SetResultWithInformation(res.result, message);
         }
-        
-        let messages = res.messages;
-        if (messages.length > 0) {
-            messages.forEach(x => args.AddMessageObject(x));
-        }
+
+        args.AddMessageObjects(res.messages);
     }
 
     public SafeCondition(args: GenerateArgumentsFileArguments): boolean {

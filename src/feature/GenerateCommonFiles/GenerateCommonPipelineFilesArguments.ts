@@ -6,29 +6,25 @@ import { GenerateExecutorFileExecutor } from "../GenerateExecutorFile";
 import { IGeneratorsProvider } from "./abstractions/IGeneratorsProvider";
 import { DefaultGeneratorsProvider } from "./DefaultGeneratorsProvider";
 import { YeomanContext } from "../../foundation/PipelinesExtensions";
+import { CreatedFileResult } from "../GenerateFileFromTemplate/models/CreatedFileResult";
 
 export class GenerateCommonPipelineFilesArguments extends YeomanContext {
     pipelineNameSpecifiedByUser: string;
     createSubfolderWithPipelineName: boolean;
     commonSubfolders: string[] = [];
 
-    generatedArgumentsClassName: string;
-    generatedArgumentsFileName: string;
+    generatedArguments: CreatedFileResult;
 
-    generatedMessagesClassName: string;
-    generatedMessagesFileName: string;
+    generatedMessages: CreatedFileResult;
 
-    generatedProcessorClassName: string;
-    generatedProcessorFileName: string;
+    generatedProcessor: CreatedFileResult;
 
     processorsNames: string[] = [];
     processorsFileNames: string[] = [];
 
-    generatedPipelineClassName: string;
-    generatedPipelineFileName: string;
+    generatedPipeline: CreatedFileResult;
 
-    generatedExecutorClassName: string;
-    generatedExecutorFileName: string;
+    generatedExecutor: CreatedFileResult;
 
     modelsProvider: IModelsProvider;
     generatorsProvider: IGeneratorsProvider = DefaultGeneratorsProvider.Instance;

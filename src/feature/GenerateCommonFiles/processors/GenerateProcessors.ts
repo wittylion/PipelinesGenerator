@@ -25,17 +25,8 @@ export class GenerateProcessors extends GenerateCommonPipelineFilesProcessor {
                 args.yeomanGenerator
             );
 
-            processorGeneration.argumentsClassName = args.generatedArgumentsClassName;
-            processorGeneration.argumentsFileName
-                = upath.trimExt(upath.basename(
-                    args.generatedArgumentsFileName
-                ));
-
-            processorGeneration.abstractProcessorClassName = args.generatedProcessorClassName;
-            processorGeneration.abstractProcessorFileName
-                = upath.trimExt(upath.basename(
-                    args.generatedProcessorFileName
-                ));
+            processorGeneration.arguments = args.generatedArguments;
+            processorGeneration.abstractProcessor = args.generatedProcessor;
 
             await args.generatorsProvider.getProcessorGenerator().execute(processorGeneration);
 

@@ -6,7 +6,12 @@ export class GenerateProcessorFilePipeline implements IPipeline {
 
     GetProcessors(): IProcessor[] {
         return [
-            Processors.EnsureFileModel.Instance,
+            Processors.CheckClassName.Instance,
+            Processors.CheckFileName.Instance,
+            Processors.CheckArguments.Instance,
+            Processors.CheckAbstractProcessor.Instance,
+            Processors.GenerateArgumentsImportStatement.Instance,
+            Processors.GenerateAbstractProcessorImportStatement.Instance,
             Processors.GenerateProcessorFile.Instance,
         
         ];

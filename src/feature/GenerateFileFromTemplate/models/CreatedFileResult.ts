@@ -1,4 +1,6 @@
 export class CreatedFileResult {
-    className: string;
-    fileName: string;
+    constructor(
+        public className: string,
+        public fileName: string
+    ) { }
 }

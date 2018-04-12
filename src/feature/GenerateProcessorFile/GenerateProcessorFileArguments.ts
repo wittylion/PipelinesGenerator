@@ -2,32 +2,27 @@ import { PipelineContext } from "solid-pipelines";
 import { GenerateFileModel } from "../GenerateFileFromTemplate/models/GenerateFileModel";
 import { InteractionModeEnum } from "../EnsureFileModel/InteractionModeEnum";
 import Generator = require("yeoman-generator");
+import { YeomanQueryContext } from "../../foundation/PipelinesExtensions";
+import { CreatedFileResult } from "../GenerateFileFromTemplate/models/CreatedFileResult";
 
-export class GenerateProcessorFileArguments extends PipelineContext {
+export class GenerateProcessorFileArguments extends YeomanQueryContext<CreatedFileResult> {
     public static Create(
         fileModel: GenerateFileModel,
         yeomanGenerator: Generator,
-        possibleName?: string,
-        possibleExtension?: string,
-        interactionMode?: InteractionModeEnum
     ): GenerateProcessorFileArguments {
-        return new GenerateProcessorFileArguments(fileModel, yeomanGenerator, possibleName, possibleExtension, interactionMode);
+        return new GenerateProcessorFileArguments(fileModel, yeomanGenerator);
     }
 
     constructor(
         public fileModel: GenerateFileModel,
-        public yeomanGenerator: Generator,
-        public possibleName?: string,
-        public possibleExtension?: string,
-        public interactionMode?: InteractionModeEnum
+        yeomanGenerator: Generator,
     ) {
-        super();
-
+        super(yeomanGenerator);
     }
 
-    argumentsClassName: string;
-    argumentsFileName: string;
+    arguments: CreatedFileResult;
+    argumentsImportStatement: string;
 
-    abstractProcessorClassName: string;
-    abstractProcessorFileName: string;
+    abstractProcessor: CreatedFileResult;
+    processorImportStatement: string;
 }

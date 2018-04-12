@@ -17,4 +17,8 @@ export class GenerateFileModel {
     getSubdirectory(): string {
         return path.join(...this.subdirectories);
     }
+
+    getFinalPath(): string {
+        return path.join(this.getSubdirectory(), this.fileName);
+    }
 }

@@ -2,8 +2,10 @@ import { PipelineContext } from "solid-pipelines";
 import { GenerateFileModel } from "../GenerateFileFromTemplate/models/GenerateFileModel";
 import Generator = require("yeoman-generator");
 import { InteractionModeEnum } from "../EnsureFileModel/InteractionModeEnum";
+import { YeomanQueryContext } from "../../foundation/PipelinesExtensions";
+import { CreatedFileResult } from "../GenerateFileFromTemplate/models/CreatedFileResult";
 
-export class GenerateAbstractProcessorFileArguments extends PipelineContext {
+export class GenerateAbstractProcessorFileArguments extends YeomanQueryContext<CreatedFileResult> {
     public static Create(
         fileModel: GenerateFileModel,
         yeomanGenerator: Generator,
@@ -24,12 +26,12 @@ export class GenerateAbstractProcessorFileArguments extends PipelineContext {
 
     constructor(
         public fileModel: GenerateFileModel,
-        public yeomanGenerator: Generator,
+        yeomanGenerator: Generator,
         public possibleName?: string,
         public argumentsClassName?: string,
         public argumentsFileName?: string,
         public interactionMode?: InteractionModeEnum) {
-        super();
+        super(yeomanGenerator);
 
     }
 }

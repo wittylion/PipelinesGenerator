@@ -8,6 +8,10 @@ export class GenerateTypescriptPathExecutor {
     constructor(public pipeline: IPipeline) {
     }
 
+    public static getPath(from: string, to: string): Promise<{ result: string, messages: PipelineMessage[] }> {
+        return GenerateTypescriptPathExecutor.Instance.getPath(from, to);
+    }
+
     getPath(from: string, to: string): Promise<{ result: string, messages: PipelineMessage[] }> {
         return this.getResult(new GenerateTypescriptPathArguments(from, to));
     }

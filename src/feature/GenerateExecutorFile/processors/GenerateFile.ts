@@ -2,26 +2,30 @@ import { GenerateExecutorFileProcessor } from "../GenerateExecutorFileProcessor"
 import { GenerateExecutorFileArguments } from "../GenerateExecutorFileArguments";
 import { GenerateFileFromTemplateExecutor, GenerateFileFromTemplateArguments } from "../../GenerateFileFromTemplate";
 import _ from "lodash";
+import { GenerateExecutorFileMessages } from "../GenerateExecutorFileMessages";
+import S from "string";
 
 export class GenerateFile extends GenerateExecutorFileProcessor {
     public static readonly Instance = new GenerateFile();
 
     public async SafeExecute(args: GenerateExecutorFileArguments): Promise<void> {
-        let executorGeneration = new GenerateFileFromTemplateArguments();
+        let res
+            = await GenerateFileFromTemplateExecutor.Instance.create(args.fileModel,
+                args.yeomanGenerator, {
+                    argumentsClassName: args.argumentsClassName,
+                    argumentsFileName: args.argumentsFileName,
 
-        executorGeneration.fileModel = args.fileModel;
-        executorGeneration.yeomanGenerator = args.yeomanGenerator;
+                    pipelineClassName: args.pipelineClassName,
+                    pipelineFileName: args.pipelineFileName
+                });
 
-        _.assign(executorGeneration.creationOptions,
-        {
-            argumentsClassName: args.argumentsClassName,
-            argumentsFileName: args.argumentsFileName,
-
-            pipelineClassName: args.pipelineClassName,
-            pipelineFileName: args.pipelineFileName
-        });
-        
-        await GenerateFileFromTemplateExecutor.Instance.execute(executorGeneration);
+        if (res.result) {
+            let message: string
+                = S(GenerateExecutorFileMessages.ExecutorSuccessfullyCreated)
+                    .template({ name: res.result.className }).s;
+            args.SetResultWithInformation(res.result, message);
+        }
+        args.AddMessageObjects(res.messages);
     }
 
     public SafeCondition(args: GenerateExecutorFileArguments): boolean {

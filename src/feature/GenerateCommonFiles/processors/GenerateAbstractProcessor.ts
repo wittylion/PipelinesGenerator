@@ -16,7 +16,7 @@ export class GenerateAbstractProcessor extends GenerateCommonPipelineFilesProces
         let importPath = await GenerateTypescriptPathExecutor.Instance.getPath(
             args.yeomanGenerator.destinationPath(
                 model.getSubdirectory()),
-            args.generatedArgumentsFileName);
+            args.generatedArguments.fileName);
 
         args.AddMessageObjects(importPath.messages);
 
@@ -26,14 +26,17 @@ export class GenerateAbstractProcessor extends GenerateCommonPipelineFilesProces
             model,
             args.yeomanGenerator,
             args.pipelineNameSpecifiedByUser,
-            args.generatedArgumentsClassName,
+            args.generatedArguments.className,
             argsPath
         );
 
-        await args.generatorsProvider.getAbstractProcessorGenerator().execute(abstractProcessorGeneration);
+        let result = 
+            await args.generatorsProvider
+                .getAbstractProcessorGenerator()
+                .execute(abstractProcessorGeneration);
 
-        args.generatedProcessorClassName = abstractProcessorGeneration.fileModel.className;
-        args.generatedProcessorFileName = abstractProcessorGeneration.fileModel.fileName;
+        args.generatedProcessor = result.result;
+        args.AddMessageObjects(result.messages);
     }
 
     public SafeCondition(args: GenerateCommonPipelineFilesArguments): boolean {

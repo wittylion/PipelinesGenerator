@@ -20,40 +20,40 @@ export class GenerateExecutor extends GenerateCommonPipelineFilesProcessor {
             InteractionModeEnum.Minimum
         );
 
-        if (!S(args.generatedArgumentsClassName).isEmpty()) {
-            executorGeneration.argumentsClassName = args.generatedArgumentsClassName;
+        if (!S(args.generatedArguments.className).isEmpty()) {
+            executorGeneration.argumentsClassName = args.generatedArguments.className;
         }
         else {
             args.AddWarning("Cannot obtain arguments class name during the 'Pipeline executor' creation.");
         }
 
-        if (!S(args.generatedArgumentsFileName).isEmpty()) {
+        if (!S(args.generatedArguments.fileName).isEmpty()) {
             executorGeneration.argumentsFileName
-                = upath.trimExt(upath.basename(args.generatedArgumentsFileName));
+                = upath.trimExt(upath.basename(args.generatedArguments.fileName));
         }
         else {
             args.AddWarning("Cannot obtain arguments file name during the 'Pipeline executor' creation.");
         }
 
-        if (!S(args.generatedPipelineClassName).isEmpty()) {
-            executorGeneration.pipelineClassName = args.generatedPipelineClassName;
+        if (!S(args.generatedPipeline.className).isEmpty()) {
+            executorGeneration.pipelineClassName = args.generatedPipeline.className;
         }
         else {
             args.AddWarning("Cannot obtain pipeline class name during the 'Pipeline executor' creation.");
         }
 
-        if (!S(args.generatedPipelineFileName).isEmpty()) {
+        if (!S(args.generatedPipeline.fileName).isEmpty()) {
             executorGeneration.pipelineFileName
-                = upath.trimExt(upath.basename(args.generatedPipelineFileName));
+                = upath.trimExt(upath.basename(args.generatedPipeline.fileName));
         }
         else {
             args.AddWarning("Cannot obtain pipeline file name during the 'Pipeline executor' creation.");
         }
 
-        await args.generatorsProvider.getExecutorGenerator().execute(executorGeneration);
+        let result = await args.generatorsProvider.getExecutorGenerator().execute(executorGeneration);
 
-        args.generatedExecutorClassName = executorGeneration.fileModel.className;
-        args.generatedExecutorFileName = executorGeneration.fileModel.fileName;
+        args.generatedExecutor = result.result;
+        args.AddMessageObjects(executorGeneration.GetAllMessages());
     }
 
     public SafeCondition(args: GenerateCommonPipelineFilesArguments): boolean {

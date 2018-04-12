@@ -19,18 +19,16 @@ export class GeneratePipeline extends GenerateCommonPipelineFilesProcessor {
         );
         await EnsureFileModelExecutor.Instance.execute(ensurer);
 
-        let pipelineGeneration = new GenerateFileFromTemplateArguments();
+        let result = await GenerateFileFromTemplateExecutor.Instance.create(
+            model,
+            args.yeomanGenerator,
+            {
+                processors: args.processorsNames
+            }
+        );
 
-        pipelineGeneration.fileModel = model;
-        pipelineGeneration.creationOptions['processors'] = args.processorsNames;
-        pipelineGeneration.yeomanGenerator = args.yeomanGenerator;
-
-        await GenerateFileFromTemplateExecutor.Instance.execute(pipelineGeneration);
-
-        pipelineGeneration.GetMessages(MessageFilter.All).forEach(x => args.AddMessageObject(x));
-
-        args.generatedPipelineClassName = pipelineGeneration.fileModel.className;
-        args.generatedPipelineFileName = pipelineGeneration.fileModel.fileName;
+        args.generatedPipeline = result.result;
+        args.AddMessageObjects(result.messages);
     }
 
     public SafeCondition(args: GenerateCommonPipelineFilesArguments): boolean {
