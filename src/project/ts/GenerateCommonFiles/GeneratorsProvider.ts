@@ -7,7 +7,7 @@ export class GeneratorsProvider extends DefaultGeneratorsProvider {
     getExecutorGenerator() {
         return Defaults.ExecutorGenerator;
     }
-    
+
     getProcessorGenerator() {
         return Defaults.ProcessorGenerator;
     }
@@ -18,5 +18,9 @@ export class GeneratorsProvider extends DefaultGeneratorsProvider {
 
     getCommonFilesGenerator() {
         return Defaults.CommonFilesGenerator;
+    }
+
+    getAbstractProcessorGenerator() {
+        return Defaults.AbstractProcessorGenerator;
     }
 }

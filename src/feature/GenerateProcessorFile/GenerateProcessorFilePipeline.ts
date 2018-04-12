@@ -12,10 +12,14 @@ export class GenerateProcessorFilePipeline implements IPipeline {
             Processors.CheckFileName.Instance,
             Processors.CheckArguments.Instance,
             Processors.CheckAbstractProcessor.Instance,
-            Processors.GenerateArgumentsImportStatement.Instance,
-            Processors.GenerateAbstractProcessorImportStatement.Instance,
-            Processors.GenerateProcessorFile.Instance,
-        
+            ...this.GenerateProcessor()
+
+        ];
+    }
+
+    GenerateProcessor(): IProcessor[] {
+        return [
+            Processors.GenerateProcessorFile.Instance
         ];
     }
 }

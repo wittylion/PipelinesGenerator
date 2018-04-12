@@ -7,6 +7,8 @@ import { GenerateTypescriptArgumentsFilePipeline } from "./GenerateTypescriptArg
 import { GenerateArgumentsFileExecutor } from "../../feature/GenerateArgumentsFile";
 import { GenerateCommonPipelineFilesExecutor } from "../../feature/GenerateCommonFiles";
 import { GenerateCommonFilesPipeline } from "./GenerateCommonFiles";
+import { GenerateTypescriptAbstractProcessorFilePipeline } from "./GenerateTypescriptAbstractProcessorFile/GenerateTypescriptAbstractProcessorFilePipeline";
+import { GenerateAbstractProcessorFileExecutor } from "../../feature/GenerateAbstractProcessorFile/GenerateAbstractProcessorFileExecutor";
 
 export class Defaults {
 
@@ -19,6 +21,7 @@ export class Defaults {
     public static processorModel: GenerateFileModel;
     public static messagesModel: GenerateFileModel;
 
+    public static AbstractProcessorGenerator = new GenerateAbstractProcessorFileExecutor(GenerateTypescriptAbstractProcessorFilePipeline.Instance);
     public static ProcessorGenerator = new GenerateProcessorFileExecutor(GenerateTypescriptProcessorFilePipeline.Instance);
     public static ArgumentsGenerator = new GenerateArgumentsFileExecutor(GenerateTypescriptArgumentsFilePipeline.Instance);
     public static ExecutorGenerator = new GenerateExecutorFileExecutor(GenerateTypescriptExecutorFilePipeline.Instance);
@@ -35,7 +38,7 @@ export class Defaults {
         Defaults.argumentsModel.extension = Defaults.extension;
         Defaults.argumentsModel.ensureSuffixInClassName = true;
         Defaults.argumentsModel.ensureSuffixInFileName = true;
-        
+
         Defaults.messagesModel = new GenerateFileModel();
         Defaults.messagesModel.templateName = "_messages.ts.ejs";
         Defaults.messagesModel.suffix = "Messages";
@@ -73,7 +76,7 @@ export class Defaults {
         Defaults.mainExportsModel.fileName = "index";
         Defaults.mainExportsModel.templateName = "_exports.ts.ejs";
         Defaults.mainExportsModel.extension = Defaults.extension;
-        
+
         Defaults.processorModel = new GenerateFileModel();
         Defaults.processorModel.templateName = "_predefinedProcessor.ts.ejs";
         Defaults.processorModel.extension = Defaults.extension;

@@ -34,4 +34,6 @@ export class GenerateAbstractProcessorFileArguments extends YeomanQueryContext<C
         super(yeomanGenerator);
 
     }
+
+    argumentsImportPath: string = "";
 }

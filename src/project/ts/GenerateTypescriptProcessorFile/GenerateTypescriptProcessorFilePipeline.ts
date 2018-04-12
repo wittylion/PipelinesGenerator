@@ -5,9 +5,11 @@ import { GenerateProcessorFilePipeline } from '../../../feature/GenerateProcesso
 export class GenerateTypescriptProcessorFilePipeline extends GenerateProcessorFilePipeline {
     public static readonly Instance = new GenerateTypescriptProcessorFilePipeline();
 
-    GetProcessors(): IProcessor[] {
+    GenerateProcessor(): IProcessor[] {
         return [
-            ...super.GetProcessors(), 
+            Processors.GenerateAbstractProcessorImportStatement.Instance,
+            Processors.GenerateArgumentsImportStatement.Instance,
+            ...super.GenerateProcessor(),
             Processors.UpdateExportsFile.Instance
         ];
     }

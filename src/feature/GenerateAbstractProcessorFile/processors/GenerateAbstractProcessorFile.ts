@@ -14,16 +14,16 @@ export class GenerateAbstractProcessorFile extends GenerateAbstractProcessorFile
                 args.yeomanGenerator,
                 {
                     argumentsClassName: args.argumentsClassName,
-                    argumentsFileName: args.argumentsFileName
+                    argumentsFileName: args.argumentsImportPath
                 }
             );
 
-        if (!!result.result) { 
+        if (!!result.result) {
             args.SetResultWithInformation(
-                result.result, 
+                result.result,
                 S(GenerateAbstractProcessorFileMessages.AbstractProcessorGenerated)
                     .template(result.result.className).s
-            ); 
+            );
         }
 
         args.AddMessageObjects(result.messages);

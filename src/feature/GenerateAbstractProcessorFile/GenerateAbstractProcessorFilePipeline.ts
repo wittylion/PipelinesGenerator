@@ -8,8 +8,14 @@ export class GenerateAbstractProcessorFilePipeline implements IPipeline {
         return [
             Processors.EnsureArgumentsFileName.Instance,
             Processors.EnsureFileModel.Instance,
+            ...this.GenerateProcessor(),
+
+        ];
+    }
+
+    GenerateProcessor(): IProcessor[] {
+        return [
             Processors.GenerateAbstractProcessorFile.Instance,
-        
         ];
     }
 }

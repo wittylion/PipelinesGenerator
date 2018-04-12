@@ -1,8 +1,8 @@
-import { GenerateProcessorFileProcessor } from "../GenerateProcessorFileProcessor";
-import { GenerateProcessorFileArguments } from "../GenerateProcessorFileArguments";
-import { GenerateProcessorFileMessages } from "../GenerateProcessorFileMessages";
 import S from "string";
-import { GenerateTypescriptPathExecutor } from "../../../foundation/GenerateTypescriptPath";
+
+import { GenerateProcessorFileProcessor } from "../../../../feature/GenerateProcessorFile/GenerateProcessorFileProcessor";
+import { GenerateProcessorFileArguments } from "../../../../feature/GenerateProcessorFile/GenerateProcessorFileArguments";
+import { GenerateTypescriptPathExecutor } from "../../GenerateTypescriptPath/GenerateTypescriptPathExecutor";
 
 export class GenerateArgumentsImportStatement extends GenerateProcessorFileProcessor {
     public static readonly Instance = new GenerateArgumentsImportStatement();
@@ -10,7 +10,7 @@ export class GenerateArgumentsImportStatement extends GenerateProcessorFileProce
     public async SafeExecute(args: GenerateProcessorFileArguments): Promise<void> {
         let result
             = await GenerateTypescriptPathExecutor.getPath(
-                args.yeomanGenerator.destinationPath(args.fileModel.getSubdirectory()), 
+                args.yeomanGenerator.destinationPath(args.fileModel.getSubdirectory()),
                 args.yeomanGenerator.destinationPath(args.arguments.fileName)
             );
 
