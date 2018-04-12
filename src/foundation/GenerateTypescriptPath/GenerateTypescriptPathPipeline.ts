@@ -11,7 +11,7 @@ export class GenerateTypescriptPathPipeline implements IPipeline {
             Processors.FindRelative.Instance,
             Processors.JoinWithCurrentDirectorySpecifier.Instance,
             Processors.TrimExtension.Instance,
-        
+            Processors.FinalSeparatorsChange.Instance
         ];
     }
 }

@@ -9,7 +9,10 @@ export class GenerateAbstractProcessorImportStatement extends GenerateProcessorF
 
     public async SafeExecute(args: GenerateProcessorFileArguments): Promise<void> {
         let result
-            = await GenerateTypescriptPathExecutor.getPath(args.fileModel.getFinalPath(), args.abstractProcessor.fileName);
+            = await GenerateTypescriptPathExecutor.getPath(
+                args.yeomanGenerator.destinationPath(args.fileModel.getSubdirectory()), 
+                args.yeomanGenerator.destinationPath(args.abstractProcessor.fileName)
+            );
 
         if (result.result) {
             args.processorImportStatement = result.result;

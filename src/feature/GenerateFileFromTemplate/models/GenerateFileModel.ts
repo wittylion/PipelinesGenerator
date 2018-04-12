@@ -19,6 +19,10 @@ export class GenerateFileModel {
     }
 
     getFinalPath(): string {
-        return path.join(this.getSubdirectory(), this.fileName);
+        return path.join(this.getSubdirectory(), this.getFinalName());
+    }
+
+    getFinalName(): string {
+        return S(this.fileName).ensureRight(this.extension).s;
     }
 }

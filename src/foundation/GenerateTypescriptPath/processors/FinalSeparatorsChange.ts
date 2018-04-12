@@ -1,19 +1,20 @@
 import { GenerateTypescriptPathProcessor } from "../GenerateTypescriptPathProcessor";
 import { GenerateTypescriptPathArguments } from "../GenerateTypescriptPathArguments";
-import S from "string";
+
 import upath = require("upath");
 import { GenerateTypescriptPathMessages } from "../GenerateTypescriptPathMessages";
+import S from "string";
 
-export class JoinWithCurrentDirectorySpecifier extends GenerateTypescriptPathProcessor {
-    public static readonly Instance = new JoinWithCurrentDirectorySpecifier();
+export class FinalSeparatorsChange extends GenerateTypescriptPathProcessor {
+    public static readonly Instance = new FinalSeparatorsChange();
 
     public async SafeExecute(args: GenerateTypescriptPathArguments): Promise<void> {
         let p = args.GetResult();
-        let result = upath.joinSafe("./", p);
+        let result = upath.toUnix(p);
 
         args.SetResultWithInformation(
             result,
-            S(GenerateTypescriptPathMessages.AddedRelativePathFromCurrentDirectory)
+            S(GenerateTypescriptPathMessages.ChangedSeparators)
                 .template({ path: p, result: result }).s
         );
     }
@@ -23,7 +24,7 @@ export class JoinWithCurrentDirectorySpecifier extends GenerateTypescriptPathPro
     }
 
     public CustomCondition(args: GenerateTypescriptPathArguments): boolean {
-        let safeCondition = !args.GetResult().startsWith('.');
+        let safeCondition = true;
         return safeCondition;
     }
 }

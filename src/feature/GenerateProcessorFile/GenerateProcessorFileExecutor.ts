@@ -13,6 +13,6 @@ export class GenerateProcessorFileExecutor {
 
         await runner.RunPipeline(this.pipeline, args);
 
-        return { messages: args.GetMessages(MessageFilter.All) };
+        return { messages: args.GetAllMessages() };
     }
 }

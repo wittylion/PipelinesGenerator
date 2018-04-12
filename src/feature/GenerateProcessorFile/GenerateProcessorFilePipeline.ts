@@ -6,6 +6,8 @@ export class GenerateProcessorFilePipeline implements IPipeline {
 
     GetProcessors(): IProcessor[] {
         return [
+            Processors.TrySetClassNameToFileNameIfMissing.Instance,
+            Processors.TrySetFileNameToClassNameIfMissing.Instance,
             Processors.CheckClassName.Instance,
             Processors.CheckFileName.Instance,
             Processors.CheckArguments.Instance,

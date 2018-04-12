@@ -14,7 +14,7 @@ export class TrimExtension extends GenerateTypescriptPathProcessor {
 
         args.SetResultWithInformation(
             result,
-            S(GenerateTypescriptPathMessages.AddedRelativePathFromCurrentDirectory)
+            S(GenerateTypescriptPathMessages.TrimmedExtension)
                 .template({ path: p, result: result }).s
         );
     }

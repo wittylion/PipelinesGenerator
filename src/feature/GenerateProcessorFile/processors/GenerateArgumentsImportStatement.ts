@@ -9,7 +9,10 @@ export class GenerateArgumentsImportStatement extends GenerateProcessorFileProce
 
     public async SafeExecute(args: GenerateProcessorFileArguments): Promise<void> {
         let result
-            = await GenerateTypescriptPathExecutor.getPath(args.fileModel.getFinalPath(), args.arguments.fileName);
+            = await GenerateTypescriptPathExecutor.getPath(
+                args.yeomanGenerator.destinationPath(args.fileModel.getSubdirectory()), 
+                args.yeomanGenerator.destinationPath(args.arguments.fileName)
+            );
 
         if (result.result) {
             args.argumentsImportStatement = result.result;

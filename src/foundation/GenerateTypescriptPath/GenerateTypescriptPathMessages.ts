@@ -10,4 +10,7 @@ export class GenerateTypescriptPathMessages {
 
     public static TrimmedExtension: string
         = "From the path [{{path}}] extension was trimmed, so the result is [{{result}}].";
+        
+    public static ChangedSeparators: string
+        = "The separators was changed to unix style, so the [{{path}}], became [{{result}}].";
 }
