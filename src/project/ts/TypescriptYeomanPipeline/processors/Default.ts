@@ -14,7 +14,6 @@ export class Default extends TypescriptYeomanPipelineProcessor {
             ModelsProvider.Instance, 
             GeneratorsProvider.Instance
         );
-        programFlowArguments.commonFilesGenerator = new GenerateCommonPipelineFilesExecutor(GenerateCommonFilesPipeline.Instance);
         
         let programFlow = new ProgramFlowExecutor(TypescriptProgramFlowPipeline.Instance);
 

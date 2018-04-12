@@ -3,6 +3,7 @@ import { GenerateArgumentsFileExecutor } from "../GenerateArgumentsFile";
 import { GenerateAbstractProcessorFileExecutor } from "../GenerateAbstractProcessorFile";
 import { GenerateProcessorFileExecutor } from "../GenerateProcessorFile";
 import { GenerateExecutorFileExecutor } from "../GenerateExecutorFile";
+import { GenerateCommonPipelineFilesExecutor } from ".";
 
 export class DefaultGeneratorsProvider implements IGeneratorsProvider {
     public static Instance = new DefaultGeneratorsProvider();
@@ -18,5 +19,8 @@ export class DefaultGeneratorsProvider implements IGeneratorsProvider {
     }
     getExecutorGenerator(): GenerateExecutorFileExecutor {
         return GenerateExecutorFileExecutor.Instance;
+    }
+    getCommonFilesGenerator(): GenerateCommonPipelineFilesExecutor {
+        return GenerateCommonPipelineFilesExecutor.Instance;
     }
 }

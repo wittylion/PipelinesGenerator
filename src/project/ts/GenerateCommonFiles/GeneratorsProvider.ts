@@ -15,4 +15,8 @@ export class GeneratorsProvider extends DefaultGeneratorsProvider {
     getArgumentsGenerator() {
         return Defaults.ArgumentsGenerator;
     }
+
+    getCommonFilesGenerator() {
+        return Defaults.CommonFilesGenerator;
+    }
 }

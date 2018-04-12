@@ -1,7 +1,7 @@
 import { ProgramFlowProcessor } from "../ProgramFlowProcessor";
 import { ProgramFlowArguments } from "../ProgramFlowArguments";
 import { MessageFilter } from "solid-pipelines";
-import { GenerateCommonPipelineFilesArguments } from "../../GenerateCommonFiles";
+import { GenerateCommonPipelineFilesArguments, GenerateCommonPipelineFilesExecutor } from "../../GenerateCommonFiles";
 
 export class GenerateCommonFilesFlow extends ProgramFlowProcessor {
     public static readonly Instance = new GenerateCommonFilesFlow();
@@ -11,7 +11,7 @@ export class GenerateCommonFilesFlow extends ProgramFlowProcessor {
         let commonFilesGeneratorArguments = new GenerateCommonPipelineFilesArguments(args.yeomanGenerator);
         commonFilesGeneratorArguments.modelsProvider = args.modelsProvider;
         commonFilesGeneratorArguments.generatorsProvider = args.generatorsProvider;
-        await args.commonFilesGenerator.execute(commonFilesGeneratorArguments);
+        await args.generatorsProvider.getCommonFilesGenerator().execute(commonFilesGeneratorArguments);
 
         args.AddMessageObjects(
             commonFilesGeneratorArguments.GetAllMessages());
@@ -22,7 +22,8 @@ export class GenerateCommonFilesFlow extends ProgramFlowProcessor {
     }
 
     public CustomCondition(args: ProgramFlowArguments): boolean {
-        let safeCondition = !!args.commonFilesGenerator;
+        let safeCondition = !!args.generatorsProvider.getCommonFilesGenerator() 
+            && args.selectedDesiredFlow === GenerateCommonPipelineFilesExecutor.Identifier;
         return safeCondition;
     }
 }

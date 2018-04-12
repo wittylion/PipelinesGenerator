@@ -17,5 +17,5 @@ export class ProgramFlowArguments extends YeomanContext {
         super(yeomanGenerator);
     }
 
-    commonFilesGenerator: GenerateCommonPipelineFilesExecutor;
+    selectedDesiredFlow: string;
 }

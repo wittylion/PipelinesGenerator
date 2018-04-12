@@ -5,6 +5,8 @@ import { GenerateTypescriptExecutorFilePipeline } from "./GenerateTypescriptExec
 import { GenerateExecutorFileExecutor } from "../../feature/GenerateExecutorFile";
 import { GenerateTypescriptArgumentsFilePipeline } from "./GenerateTypescriptArgumentsFile/GenerateTypescriptArgumentsFilePipeline";
 import { GenerateArgumentsFileExecutor } from "../../feature/GenerateArgumentsFile";
+import { GenerateCommonPipelineFilesExecutor } from "../../feature/GenerateCommonFiles";
+import { GenerateCommonFilesPipeline } from "./GenerateCommonFiles";
 
 export class Defaults {
 
@@ -20,6 +22,7 @@ export class Defaults {
     public static ProcessorGenerator = new GenerateProcessorFileExecutor(GenerateTypescriptProcessorFilePipeline.Instance);
     public static ArgumentsGenerator = new GenerateArgumentsFileExecutor(GenerateTypescriptArgumentsFilePipeline.Instance);
     public static ExecutorGenerator = new GenerateExecutorFileExecutor(GenerateTypescriptExecutorFilePipeline.Instance);
+    public static CommonFilesGenerator = new GenerateCommonPipelineFilesExecutor(GenerateCommonFilesPipeline.Instance);
 
     public static exportDeclaration: string = "export {{classes}} from '{{file}}'";
 
