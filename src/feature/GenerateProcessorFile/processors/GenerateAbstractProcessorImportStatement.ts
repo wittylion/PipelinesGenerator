@@ -29,7 +29,7 @@ export class GenerateAbstractProcessorImportStatement extends GenerateProcessorF
     }
 
     public CustomCondition(args: GenerateProcessorFileArguments): boolean {
-        let safeCondition = true;
+        let safeCondition = args.abstractProcessor && !S(args.abstractProcessor.fileName).isEmpty();
         return safeCondition;
     }
 }

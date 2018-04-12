@@ -7,17 +7,49 @@ export class GenerateProcessorFile extends GenerateProcessorFileProcessor {
     public static readonly Instance = new GenerateProcessorFile();
 
     public async SafeExecute(args: GenerateProcessorFileArguments): Promise<void> {
+        let options = {};
+
+        if (args.arguments) {
+            _.assign(
+                options,
+                {
+                    argumentsClassName: args.arguments.className,
+                    argumentsFileName: args.argumentsImportStatement,
+                }
+            );
+        } else {
+            _.assign(
+                options,
+                {
+                    argumentsClassName: "MyArguments",
+                    argumentsFileName: "../MyArguments",
+                }
+            );
+        }
+
+        if (args.abstractProcessor) {
+            _.assign(
+                options,
+                {
+                    abstractProcessorClassName: args.abstractProcessor.className,
+                    abstractProcessorFileName: args.processorImportStatement,
+                }
+            );
+        } else {
+            _.assign(
+                options,
+                {
+                    abstractProcessorClassName: "MyProcessor",
+                    abstractProcessorFileName: "../MyProcessor",
+                }
+            );
+        }
+
         let res =
             await GenerateFileFromTemplateExecutor.Instance.create(
                 args.fileModel,
                 args.yeomanGenerator,
-                {
-                    argumentsClassName: args.arguments.className,
-                    argumentsFileName: args.argumentsImportStatement,
-
-                    abstractProcessorClassName: args.abstractProcessor.className,
-                    abstractProcessorFileName: args.processorImportStatement,
-                }
+                options
             );
 
         if (res.result) {

@@ -7,6 +7,11 @@ export class CheckAbstractProcessor extends GenerateProcessorFileProcessor {
     public static readonly Instance = new CheckAbstractProcessor();
 
     public async SafeExecute(args: GenerateProcessorFileArguments): Promise<void> {
+        if (!args.arguments) {
+            args.AddWarning(GenerateProcessorFileMessages.AbstractProcessorMustBeProvided);
+            return;
+        }
+
         let templateData = { 
             processor: args.fileModel.className, 
             file: args.fileModel.fileName 

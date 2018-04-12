@@ -7,6 +7,11 @@ export class CheckArguments extends GenerateProcessorFileProcessor {
     public static readonly Instance = new CheckArguments();
 
     public async SafeExecute(args: GenerateProcessorFileArguments): Promise<void> {
+        if (!args.arguments) {
+            args.AddWarning(GenerateProcessorFileMessages.ArgumentsMustBeProvided);
+            return;
+        }
+
         let templateData = { 
             processor: args.fileModel.className, 
             file: args.fileModel.fileName 
