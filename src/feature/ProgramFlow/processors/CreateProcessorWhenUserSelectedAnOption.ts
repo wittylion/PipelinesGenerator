@@ -9,6 +9,7 @@ import { GenerateProcessorFileOptions } from "../../GenerateProcessorFile/Genera
 import { MessageType } from "solid-pipelines";
 
 import fs = require("fs");
+import { GenerateProcessorFromScratchArguments, GenerateProcessorFromScratchExecutor } from "../../GenerateProcessorFromScratch";
 
 export class CreateProcessorWhenUserSelectedAnOption extends ProgramFlowProcessor {
     public static readonly Instance = new CreateProcessorWhenUserSelectedAnOption();
@@ -17,9 +18,10 @@ export class CreateProcessorWhenUserSelectedAnOption extends ProgramFlowProcesso
 
         let model = args.modelsProvider.getProcessorModel();
 
-        let processorGeneration = new GenerateProcessorFileArguments(
-            model,
-            args.yeomanGenerator
+        let processorGeneration = new GenerateProcessorFromScratchArguments(
+            args.yeomanGenerator,
+            args.generatorsProvider.getProcessorGenerator(),
+            model
         );
 
         if (!fs.existsSync(
@@ -28,7 +30,7 @@ export class CreateProcessorWhenUserSelectedAnOption extends ProgramFlowProcesso
         }
 
         let result
-            = await GenerateProcessorFileExecutor.Instance.execute(processorGeneration);
+            = await GenerateProcessorFromScratchExecutor.Instance.execute(processorGeneration);
 
         let failMessages = processorGeneration.GetWarningsAndErrors();
 
@@ -39,7 +41,7 @@ export class CreateProcessorWhenUserSelectedAnOption extends ProgramFlowProcesso
             args.AbortPipelineWithInformationMessage("Processor is created.");
         }
 
-        args.AddMessageObjects(result.messages);
+        args.AddMessageObjects(failMessages);
     }
 
     public SafeCondition(args: ProgramFlowArguments): boolean {

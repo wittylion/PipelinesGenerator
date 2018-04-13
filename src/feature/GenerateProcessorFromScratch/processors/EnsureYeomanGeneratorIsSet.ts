@@ -5,7 +5,7 @@ export class EnsureYeomanGeneratorIsSet extends GenerateProcessorFromScratchProc
     public static readonly Instance = new EnsureYeomanGeneratorIsSet();
 
     public async SafeExecute(args: GenerateProcessorFromScratchArguments): Promise<void> {
-        throw new Error("Not implemented.");
+        args.AbortPipelineWithErrorAndNoResult("Yeoman generator must be provided to create a processor.");
     }
 
     public SafeCondition(args: GenerateProcessorFromScratchArguments): boolean {
@@ -13,7 +13,7 @@ export class EnsureYeomanGeneratorIsSet extends GenerateProcessorFromScratchProc
     }
 
     public CustomCondition(args: GenerateProcessorFromScratchArguments): boolean {
-        let safeCondition = true;
+        let safeCondition = !args.yeomanGenerator;
         return safeCondition;
     }
 }

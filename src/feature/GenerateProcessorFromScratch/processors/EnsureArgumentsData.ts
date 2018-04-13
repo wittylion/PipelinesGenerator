@@ -1,11 +1,30 @@
 import { GenerateProcessorFromScratchProcessor } from "../GenerateProcessorFromScratchProcessor";
 import { GenerateProcessorFromScratchArguments } from "../GenerateProcessorFromScratchArguments";
+import { ResolveFileDependencyExecutor } from "../../../foundation/ResolveFileDependency";
+import { CreatedFileResult } from "../../GenerateFileFromTemplate/models/CreatedFileResult";
+
+import upath from "upath";
+import { GenerateProcessorFromScratchMessages } from "../GenerateProcessorFromScratchMessages";
 
 export class EnsureArgumentsData extends GenerateProcessorFromScratchProcessor {
     public static readonly Instance = new EnsureArgumentsData();
 
     public async SafeExecute(args: GenerateProcessorFromScratchArguments): Promise<void> {
-        throw new Error("Not implemented.");
+        args.yeomanGenerator.log(GenerateProcessorFromScratchMessages.ProvideArguments);
+
+        let resolveResult = await ResolveFileDependencyExecutor.resolveFile(
+            args.yeomanGenerator,
+            args.model.getFinalName().replace("Processor", "Arguments"),
+            args.yeomanGenerator.destinationPath(args.model.getSubdirectory())
+        );
+
+        let path = resolveResult.result;
+        if (path) {
+            let className = upath.trimExt(upath.basename(path));
+            args.argumentsModel = new CreatedFileResult(className, path);
+        }
+
+        args.AddMessageObjects(resolveResult.messages);
     }
 
     public SafeCondition(args: GenerateProcessorFromScratchArguments): boolean {
@@ -13,7 +32,7 @@ export class EnsureArgumentsData extends GenerateProcessorFromScratchProcessor {
     }
 
     public CustomCondition(args: GenerateProcessorFromScratchArguments): boolean {
-        let safeCondition = true;
+        let safeCondition = !args.argumentsModel;
         return safeCondition;
     }
 }

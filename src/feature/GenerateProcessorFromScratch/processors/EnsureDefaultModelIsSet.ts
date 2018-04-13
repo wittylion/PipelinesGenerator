@@ -5,7 +5,7 @@ export class EnsureDefaultModelIsSet extends GenerateProcessorFromScratchProcess
     public static readonly Instance = new EnsureDefaultModelIsSet();
 
     public async SafeExecute(args: GenerateProcessorFromScratchArguments): Promise<void> {
-        throw new Error("Not implemented.");
+        args.AbortPipelineWithErrorAndNoResult("Main data about file, including extension and template, must be provided to create a processor.");
     }
 
     public SafeCondition(args: GenerateProcessorFromScratchArguments): boolean {
@@ -13,7 +13,7 @@ export class EnsureDefaultModelIsSet extends GenerateProcessorFromScratchProcess
     }
 
     public CustomCondition(args: GenerateProcessorFromScratchArguments): boolean {
-        let safeCondition = true;
+        let safeCondition = !args.model;
         return safeCondition;
     }
 }
