@@ -8,6 +8,7 @@ export class ResolveFileDependencyPipeline implements IPipeline {
         return [
             Processors.ValidateArguments.Instance,
             Processors.TryToGuessPath.Instance,
+            Processors.FilterGuesses.Instance,
             Processors.AskWhetherPathIsCorrect.Instance,
             Processors.AskPathIfGuessIsNotCorrect.Instance,
             Processors.AskIfFileShouldBeCreatedIfItDoesntExist.Instance,

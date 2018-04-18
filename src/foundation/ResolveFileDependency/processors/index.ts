@@ -8,3 +8,5 @@ export * from './AskWhetherPathIsCorrect'
 export * from './AskPathIfGuessIsNotCorrect'
 
 export * from './AskIfFileShouldBeCreatedIfItDoesntExist'
+
+export * from './FilterGuesses'
