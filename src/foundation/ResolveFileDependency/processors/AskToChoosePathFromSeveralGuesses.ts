@@ -5,33 +5,28 @@ import { InputTypeEnum } from "../../YeomanQuestions";
 import { ResolveFileDependencyMessages } from "../ResolveFileDependencyMessages";
 import S from "string";
 
-export class AskWhetherPathIsCorrect extends ResolveFileDependencyProcessor {
-    public static readonly Instance = new AskWhetherPathIsCorrect();
+export class AskToChoosePathFromSeveralGuesses extends ResolveFileDependencyProcessor {
+    public static readonly Instance = new AskToChoosePathFromSeveralGuesses();
 
     public async SafeExecute(args: ResolveFileDependencyArguments): Promise<void> {
         const optionName = args.GetOptionWithId("-select-file");
         let question: Question = undefined;
 
         question = {
-            type: InputTypeEnum.Confirm,
+            type: InputTypeEnum.List,
+            choices: args.guesses,
             name: optionName,
-            message: S(ResolveFileDependencyMessages.ConfirmFile)
-                .template({ file: args.guesses[0] }).s,
-            default: false
+            message: ResolveFileDependencyMessages.ChooseFile
         };
 
         let answers = await args.yeomanGenerator.prompt(question);
         let answer = answers[optionName];
 
-        if (answer) {
-            let message = S(ResolveFileDependencyMessages.UserConfirmed)
-                .template({ file: args.guesses[0] }).s;
-            args.SetResultWithInformation(args.guesses[0], message);
-        }
-        else {
-            args.ResetResultWithInformation(S(ResolveFileDependencyMessages.FileWillNotBeCreated)
-                .template({ path: args.guesses[0] }).s);
-        }
+        let message = S(ResolveFileDependencyMessages.UserSelected)
+            .template({ options: args.guesses, file: answer }).s
+
+        args.SetResultWithInformation(answer, message);
+
     }
 
     public SafeCondition(args: ResolveFileDependencyArguments): boolean {
@@ -39,7 +34,7 @@ export class AskWhetherPathIsCorrect extends ResolveFileDependencyProcessor {
     }
 
     public CustomCondition(args: ResolveFileDependencyArguments): boolean {
-        let safeCondition = args.guesses.length === 1 && !args.ResultIsSet();
+        let safeCondition = args.guesses.length > 1 && !args.ResultIsSet();
         return safeCondition;
     }
 }
