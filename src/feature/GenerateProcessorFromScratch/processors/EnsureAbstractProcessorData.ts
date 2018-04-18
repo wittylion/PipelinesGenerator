@@ -14,10 +14,11 @@ export class EnsureAbstractProcessorData extends GenerateProcessorFromScratchPro
 
         let resolveResult = await ResolveFileDependencyExecutor.resolveFile(
             args.yeomanGenerator,
-            "",
+            "abstract-processor",
+            "Processor.ts",
             args.yeomanGenerator.destinationPath(args.model.getSubdirectory())
         );
-
+        
         let path = resolveResult.result;
         if (path) {
             let className = upath.trimExt(upath.basename(path));

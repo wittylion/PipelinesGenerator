@@ -9,7 +9,7 @@ export class AskIfFileShouldBeCreatedIfItDoesntExist extends ResolveFileDependen
 
     public async SafeExecute(args: ResolveFileDependencyArguments): Promise<void> {
         let res = args.GetResult();
-        const optionName = "createFile";
+        const optionName = args.GetOptionWithId("-create-file");
 
         let path = args.yeomanGenerator.destinationPath(res);
         if (args.yeomanGenerator.fs.exists(path)) {

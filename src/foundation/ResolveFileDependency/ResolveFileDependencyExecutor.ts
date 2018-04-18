@@ -9,18 +9,31 @@ export class ResolveFileDependencyExecutor {
 
     public static resolveFile(
         yeomanGenerator: Generator,
+        fileId: string,
         fileNamePattern: string,
         fromDirectory: string
     ) {
-        return ResolveFileDependencyExecutor.Instance.resolveFile(yeomanGenerator, fileNamePattern, fromDirectory);
+        return ResolveFileDependencyExecutor.Instance.resolveFile(
+            yeomanGenerator,
+            fileId,
+            fileNamePattern,
+            fromDirectory
+        );
     }
 
     resolveFile(
         yeomanGenerator: Generator,
+        fileId: string,
         fileNamePattern: string,
         fromDirectory: string
     ): Promise<{ result: string, messages: PipelineMessage[] }> {
-        let args: ResolveFileDependencyArguments = new ResolveFileDependencyArguments(yeomanGenerator, fileNamePattern, fromDirectory);
+        let args: ResolveFileDependencyArguments
+            = new ResolveFileDependencyArguments(
+                yeomanGenerator,
+                fileId,
+                fileNamePattern,
+                fromDirectory
+            );
         return this.execute(args);
     }
 

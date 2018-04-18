@@ -14,6 +14,7 @@ export class EnsureArgumentsData extends GenerateProcessorFromScratchProcessor {
 
         let resolveResult = await ResolveFileDependencyExecutor.resolveFile(
             args.yeomanGenerator,
+            "arguments",
             args.model.getFinalName().replace("Processor", "Arguments"),
             args.yeomanGenerator.destinationPath(args.model.getSubdirectory())
         );

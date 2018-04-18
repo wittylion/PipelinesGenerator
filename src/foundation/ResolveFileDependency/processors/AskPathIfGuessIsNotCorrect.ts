@@ -10,7 +10,7 @@ export class AskPathIfGuessIsNotCorrect extends ResolveFileDependencyProcessor {
 
     public async SafeExecute(args: ResolveFileDependencyArguments): Promise<void> {
         let question: Question = undefined;
-        const optionName = "selectFile";
+        const optionName = args.GetOptionWithId("-select-file");
 
         question = {
             type: InputTypeEnum.Input,

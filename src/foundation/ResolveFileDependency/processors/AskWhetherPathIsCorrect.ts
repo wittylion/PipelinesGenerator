@@ -9,7 +9,7 @@ export class AskWhetherPathIsCorrect extends ResolveFileDependencyProcessor {
     public static readonly Instance = new AskWhetherPathIsCorrect();
 
     public async SafeExecute(args: ResolveFileDependencyArguments): Promise<void> {
-        const optionName = "selectFile";
+        const optionName = args.GetOptionWithId("-select-file");
         let question: Question = undefined;
 
         if (args.guesses.length === 1) {
