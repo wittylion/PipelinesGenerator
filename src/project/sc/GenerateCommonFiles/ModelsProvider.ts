@@ -1,7 +1,7 @@
-import { IModelsProvider } from "../../../feature/GenerateCommonFiles/IModelsProvider";
 import { GenerateFileModel } from "../../../feature/GenerateFileFromTemplate/models/GenerateFileModel";
 import { Defaults } from "../Defaults";
 import _ from "lodash";
+import { IModelsProvider } from "../../../feature/GenerateCommonFiles/IModelsProvider";
 
 export class ModelsProvider implements IModelsProvider {
     public static readonly Instance: ModelsProvider = new ModelsProvider();
