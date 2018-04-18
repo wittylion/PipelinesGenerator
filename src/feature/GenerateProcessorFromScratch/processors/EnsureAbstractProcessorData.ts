@@ -22,7 +22,7 @@ export class EnsureAbstractProcessorData extends GenerateProcessorFromScratchPro
         let path = resolveResult.result;
         if (path) {
             let className = upath.trimExt(upath.basename(path));
-            args.argumentsModel = new CreatedFileResult(className, path);
+            args.processorModel = new CreatedFileResult(className, path);
         }
 
         args.AddMessageObjects(resolveResult.messages);
