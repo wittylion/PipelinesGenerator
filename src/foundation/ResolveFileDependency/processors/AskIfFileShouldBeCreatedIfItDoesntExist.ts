@@ -24,7 +24,7 @@ export class AskIfFileShouldBeCreatedIfItDoesntExist extends ResolveFileDependen
             default: false
         };
         
-        let answers = args.yeomanGenerator.prompt(question);
+        let answers = await args.yeomanGenerator.prompt(question);
         let answer: boolean = answers[optionName];
 
         if (answer) {

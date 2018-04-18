@@ -19,7 +19,7 @@ export class AskPathIfGuessIsNotCorrect extends ResolveFileDependencyProcessor {
                 .template({ directory: args.fromDirectory }).s
         };
 
-        let answers = args.yeomanGenerator.prompt(question);
+        let answers = await args.yeomanGenerator.prompt(question);
         let answer = answers[optionName];
 
         if (!S(args.fromDirectory).isEmpty()) {

@@ -29,7 +29,7 @@ export class AskWhetherPathIsCorrect extends ResolveFileDependencyProcessor {
             };
         }
 
-        let answers = args.yeomanGenerator.prompt(question);
+        let answers = await args.yeomanGenerator.prompt(question);
         let answer = answers[optionName];
 
         let message =

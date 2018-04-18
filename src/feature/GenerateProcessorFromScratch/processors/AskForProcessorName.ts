@@ -18,10 +18,10 @@ export class AskForProcessorName extends GenerateProcessorFromScratchProcessor {
             name: optionName,
             message: GenerateProcessorFromScratchMessages.ProvideProcessorName,
             validate: (input) => regex.test(input),
-            default: args.guesses.length > 0 ? args.guesses[0] : "Processor"
+            default: args.guesses && args.guesses.length > 0 ? args.guesses[0] : "Processor"
         };
 
-        let answers = args.yeomanGenerator.prompt(question);
+        let answers = await args.yeomanGenerator.prompt(question);
         let answer = answers[optionName];
 
         args.model.className = answer;
