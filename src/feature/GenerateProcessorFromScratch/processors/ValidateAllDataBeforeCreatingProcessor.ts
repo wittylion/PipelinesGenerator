@@ -1,22 +1,23 @@
 import { GenerateProcessorFromScratchProcessor } from "../GenerateProcessorFromScratchProcessor";
 import { GenerateProcessorFromScratchArguments } from "../GenerateProcessorFromScratchArguments";
 import { GenerateProcessorFileArguments } from "../../GenerateProcessorFile";
+import { GenerateProcessorFromScratchMessages } from "../GenerateProcessorFromScratchMessages";
 
 export class GenerateProcessor extends GenerateProcessorFromScratchProcessor {
     public static readonly Instance = new GenerateProcessor();
 
     public async SafeExecute(args: GenerateProcessorFromScratchArguments): Promise<void> {
-        let generateProcessorArgs =
-            GenerateProcessorFileArguments.Create(
-                args.model,
-                args.yeomanGenerator
-            );
+        if (!args.processorGenerator) {
+            args.AbortPipelineWithErrorAndNoResult(
+                GenerateProcessorFromScratchMessages.CannotCreateProcessorWithoutProcessorGenerator);
+            return;
+        }
 
-        generateProcessorArgs.arguments = args.argumentsModel;
-        generateProcessorArgs.abstractProcessor = args.processorModel;
-
-        let result
-            = await args.processorGenerator.execute(generateProcessorArgs);
+        if (!args.model) {
+            args.AbortPipelineWithErrorAndNoResult(
+                GenerateProcessorFromScratchMessages.CannotCreateProcessorWithoutData);
+            return;
+        }
     }
 
     public SafeCondition(args: GenerateProcessorFromScratchArguments): boolean {
@@ -25,7 +26,9 @@ export class GenerateProcessor extends GenerateProcessorFromScratchProcessor {
 
     public CustomCondition(args: GenerateProcessorFromScratchArguments): boolean {
         let safeCondition =
-            !!args.processorGenerator
+            !!args.argumentsModel
+            && !!args.processorModel
+            && !!args.processorGenerator
             && !!args.model;
         return safeCondition;
     }
