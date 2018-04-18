@@ -39,8 +39,14 @@ export class AskWhetherPathIsCorrect extends ResolveFileDependencyProcessor {
                 : S(ResolveFileDependencyMessages.UserConfirmed)
                     .template({ file: args.guesses[0] }).s
 
-        if (args.guesses.length === 1 && answer) {
-            args.SetResultWithInformation(args.guesses[0], message);
+        if (args.guesses.length === 1) {
+            if (answer) {
+                args.SetResultWithInformation(args.guesses[0], message);
+            }
+            else {
+                args.ResetResultWithInformation(S(ResolveFileDependencyMessages.FileWillNotBeCreated)
+                    .template({ path: args.guesses[0] }).s);
+            }
         } else {
             args.SetResultWithInformation(answer, message);
         }

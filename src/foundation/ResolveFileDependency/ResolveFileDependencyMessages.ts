@@ -10,4 +10,6 @@ export class ResolveFileDependencyMessages {
     public static UserTypedFilePath = "User provided this path to a file [{{path}}].";
 
     public static ShouldCreateFile = "We found that the path [{{path}}] doesn't exist, would you like to create this file.";
+    
+    public static FileWillNotBeCreated = "User declined a guess of [{{path}}]";
 }
