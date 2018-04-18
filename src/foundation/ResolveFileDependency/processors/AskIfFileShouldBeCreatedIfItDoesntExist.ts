@@ -3,6 +3,7 @@ import { ResolveFileDependencyArguments } from "../ResolveFileDependencyArgument
 import { InputTypeEnum } from "../../YeomanQuestions";
 import { ResolveFileDependencyMessages } from "../ResolveFileDependencyMessages";
 import S from "string";
+import { join } from "path"
 
 export class AskIfFileShouldBeCreatedIfItDoesntExist extends ResolveFileDependencyProcessor {
     public static readonly Instance = new AskIfFileShouldBeCreatedIfItDoesntExist();
@@ -11,7 +12,7 @@ export class AskIfFileShouldBeCreatedIfItDoesntExist extends ResolveFileDependen
         let res = args.GetResult();
         const optionName = args.GetOptionWithId("-create-file");
 
-        let path = args.yeomanGenerator.destinationPath(res);
+        let path = join(args.fromDirectory, res);
         if (args.yeomanGenerator.fs.exists(path)) {
             return;
         }
