@@ -7,9 +7,9 @@ var helpers = require('yeoman-test');
 /*
  * Test for all subgenerators NOT requiring a name argument
  */
-describe('Testing C# pipelines generator.', function () {
+describe('Testing C# pipelines with Pipelines.Net package generator.', function () {
 
-    describe('Subgenerator: pipe:cs', function () {
+    describe('Subgenerator: pipe:csp', function () {
         describe('When default', function () {
             before(function (done) {
                 // The object returned acts like a promise, so return it to wait until the process is done
