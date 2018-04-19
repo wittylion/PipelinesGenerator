@@ -16,10 +16,10 @@ namespace MyNamespace
                 return;
             }
 
-            this.SafeProcess(args);
+            this.SafeExecute(args);
         }
 
-        public abstract void SafeProcess(<%= argumentsClassName %> args);
+        public abstract void SafeExecute(<%= argumentsClassName %> args);
 
         public virtual bool SafeCondition(<%= argumentsClassName %> args)
         {
