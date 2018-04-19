@@ -1,8 +1,8 @@
-using Pipelines;
+using Sitecore.Pipelines;
 
 namespace MyNamespace
 {
-    public class <%= name %> : PipelineContext
+    public class <%= name %> : PipelineArgs
     {
         <% argumentsMemebers.forEach(function(member){ %>public string <%= member %> { get; set; }
         <% }); %>
