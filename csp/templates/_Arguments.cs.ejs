@@ -1,9 +1,9 @@
+using Pipelines;
+
 namespace MyNamespace
 {
-    public class <%= name %>
+    public class <%= name %> : PipelineContext
     {
-        public bool IsAborted { get; set; }
-
         <% argumentsMemebers.forEach(function(member){ %>public string <%= member %> { get; set; }
         <% }); %>
     }

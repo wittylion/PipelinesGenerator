@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Pipelines;
 
 namespace MyNamespace
 {
@@ -7,17 +6,21 @@ namespace MyNamespace
     {
         public static readonly <%= name %> Instance = new <%= name %>(<%= pipelineClassName %>.Instance);
 
-        public IPipeline Pipeline { get; }
+        public <%= pipelineClassName %> Pipeline { get; }
 
-        public <%= name %>(IPipeline pipeline)
+        public <%= name %>(<%= pipelineClassName %> pipeline)
         {
             this.Pipeline = pipeline;
         }
 
-        public virtual Task Execute(<%= argumentsClassName %> arguments)
+        public virtual async Task Execute(<%= argumentsClassName %> arguments)
         {
-            PipelineRunner runner = new PipelineRunner();
-            return runner.RunPipeline(this.Pipeline, arguments);
+            var processors = this.Pipeline.GetProcessors();
+            
+            foreach (var processor in processors)
+            {
+                await processor.Execute(arguments);
+            }
         }
     }
 }

@@ -1,16 +1,21 @@
+<% 
+
+    if (!locals.abstractProcessorClassName) {
+        locals.abstractProcessorClassName = "MyProcessor"; 
+    }
+%>
+
 using System.Collections.Generic;
-using Pipelines;
 using MyNamespace.Processors;
 
 namespace MyNamespace
 {
-    public class <%= name %> : IPipeline
+    public class <%= name %>
     {
         public static readonly <%= name %> Instance = new <%= name %>();
-        public IEnumerable<IProcessor> GetProcessors()
+        public IEnumerable<<%= abstractProcessorClassName %>> GetProcessors()
         {
-            <% processors.forEach(function(processor){ %>    yield return <%= processor %>.Instance;
-            <% }); %>
+            <% processors.forEach(function(processor){ %>yield return <%= processor %>.Instance;<% }); %>
         }
     }
 }

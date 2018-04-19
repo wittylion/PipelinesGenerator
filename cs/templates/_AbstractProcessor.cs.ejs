@@ -1,8 +1,35 @@
-using Pipelines;
+using MyNamespace;
+using System.Threading.Tasks;
 
 namespace MyNamespace
 {
-    public abstract class <%= name %> : SafeProcessor<<%= argumentsClassName %>>
+    public abstract class <%= name %>
     {
+        public Task Execute(<%= argumentsClassName %> args)
+        {
+            return this.Process(args);
+        }
+
+        public Task Process(<%= argumentsClassName %> args)
+        {
+            if (args.IsAborted)
+            {
+                return Task.CompletedTask;
+            }
+
+            if (!this.SafeCondition(args))
+            {
+                return Task.CompletedTask;
+            }
+
+            return this.SafeExecute(args);
+        }
+
+        public abstract Task SafeExecute(<%= argumentsClassName %> args);
+
+        public virtual bool SafeCondition(<%= argumentsClassName %> args)
+        {
+            return true;
+        }
     }
 }
