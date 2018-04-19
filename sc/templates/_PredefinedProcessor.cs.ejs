@@ -5,7 +5,7 @@ namespace MyNamespace.Processors
     public class <%= name %> : <%= abstractProcessorClassName %>
     {
         public static readonly <%= name %> Instance = new <%= name %>();
-        public override Task SafeExecute(<%= argumentsClassName %> args)
+        public override void SafeExecute(<%= argumentsClassName %> args)
         {
             throw new System.NotImplementedException();
         }

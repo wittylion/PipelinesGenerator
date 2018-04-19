@@ -16,7 +16,7 @@ namespace MyNamespace
 
         public virtual Task Execute(<%= argumentsClassName %> arguments)
         {
-            return Task.Run(() => CorePipeline.Run(this.Pipeline, args));
+            return Task.Run(() => CorePipeline.Run(this.Pipeline, arguments));
         }
     }
 }
