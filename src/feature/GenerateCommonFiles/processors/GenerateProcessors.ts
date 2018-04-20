@@ -12,7 +12,7 @@ export class GenerateProcessors extends GenerateCommonPipelineFilesProcessor {
 
         let processorsModels = args.processorNamesSpecifiedByUser.map(processor => {
             let model = args.modelsProvider.getProcessorModel();
-            model.className = processor;
+            model.options["className"] = processor;
             model.fileName = processor;
             return model;
         });

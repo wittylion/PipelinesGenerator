@@ -12,11 +12,11 @@ export class EnsureClassNameIsSet extends EnsureFileModelProcessor {
 
     public async SafeExecute(args: EnsureFileModelArguments): Promise<void> {
         if (args.interactionMode == InteractionModeEnum.Minimum && !S(args.possibleName).isEmpty()) {
-            args.fileModel.className = args.possibleName;
+            args.fileModel.options["className"] = args.possibleName;
             return;
         }
 
-        args.fileModel.className = await EnsureOptionExecutor.Instance.obtainByKey(
+        args.fileModel.options["className"] = await EnsureOptionExecutor.Instance.obtainByKey(
             args.yeomanGenerator,
             !args.possibleOption ? `name` : args.possibleOption,
             InputTypeEnum.Input,
@@ -31,7 +31,7 @@ export class EnsureClassNameIsSet extends EnsureFileModelProcessor {
     }
 
     public CustomCondition(args: EnsureFileModelArguments): boolean {
-        let safeCondition = S(args.fileModel.className).isEmpty();
+        let safeCondition = S(args.fileModel.options["className"]).isEmpty();
         return safeCondition;
     }
 }

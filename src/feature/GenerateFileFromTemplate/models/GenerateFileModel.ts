@@ -2,7 +2,6 @@ import path = require("path");
 import S from "string";
 
 export class GenerateFileModel {
-    className: string = "";
     fileName: string = "";
     templateName: string = "";
     subdirectories: string[] = [];
@@ -11,8 +10,9 @@ export class GenerateFileModel {
     
     ensureSuffixInFileName: boolean = true;
     ensureSuffixInClassName: boolean = true;
+    suffix: string = "";
 
-    suffix: string;
+    options: {} = {};
 
     getSubdirectory(): string {
         return path.join(...this.subdirectories);

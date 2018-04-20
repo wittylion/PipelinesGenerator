@@ -1,8 +1,19 @@
+<% 
+
+    if (!locals.abstractProcessorClassName) {
+        locals.abstractProcessorClassName = "MyProcessor"; 
+    }
+    
+    if (!locals.namespace) {
+        locals.namespace = "MyNamespace"; 
+    }
+%>
+
 using System.Collections.Generic;
 using Pipelines;
 using MyNamespace.Processors;
 
-namespace MyNamespace
+namespace <%= namespace %>
 {
     public class <%= name %> : IPipeline
     {

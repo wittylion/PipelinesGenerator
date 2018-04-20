@@ -24,7 +24,7 @@ export class AskForProcessorName extends GenerateProcessorFromScratchProcessor {
         let answers = await args.yeomanGenerator.prompt(question);
         let answer = answers[optionName];
 
-        args.model.className = answer;
+        args.model.options["className"] = answer;
     }
 
     public SafeCondition(args: GenerateProcessorFromScratchArguments): boolean {
@@ -32,7 +32,7 @@ export class AskForProcessorName extends GenerateProcessorFromScratchProcessor {
     }
 
     public CustomCondition(args: GenerateProcessorFromScratchArguments): boolean {
-        let safeCondition = S(args.model.className).isEmpty() && S(args.model.fileName).isEmpty();
+        let safeCondition = S(args.model.options["className"]).isEmpty() && S(args.model.fileName).isEmpty();
         return safeCondition;
     }
 }

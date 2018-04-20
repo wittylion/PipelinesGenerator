@@ -26,7 +26,7 @@ export class TryCreateProcessorFromArguments extends ProgramFlowProcessor {
         }
 
         let model = args.modelsProvider.getProcessorModel();
-        model.className = processorName;
+        model.options["className"] = processorName;
 
         let processorGeneration = new GenerateProcessorFileArguments(
             model,

@@ -7,7 +7,7 @@ export class CheckClassName extends GenerateProcessorFileProcessor {
     public static readonly Instance = new CheckClassName();
 
     public async SafeExecute(args: GenerateProcessorFileArguments): Promise<void> {
-        if (S(args.fileModel.className).isEmpty()) {
+        if (S(args.fileModel.options["className"]).isEmpty()) {
             args.AbortPipelineWithErrorMessage(GenerateProcessorFileMessages.ClassNameIsMissing);
         }
     }

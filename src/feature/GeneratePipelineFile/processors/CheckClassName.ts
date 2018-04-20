@@ -7,7 +7,7 @@ export class CheckClassName extends GeneratePipelineFileProcessor {
     public static readonly Instance = new CheckClassName();
 
     public async SafeExecute(args: GeneratePipelineFileArguments): Promise<void> {
-        if (S(args.fileModel.className).isEmpty()) {
+        if (S(args.fileModel.options["className"]).isEmpty()) {
             args.AbortPipelineWithErrorMessage(GeneratePipelineFileMessages.ClassNameIsMissing);
         }
     }

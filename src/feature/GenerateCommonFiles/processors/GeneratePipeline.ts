@@ -12,7 +12,7 @@ export class GeneratePipeline extends GenerateCommonPipelineFilesProcessor {
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
         let model = args.modelsProvider.getPipelineModel();
         model.fileName = args.pipelineNameSpecifiedByUser;
-        model.className = args.pipelineNameSpecifiedByUser;
+        model.options["className"] = args.pipelineNameSpecifiedByUser;
         model.subdirectories = [...args.commonSubfolders, ...model.subdirectories];
         let result = await args.generatorsProvider.getPipelineGenerator().create(
             model,

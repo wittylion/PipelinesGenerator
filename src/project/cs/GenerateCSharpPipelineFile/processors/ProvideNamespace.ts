@@ -1,10 +1,21 @@
 import { GeneratePipelineFileArguments } from "../../../../feature/GeneratePipelineFile";
 import { GeneratePipelineFileProcessor } from "../../../../feature/GeneratePipelineFile/GeneratePipelineFileProcessor";
+import S from "string";
+import { GetNamespaceFromFolderNamesExecutor } from "../../GetNamespaceFromFolderNames";
 
 export class ProvideNamespace extends GeneratePipelineFileProcessor {
     public static readonly Instance = new ProvideNamespace();
 
     public async SafeExecute(args: GeneratePipelineFileArguments): Promise<void> {
+        let res
+            = await GetNamespaceFromFolderNamesExecutor.getNamespace(
+                args.yeomanGenerator.destinationPath(),
+                false,
+                args.yeomanGenerator.destinationPath(args.fileModel.getFinalPath())
+            );
+
+        args.fileModel.options["namespace"] = res.result;
+        args.AddMessageObjects(res.messages);
     }
 
     public SafeCondition(args: GeneratePipelineFileArguments): boolean {
@@ -12,7 +23,7 @@ export class ProvideNamespace extends GeneratePipelineFileProcessor {
     }
 
     public CustomCondition(args: GeneratePipelineFileArguments): boolean {
-        let safeCondition = true;
+        let safeCondition = S(args.fileModel.options["namespace"]).isEmpty();
         return safeCondition;
     }
 }

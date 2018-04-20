@@ -16,11 +16,11 @@ export class EnsureFileNameIsSet extends EnsureFileModelProcessor {
                 InputTypeEnum.Input,
                 false,
                 false,
-                args.fileModel.className
+                args.fileModel.options["className"]
             );
         }
         else {
-            args.fileModel.fileName = args.fileModel.className;
+            args.fileModel.fileName = args.fileModel.options["className"];
         }
     }
 

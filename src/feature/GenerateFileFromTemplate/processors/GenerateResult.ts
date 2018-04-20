@@ -20,7 +20,7 @@ export class GenerateResult extends GenerateFileFromTemplateProcessor {
             return;
         }
 
-        args.result = new CreatedFileResult(args.fileModel.className, args.fileModel.fileName);
+        args.result = new CreatedFileResult(args.fileModel.options["className"], args.fileModel.fileName);
     }
 
     public SafeCondition(args: GenerateFileFromTemplateArguments): boolean {

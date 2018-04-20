@@ -13,7 +13,7 @@ export class CheckArguments extends GenerateProcessorFileProcessor {
         }
 
         let templateData = { 
-            processor: args.fileModel.className, 
+            processor: args.fileModel.options["className"], 
             file: args.fileModel.fileName 
         };
 

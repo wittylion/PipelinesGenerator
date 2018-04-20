@@ -61,7 +61,7 @@ export class GenerateProcessorFile extends GenerateProcessorFileProcessor {
                 res.messages.forEach(x => args.AddMessageObject(x));
             }
             else {
-                args.AddError(`Processor with name '${args.fileModel.className}' was not created.`);
+                args.AddError(`Processor with name '${args.fileModel.options["className"]}' was not created.`);
             }
         }
     }

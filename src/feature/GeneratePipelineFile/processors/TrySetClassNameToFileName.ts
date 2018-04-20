@@ -6,7 +6,7 @@ export class TrySetClassNameToFileName extends GeneratePipelineFileProcessor {
     public static readonly Instance = new TrySetClassNameToFileName();
 
     public async SafeExecute(args: GeneratePipelineFileArguments): Promise<void> {
-        args.fileModel.fileName = args.fileModel.className;
+        args.fileModel.fileName = args.fileModel.options["className"];
     }
 
     public SafeCondition(args: GeneratePipelineFileArguments): boolean {
@@ -14,7 +14,7 @@ export class TrySetClassNameToFileName extends GeneratePipelineFileProcessor {
     }
 
     public CustomCondition(args: GeneratePipelineFileArguments): boolean {
-        let safeCondition = S(args.fileModel.fileName).isEmpty() && !S(args.fileModel.className).isEmpty();
+        let safeCondition = S(args.fileModel.fileName).isEmpty() && !S(args.fileModel.options["className"]).isEmpty();
         return safeCondition;
     }
 }

@@ -8,7 +8,7 @@ export class TrySetFileNameToClassNameIfMissing extends GenerateProcessorFilePro
     public static readonly Instance = new TrySetFileNameToClassNameIfMissing();
 
     public async SafeExecute(args: GenerateProcessorFileArguments): Promise<void> {
-        args.fileModel.className = args.fileModel.fileName;
+        args.fileModel.options["className"] = args.fileModel.fileName;
     }
 
     public SafeCondition(args: GenerateProcessorFileArguments): boolean {
@@ -16,7 +16,7 @@ export class TrySetFileNameToClassNameIfMissing extends GenerateProcessorFilePro
     }
 
     public CustomCondition(args: GenerateProcessorFileArguments): boolean {
-        let safeCondition = !S(args.fileModel.fileName).isEmpty() && S(args.fileModel.className).isEmpty();
+        let safeCondition = !S(args.fileModel.fileName).isEmpty() && S(args.fileModel.options["className"]).isEmpty();
         return safeCondition;
     }
 }

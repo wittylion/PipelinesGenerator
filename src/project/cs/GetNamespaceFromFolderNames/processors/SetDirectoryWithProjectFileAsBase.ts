@@ -1,6 +1,7 @@
 import { GetNamespaceFromFolderNamesProcessor } from "../GetNamespaceFromFolderNamesProcessor";
 import { GetNamespaceFromFolderNamesArguments } from "../GetNamespaceFromFolderNamesArguments";
 import S from "string";
+import path = require("path");
 
 export class SetDirectoryWithProjectFileAsBase extends GetNamespaceFromFolderNamesProcessor {
     public static readonly Instance = new SetDirectoryWithProjectFileAsBase();
@@ -10,7 +11,7 @@ export class SetDirectoryWithProjectFileAsBase extends GetNamespaceFromFolderNam
             .split("\\")
             .filter(x => !x.startsWith(".") && !x.startsWith(".."));
 
-        args.directories = [...directories, args.directories];
+        args.directories = [...directories, ...args.directories];
     }
 
     public SafeCondition(args: GetNamespaceFromFolderNamesArguments): boolean {
