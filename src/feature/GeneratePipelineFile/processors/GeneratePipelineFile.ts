@@ -10,7 +10,7 @@ export class GeneratePipelineFile extends GeneratePipelineFileProcessor {
             args.fileModel,
             args.yeomanGenerator,
             {
-                processors: args.processors.map(x => x.options["className"])
+                processors: args.processors
             }
         );
 

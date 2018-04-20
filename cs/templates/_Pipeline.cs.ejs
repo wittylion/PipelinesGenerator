@@ -19,7 +19,7 @@ namespace <%= namespace %>
         public static readonly <%= name %> Instance = new <%= name %>();
         public IEnumerable<<%= abstractProcessorClassName %>> GetProcessors()
         {
-            <% processors.forEach(function(processor){ %>yield return <%= processor %>.Instance;<% }); %>
+            <% processors.forEach(function(processor){ %>yield return <%= processor.options["className"] %>.Instance;<% }); %>
         }
     }
 }

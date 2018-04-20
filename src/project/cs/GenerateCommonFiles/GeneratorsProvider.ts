@@ -7,4 +7,8 @@ export class GeneratorsProvider extends DefaultGeneratorsProvider {
     getPipelineGenerator() {
         return Defaults.PipelineGenerator;
     }
+
+    getProcessorGenerator() {
+        return Defaults.ProcessorGenerator;
+    }
 }

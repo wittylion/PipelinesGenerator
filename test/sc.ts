@@ -30,7 +30,7 @@ describe('Testing C# pipelines with Pipelines.Net package generator.', function 
             it('Generates a correct namespace for a Processor;', function () {
                 assert.fileContent(
                     './App_Config/HelloWorldPipeline.config',
-                    new RegExp("<processor type=\"" + currentDir + ".HelloWorld\"")
+                    new RegExp("<processor type=\"" + currentDir + ".Processors.HelloWorld,")
                 );
             });
         });

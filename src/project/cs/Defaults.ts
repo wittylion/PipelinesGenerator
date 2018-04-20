@@ -2,10 +2,13 @@ import { GenerateFileModel } from "../../feature/GenerateFileFromTemplate/models
 import _ from "lodash";
 import { GeneratePipelineFileExecutor } from "../../feature/GeneratePipelineFile";
 import { GenerateCSharpPipelineFilePipeline } from "./GenerateCSharpPipelineFile/GenerateCSharpPipelineFilePipeline";
+import { GenerateProcessorFileExecutor } from "../../feature/GenerateProcessorFile";
+import { GenerateCSharpProcessorFile } from "./GenerateCSharpProcessorFile/GenerateCSharpProcessorFilePipeline";
 
 export class Defaults {
 
     public static PipelineGenerator = new GeneratePipelineFileExecutor(GenerateCSharpPipelineFilePipeline.Instance);
+    public static ProcessorGenerator = new GenerateProcessorFileExecutor(GenerateCSharpProcessorFile.Instance);
 
     public static argumentsModel: GenerateFileModel;
     public static abstractProcessorModel: GenerateFileModel;
