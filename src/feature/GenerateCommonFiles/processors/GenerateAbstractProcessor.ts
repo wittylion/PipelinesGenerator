@@ -16,7 +16,7 @@ export class GenerateAbstractProcessor extends GenerateCommonPipelineFilesProces
             model,
             args.yeomanGenerator,
             args.pipelineNameSpecifiedByUser,
-            args.generatedArguments.className,
+            args.generatedArguments.options["className"],
             args.generatedArguments.fileName
         );
 

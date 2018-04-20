@@ -17,7 +17,7 @@ export class CheckArguments extends GenerateProcessorFileProcessor {
             file: args.fileModel.fileName 
         };
 
-        if (S(args.arguments.className).isEmpty()) {
+        if (S(args.arguments.options["className"]).isEmpty()) {
             args.AbortPipelineWithErrorMessage(
                 S(GenerateProcessorFileMessages.ArgumentsClassNameIsMissing)
                     .template(templateData).s

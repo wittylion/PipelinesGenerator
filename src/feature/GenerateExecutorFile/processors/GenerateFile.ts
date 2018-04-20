@@ -22,7 +22,7 @@ export class GenerateFile extends GenerateExecutorFileProcessor {
         if (res.result) {
             let message: string
                 = S(GenerateExecutorFileMessages.ExecutorSuccessfullyCreated)
-                    .template({ name: res.result.className }).s;
+                    .template({ name: res.result.options["className"] }).s;
             args.SetResultWithInformation(res.result, message);
         }
         args.AddMessageObjects(res.messages);

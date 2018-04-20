@@ -20,8 +20,8 @@ export class GenerateExecutor extends GenerateCommonPipelineFilesProcessor {
             InteractionModeEnum.Minimum
         );
 
-        if (!S(args.generatedArguments.className).isEmpty()) {
-            executorGeneration.argumentsClassName = args.generatedArguments.className;
+        if (!S(args.generatedArguments.options["className"]).isEmpty()) {
+            executorGeneration.argumentsClassName = args.generatedArguments.options["className"];
         }
         else {
             args.AddWarning("Cannot obtain arguments class name during the 'Pipeline executor' creation.");
@@ -35,8 +35,8 @@ export class GenerateExecutor extends GenerateCommonPipelineFilesProcessor {
             args.AddWarning("Cannot obtain arguments file name during the 'Pipeline executor' creation.");
         }
 
-        if (!S(args.generatedPipeline.className).isEmpty()) {
-            executorGeneration.pipelineClassName = args.generatedPipeline.className;
+        if (!S(args.generatedPipeline.options["className"]).isEmpty()) {
+            executorGeneration.pipelineClassName = args.generatedPipeline.options["className"];
         }
         else {
             args.AddWarning("Cannot obtain pipeline class name during the 'Pipeline executor' creation.");

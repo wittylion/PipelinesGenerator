@@ -22,7 +22,7 @@ export class GenerateAbstractProcessorFile extends GenerateAbstractProcessorFile
             args.SetResultWithInformation(
                 result.result,
                 S(GenerateAbstractProcessorFileMessages.AbstractProcessorGenerated)
-                    .template(result.result.className).s
+                    .template(result.result.fileName).s
             );
         }
 

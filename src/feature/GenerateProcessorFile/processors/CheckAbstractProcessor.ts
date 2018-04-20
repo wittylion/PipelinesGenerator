@@ -17,7 +17,7 @@ export class CheckAbstractProcessor extends GenerateProcessorFileProcessor {
             file: args.fileModel.fileName 
         };
 
-        if (S(args.arguments.className).isEmpty()) {
+        if (S(args.arguments.options["className"]).isEmpty()) {
             args.AbortPipelineWithErrorMessage(
                 S(GenerateProcessorFileMessages.AbstractProcessorClassNameIsMissing)
                     .template(templateData).s

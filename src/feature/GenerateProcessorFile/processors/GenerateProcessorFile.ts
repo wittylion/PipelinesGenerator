@@ -13,7 +13,7 @@ export class GenerateProcessorFile extends GenerateProcessorFileProcessor {
             _.assign(
                 options,
                 {
-                    argumentsClassName: args.arguments.className,
+                    argumentsClassName: args.arguments.options["className"],
                     argumentsFileName: args.argumentsImportStatement,
                 }
             );
@@ -31,7 +31,7 @@ export class GenerateProcessorFile extends GenerateProcessorFileProcessor {
             _.assign(
                 options,
                 {
-                    abstractProcessorClassName: args.abstractProcessor.className,
+                    abstractProcessorClassName: args.abstractProcessor.options["className"],
                     abstractProcessorFileName: args.processorImportStatement,
                 }
             );

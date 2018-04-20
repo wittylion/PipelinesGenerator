@@ -20,7 +20,7 @@ export class GenerateArgumentsFile extends GenerateArgumentsFileProcessor {
         if (res.result) {
             let message = S(
                 GenerateArgumentsFileMessages.ArgumentsWereSuccessfullyGenerated
-            ).template({ name: res.result.className }).s;
+            ).template({ name: res.result.fileName }).s;
 
             args.SetResultWithInformation(res.result, message);
         }
