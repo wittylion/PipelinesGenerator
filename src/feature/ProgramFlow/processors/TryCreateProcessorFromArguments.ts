@@ -40,7 +40,7 @@ export class TryCreateProcessorFromArguments extends ProgramFlowProcessor {
 
         if (!S(argsName).isEmpty()) {
             processorGeneration.arguments
-                = new CreatedFileResult(argsName, argsName);
+                = new CreatedFileResult(argsName, model.options);
         }
 
 
@@ -51,7 +51,7 @@ export class TryCreateProcessorFromArguments extends ProgramFlowProcessor {
 
         if (!S(abstractProcessorName).isEmpty()) {
             processorGeneration.abstractProcessor
-                = new CreatedFileResult(abstractProcessorName, abstractProcessorName);
+                = new CreatedFileResult(abstractProcessorName, model.options);
         }
 
         if (!fs.existsSync(

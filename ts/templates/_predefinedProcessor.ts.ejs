@@ -1,3 +1,22 @@
+<% 
+
+    if (!locals.argumentsFileName) {
+        locals.argumentsFileName = "../MyArguments"; 
+    }
+    
+    if (!locals.argumentsClassName) {
+        locals.argumentsClassName = "MyArguments"; 
+    }
+    
+    if (!locals.abstractProcessorFileName) {
+        locals.abstractProcessorFileName = "../MyProcessor"; 
+    }
+    
+    if (!locals.abstractProcessorClassName) {
+        locals.abstractProcessorClassName = "MyProcessor"; 
+    }
+%>
+
 import { <%= abstractProcessorClassName %> } from "<%= abstractProcessorFileName %>";
 import { <%= argumentsClassName %> } from "<%= argumentsFileName %>";
 

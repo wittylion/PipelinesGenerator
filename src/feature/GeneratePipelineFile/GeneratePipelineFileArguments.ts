@@ -23,5 +23,5 @@ export class GeneratePipelineFileArguments extends YeomanQueryContext<CreatedFil
     abstractProcessor: CreatedFileResult;
     processorImportStatement: string;
     
-    processors: CreatedFileResult[];
+    processors: CreatedFileResult[] = [];
 }

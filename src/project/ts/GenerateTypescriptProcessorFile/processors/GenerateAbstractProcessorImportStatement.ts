@@ -14,7 +14,7 @@ export class GenerateAbstractProcessorImportStatement extends GenerateProcessorF
             );
 
         if (result.result) {
-            args.processorImportStatement = result.result;
+            args.fileModel.options["abstractProcessorFileName"] = result.result;
         }
         else {
             args.AbortPipelineWithErrorMessage("Cannot obtain import statement for abstract processor path.");

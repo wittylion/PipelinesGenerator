@@ -14,7 +14,6 @@ export class GenerateProcessorFile extends GenerateProcessorFileProcessor {
                 options,
                 {
                     argumentsClassName: args.arguments.options["className"],
-                    argumentsFileName: args.argumentsImportStatement,
                 }
             );
         } else {
@@ -32,7 +31,6 @@ export class GenerateProcessorFile extends GenerateProcessorFileProcessor {
                 options,
                 {
                     abstractProcessorClassName: args.abstractProcessor.options["className"],
-                    abstractProcessorFileName: args.processorImportStatement,
                 }
             );
         } else {

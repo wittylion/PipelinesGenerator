@@ -15,7 +15,7 @@ export class GenerateArgumentsImportStatement extends GenerateProcessorFileProce
             );
 
         if (result.result) {
-            args.argumentsImportStatement = result.result;
+            args.fileModel.options["argumentsFileName"] = result.result;
         }
         else {
             args.AbortPipelineWithErrorMessage("Cannot obtain import statement for arguments path.");

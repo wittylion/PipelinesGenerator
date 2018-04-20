@@ -21,8 +21,5 @@ export class GenerateProcessorFileArguments extends YeomanQueryContext<CreatedFi
     }
 
     arguments: CreatedFileResult;
-    argumentsImportStatement: string;
-
     abstractProcessor: CreatedFileResult;
-    processorImportStatement: string;
 }

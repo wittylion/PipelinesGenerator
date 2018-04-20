@@ -22,7 +22,7 @@ export class EnsureArgumentsData extends GenerateProcessorFromScratchProcessor {
         let path = resolveResult.result;
         if (path) {
             let className = upath.trimExt(upath.basename(path));
-            args.argumentsModel = new CreatedFileResult(className, path);
+            args.argumentsModel = new CreatedFileResult(path, { className : className });
         }
 
         args.AddMessageObjects(resolveResult.messages);
