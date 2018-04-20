@@ -1,7 +1,11 @@
 import { GenerateFileModel } from "../../feature/GenerateFileFromTemplate/models/GenerateFileModel";
 import _ from "lodash";
+import { GeneratePipelineFileExecutor } from "../../feature/GeneratePipelineFile";
+import { GenerateCSharpPipelineFilePipeline } from "./GenerateCSharpPipelineFile/GenerateCSharpPipelineFilePipeline";
 
 export class Defaults {
+
+    public static PipelineGenerator = new GeneratePipelineFileExecutor(GenerateCSharpPipelineFilePipeline.Instance);
 
     public static argumentsModel: GenerateFileModel;
     public static abstractProcessorModel: GenerateFileModel;

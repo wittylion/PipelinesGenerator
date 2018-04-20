@@ -4,7 +4,7 @@ import { ProgramFlowArguments, ProgramFlowExecutor } from "../../../../feature/P
 import { ModelsProvider } from "../../GenerateCommonFiles/ModelsProvider";
 import { GenerateCommonPipelineFilesExecutor } from "../../../../feature/GenerateCommonFiles";
 import { ProgramFlowPipeline } from "../../../../feature/ProgramFlow/ProgramFlowPipeline";
-import { DefaultGeneratorsProvider } from "../../../../feature/GenerateCommonFiles/DefaultGeneratorsProvider";
+import { GeneratorsProvider } from "../../GenerateCommonFiles/GeneratorsProvider";
 
 export class Default extends CSharpYeomanPipelineProcessor {
     public static readonly Instance = new Default();
@@ -13,7 +13,7 @@ export class Default extends CSharpYeomanPipelineProcessor {
         let programFlowArguments = new ProgramFlowArguments(
             args.yeomanGenerator, 
             ModelsProvider.Instance, 
-            DefaultGeneratorsProvider.Instance
+            GeneratorsProvider.Instance
         );
         
         let programFlow = new ProgramFlowExecutor(ProgramFlowPipeline.Instance);
