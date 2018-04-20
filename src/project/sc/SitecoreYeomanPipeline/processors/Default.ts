@@ -2,10 +2,10 @@ import { Default as CSharpDefault } from '../../../cs/CSharpYeomanPipeline/proce
 import { CSharpYeomanPipelineArguments } from '../../../cs/CSharpYeomanPipeline/CSharpYeomanPipelineArguments';
 import { ProgramFlowArguments, ProgramFlowExecutor } from '../../../../feature/ProgramFlow';
 import { ProgramFlowPipeline } from '../../../../feature/ProgramFlow/ProgramFlowPipeline';
-import { DefaultGeneratorsProvider } from '../../../../feature/GenerateCommonFiles/DefaultGeneratorsProvider';
 import { SitecoreYeomanPipelineProcessor } from '../SitecoreYeomanPipelineProcessor';
 import { SitecoreYeomanPipelineArguments } from '../SitecoreYeomanPipelineArguments';
 import { ModelsProvider } from '../../GenerateCommonFiles/ModelsProvider';
+import { GeneratorsProvider } from '../../../cs/GenerateCommonFiles/GeneratorsProvider';
 
 export class Default extends SitecoreYeomanPipelineProcessor {
     public static readonly Instance = new Default();
@@ -14,7 +14,7 @@ export class Default extends SitecoreYeomanPipelineProcessor {
         let programFlowArguments = new ProgramFlowArguments(
             args.yeomanGenerator, 
             ModelsProvider.Instance, 
-            DefaultGeneratorsProvider.Instance
+            GeneratorsProvider.Instance
         );
         
         let programFlow = new ProgramFlowExecutor(ProgramFlowPipeline.Instance);
