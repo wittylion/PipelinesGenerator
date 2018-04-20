@@ -53,7 +53,7 @@ export class GenerateProcessorFile extends GenerateProcessorFileProcessor {
             );
 
         if (res.result) {
-            args.AddInformation(`File '${res.result.fileName}' was created.`);
+            args.SetResultWithInformation(res.result, `File '${res.result.fileName}' was created.`);
             return;
         }
         else {

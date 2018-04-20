@@ -3,6 +3,7 @@ import { GenerateAbstractProcessorFileExecutor } from "../../GenerateAbstractPro
 import { GenerateProcessorFileExecutor } from "../../GenerateProcessorFile";
 import { GenerateExecutorFileExecutor } from "../../GenerateExecutorFile";
 import { GenerateCommonPipelineFilesExecutor } from "..";
+import { GeneratePipelineFileExecutor } from "../../GeneratePipelineFile";
 
 export interface IGeneratorsProvider {
     getArgumentsGenerator(): GenerateArgumentsFileExecutor;
@@ -10,4 +11,5 @@ export interface IGeneratorsProvider {
     getProcessorGenerator(): GenerateProcessorFileExecutor;
     getExecutorGenerator(): GenerateExecutorFileExecutor;
     getCommonFilesGenerator(): GenerateCommonPipelineFilesExecutor;
+    getPipelineGenerator(): GeneratePipelineFileExecutor;
 }

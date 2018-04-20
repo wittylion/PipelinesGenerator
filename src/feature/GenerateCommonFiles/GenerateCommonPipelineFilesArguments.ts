@@ -10,6 +10,7 @@ import { CreatedFileResult } from "../GenerateFileFromTemplate/models/CreatedFil
 
 export class GenerateCommonPipelineFilesArguments extends YeomanContext {
     pipelineNameSpecifiedByUser: string;
+    processorNamesSpecifiedByUser: string[] = [];
     createSubfolderWithPipelineName: boolean;
     commonSubfolders: string[] = [];
 
@@ -19,8 +20,7 @@ export class GenerateCommonPipelineFilesArguments extends YeomanContext {
 
     generatedProcessor: CreatedFileResult;
 
-    processorsNames: string[] = [];
-    processorsFileNames: string[] = [];
+    generatedProcessors: CreatedFileResult[] = [];
 
     generatedPipeline: CreatedFileResult;
 

@@ -10,7 +10,7 @@ export class GenerateProcessors extends GenerateCommonPipelineFilesProcessor {
 
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
 
-        let processorsModels = args.processorsNames.map(processor => {
+        let processorsModels = args.processorNamesSpecifiedByUser.map(processor => {
             let model = args.modelsProvider.getProcessorModel();
             model.className = processor;
             model.fileName = processor;
@@ -28,9 +28,9 @@ export class GenerateProcessors extends GenerateCommonPipelineFilesProcessor {
             processorGeneration.arguments = args.generatedArguments;
             processorGeneration.abstractProcessor = args.generatedProcessor;
 
-            await args.generatorsProvider.getProcessorGenerator().execute(processorGeneration);
+            let result = await args.generatorsProvider.getProcessorGenerator().execute(processorGeneration);
 
-            args.processorsFileNames.push(processorGeneration.fileModel.fileName);
+            args.generatedProcessors.push(result.result);
         }
     }
 
@@ -39,7 +39,7 @@ export class GenerateProcessors extends GenerateCommonPipelineFilesProcessor {
     }
 
     public CustomCondition(args: GenerateCommonPipelineFilesArguments): boolean {
-        let safeCondition = args.processorsNames.length > 0;
+        let safeCondition = args.processorNamesSpecifiedByUser.length > 0;
         return safeCondition;
     }
 }

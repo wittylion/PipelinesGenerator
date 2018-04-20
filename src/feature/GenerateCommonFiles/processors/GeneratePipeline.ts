@@ -4,27 +4,21 @@ import { GenerateFileFromTemplateArguments, GenerateFileFromTemplateExecutor } f
 import S from "string";
 import { EnsureFileModelArguments, EnsureFileModelExecutor } from "../../EnsureFileModel";
 import { MessageFilter } from "solid-pipelines";
+import { GeneratePipelineFileExecutor } from "../../GeneratePipelineFile";
 
 export class GeneratePipeline extends GenerateCommonPipelineFilesProcessor {
     public static readonly Instance = new GeneratePipeline();
 
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
         let model = args.modelsProvider.getPipelineModel();
+        model.fileName = args.pipelineNameSpecifiedByUser;
+        model.className = args.pipelineNameSpecifiedByUser;
         model.subdirectories = [...args.commonSubfolders, ...model.subdirectories];
-
-        let ensurer = EnsureFileModelArguments.Create(
-            args.yeomanGenerator,
-            model,
-            args.pipelineNameSpecifiedByUser
-        );
-        await EnsureFileModelExecutor.Instance.execute(ensurer);
-
-        let result = await GenerateFileFromTemplateExecutor.Instance.create(
+        let result = await args.generatorsProvider.getPipelineGenerator().create(
             model,
             args.yeomanGenerator,
-            {
-                processors: args.processorsNames
-            }
+            args.generatedProcessors,
+            args.generatedProcessor
         );
 
         args.generatedPipeline = result.result;

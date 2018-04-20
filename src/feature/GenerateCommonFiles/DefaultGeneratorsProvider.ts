@@ -4,8 +4,12 @@ import { GenerateAbstractProcessorFileExecutor } from "../GenerateAbstractProces
 import { GenerateProcessorFileExecutor } from "../GenerateProcessorFile";
 import { GenerateExecutorFileExecutor } from "../GenerateExecutorFile";
 import { GenerateCommonPipelineFilesExecutor } from ".";
+import { GeneratePipelineFileExecutor } from "../GeneratePipelineFile";
 
 export class DefaultGeneratorsProvider implements IGeneratorsProvider {
+    getPipelineGenerator(): GeneratePipelineFileExecutor {
+        return GeneratePipelineFileExecutor.Instance;
+    }
     public static Instance = new DefaultGeneratorsProvider();
 
     getArgumentsGenerator(): GenerateArgumentsFileExecutor {

@@ -1,0 +1,17 @@
+import { IPipeline, IProcessor } from 'solid-pipelines'
+import * as Processors from './processors'
+
+export class GeneratePipelineFilePipeline implements IPipeline {
+    public static readonly Instance = new GeneratePipelineFilePipeline();
+
+    GetProcessors(): IProcessor[] {
+        return [
+            Processors.TrySetClassNameToFileName.Instance,
+            Processors.TrySetFileNameToClassName.Instance,
+            Processors.CheckFileName.Instance,
+            Processors.CheckClassName.Instance,
+            Processors.CheckProcessors.Instance,
+            Processors.GeneratePipelineFile.Instance,
+        ];
+    }
+}
