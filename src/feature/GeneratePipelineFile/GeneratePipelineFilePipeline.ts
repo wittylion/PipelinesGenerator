@@ -6,12 +6,18 @@ export class GeneratePipelineFilePipeline implements IPipeline {
 
     GetProcessors(): IProcessor[] {
         return [
+            ...this.GetProcessorsBeforeFileGeneration(),
+            Processors.GeneratePipelineFile.Instance,
+        ];
+    }
+
+    GetProcessorsBeforeFileGeneration() : IProcessor[] {
+        return [
             Processors.TrySetClassNameToFileName.Instance,
             Processors.TrySetFileNameToClassName.Instance,
             Processors.CheckFileName.Instance,
             Processors.CheckClassName.Instance,
-            Processors.CheckProcessors.Instance,
-            Processors.GeneratePipelineFile.Instance,
+            Processors.CheckProcessors.Instance
         ];
     }
 }
