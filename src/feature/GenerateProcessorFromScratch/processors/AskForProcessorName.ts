@@ -11,7 +11,7 @@ export class AskForProcessorName extends GenerateProcessorFromScratchProcessor {
 
     public async SafeExecute(args: GenerateProcessorFromScratchArguments): Promise<void> {
         const optionName = GenerateProcessorFileOptions.PROCESSOR_NAME;
-        const regex = /[A-Za-z]+/;
+        const regex = /^[a-zA-Z_$][a-zA-Z_$0-9]*$/;
 
         let question: Question = {
             type: InputTypeEnum.Input,
