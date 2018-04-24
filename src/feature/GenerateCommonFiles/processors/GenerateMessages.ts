@@ -28,6 +28,7 @@ export class GenerateMessages extends GenerateCommonPipelineFilesProcessor {
         let messagesGeneration = GenerateMessagesFileArguments.Create(
             model, 
             args.yeomanGenerator,
+            args.generatorsProvider.getFileFromTemplateGenerator(),
             args.pipelineNameSpecifiedByUser
         );
 

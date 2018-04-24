@@ -22,7 +22,8 @@ export class GenerateProcessors extends GenerateCommonPipelineFilesProcessor {
 
             let processorGeneration = new GenerateProcessorFileArguments(
                 processorModel,
-                args.yeomanGenerator
+                args.yeomanGenerator,
+                args.generatorsProvider.getFileFromTemplateGenerator(),
             );
 
             processorGeneration.arguments = args.generatedArguments;

@@ -16,6 +16,7 @@ export class GenerateExecutor extends GenerateCommonPipelineFilesProcessor {
         let executorGeneration = new GenerateExecutorFileArguments(
             model,
             args.yeomanGenerator,
+            args.generatorsProvider.getFileFromTemplateGenerator(),
             args.pipelineNameSpecifiedByUser,
             InteractionModeEnum.Minimum
         );

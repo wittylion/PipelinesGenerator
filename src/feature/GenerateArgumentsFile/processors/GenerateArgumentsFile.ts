@@ -9,7 +9,7 @@ export class GenerateArgumentsFile extends GenerateArgumentsFileProcessor {
     public static readonly Instance = new GenerateArgumentsFile();
 
     public async SafeExecute(args: GenerateArgumentsFileArguments): Promise<void> {
-        let res = await GenerateFileFromTemplateExecutor.Instance.create(
+        let res = await args.fileGenerator.create(
             args.fileModel,
             args.yeomanGenerator,
             {

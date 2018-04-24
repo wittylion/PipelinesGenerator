@@ -15,6 +15,7 @@ export class GenerateAbstractProcessor extends GenerateCommonPipelineFilesProces
         let abstractProcessorGeneration = new GenerateAbstractProcessorFileArguments(
             model,
             args.yeomanGenerator,
+            args.generatorsProvider.getFileFromTemplateGenerator(),
             args.pipelineNameSpecifiedByUser,
             args.generatedArguments.options["className"],
             args.generatedArguments.fileName

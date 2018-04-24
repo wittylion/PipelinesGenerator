@@ -9,7 +9,8 @@ export class GenerateProcessor extends GenerateProcessorFromScratchProcessor {
         let generateProcessorArgs =
             GenerateProcessorFileArguments.Create(
                 args.model,
-                args.yeomanGenerator
+                args.yeomanGenerator,
+                args.fileGenerator
             );
 
         generateProcessorArgs.arguments = args.argumentsModel;

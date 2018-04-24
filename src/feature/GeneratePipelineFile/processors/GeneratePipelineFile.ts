@@ -6,7 +6,7 @@ export class GeneratePipelineFile extends GeneratePipelineFileProcessor {
     public static readonly Instance = new GeneratePipelineFile();
 
     public async SafeExecute(args: GeneratePipelineFileArguments): Promise<void> {
-        let result = await GenerateFileFromTemplateExecutor.Instance.create(
+        let result = await args.fileGenerator.create(
             args.fileModel,
             args.yeomanGenerator,
             {

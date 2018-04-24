@@ -5,6 +5,7 @@ import { YeomanContext, YeomanQueryContext } from "../../foundation/PipelinesExt
 import Generator = require("yeoman-generator");
 import { InteractionModeEnum } from "../EnsureFileModel/InteractionModeEnum";
 import { CreatedFileResult } from "../GenerateFileFromTemplate/models/CreatedFileResult";
+import { GenerateFileFromTemplateExecutor } from "../GenerateFileFromTemplate";
 
 export class GenerateExecutorFileArguments extends YeomanQueryContext<CreatedFileResult> {
     
@@ -16,7 +17,8 @@ export class GenerateExecutorFileArguments extends YeomanQueryContext<CreatedFil
 
     constructor(
         public fileModel: GenerateFileModel,
-        public yeomanGenerator: Generator,
+        yeomanGenerator: Generator,
+        public fileGenerator: GenerateFileFromTemplateExecutor,
         public possibleName?: string,
         public interactionMode?: InteractionModeEnum
     ) {

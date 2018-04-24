@@ -17,6 +17,7 @@ export class GeneratePipeline extends GenerateCommonPipelineFilesProcessor {
         let result = await args.generatorsProvider.getPipelineGenerator().create(
             model,
             args.yeomanGenerator,
+            args.generatorsProvider.getFileFromTemplateGenerator(),
             args.generatedProcessors,
             args.generatedProcessor
         );

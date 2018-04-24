@@ -10,7 +10,7 @@ export class GenerateFile extends GenerateExecutorFileProcessor {
 
     public async SafeExecute(args: GenerateExecutorFileArguments): Promise<void> {
         let res
-            = await GenerateFileFromTemplateExecutor.Instance.create(args.fileModel,
+            = await args.fileGenerator.create(args.fileModel,
                 args.yeomanGenerator, {
                     argumentsClassName: args.argumentsClassName,
                     argumentsFileName: args.argumentsFileName,

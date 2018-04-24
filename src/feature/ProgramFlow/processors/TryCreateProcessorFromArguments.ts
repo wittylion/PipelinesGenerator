@@ -30,7 +30,8 @@ export class TryCreateProcessorFromArguments extends ProgramFlowProcessor {
 
         let processorGeneration = new GenerateProcessorFileArguments(
             model,
-            args.yeomanGenerator
+            args.yeomanGenerator,
+            args.generatorsProvider.getFileFromTemplateGenerator(),
         );
 
         let argsName = await ObtainOptionExecutor.obtainByKey(

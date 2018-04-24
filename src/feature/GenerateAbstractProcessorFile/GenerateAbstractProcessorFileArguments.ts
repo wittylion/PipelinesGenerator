@@ -4,11 +4,13 @@ import Generator = require("yeoman-generator");
 import { InteractionModeEnum } from "../EnsureFileModel/InteractionModeEnum";
 import { YeomanQueryContext } from "../../foundation/PipelinesExtensions";
 import { CreatedFileResult } from "../GenerateFileFromTemplate/models/CreatedFileResult";
+import { GenerateFileFromTemplateExecutor } from "../GenerateFileFromTemplate";
 
 export class GenerateAbstractProcessorFileArguments extends YeomanQueryContext<CreatedFileResult> {
     public static Create(
         fileModel: GenerateFileModel,
         yeomanGenerator: Generator,
+        fileGenerator: GenerateFileFromTemplateExecutor,
         possibleName?: string,
         possibleExtension?: string,
         argumentsClassName?: string,
@@ -18,6 +20,7 @@ export class GenerateAbstractProcessorFileArguments extends YeomanQueryContext<C
         return new GenerateAbstractProcessorFileArguments(
             fileModel,
             yeomanGenerator,
+            fileGenerator,
             possibleName,
             argumentsClassName,
             argumentsFileName,
@@ -27,6 +30,7 @@ export class GenerateAbstractProcessorFileArguments extends YeomanQueryContext<C
     constructor(
         public fileModel: GenerateFileModel,
         yeomanGenerator: Generator,
+        public fileGenerator: GenerateFileFromTemplateExecutor,
         public possibleName?: string,
         public argumentsClassName?: string,
         public argumentsFileName?: string,

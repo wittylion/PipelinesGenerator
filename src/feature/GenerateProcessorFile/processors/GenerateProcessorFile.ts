@@ -44,7 +44,7 @@ export class GenerateProcessorFile extends GenerateProcessorFileProcessor {
         }
 
         let res =
-            await GenerateFileFromTemplateExecutor.Instance.create(
+            await args.fileGenerator.create(
                 args.fileModel,
                 args.yeomanGenerator,
                 options

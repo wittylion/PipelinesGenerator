@@ -7,7 +7,7 @@ export class GenerateMessagesFile extends GenerateMessagesFileProcessor {
 
     public async SafeExecute(args: GenerateMessagesFileArguments): Promise<void> {
         let result 
-            = await GenerateFileFromTemplateExecutor.Instance.create(
+            = await args.fileGenerator.create(
                 args.fileModel,
                 args.yeomanGenerator
             );

@@ -9,7 +9,7 @@ export class GenerateAbstractProcessorFile extends GenerateAbstractProcessorFile
 
     public async SafeExecute(args: GenerateAbstractProcessorFileArguments): Promise<void> {
         let result
-            = await GenerateFileFromTemplateExecutor.Instance.create(
+            = await args.fileGenerator.create(
                 args.fileModel,
                 args.yeomanGenerator,
                 {

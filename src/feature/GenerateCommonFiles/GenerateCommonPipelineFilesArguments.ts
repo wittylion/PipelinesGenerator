@@ -15,17 +15,12 @@ export class GenerateCommonPipelineFilesArguments extends YeomanContext {
     commonSubfolders: string[] = [];
 
     generatedArguments: CreatedFileResult;
-
     generatedMessages: CreatedFileResult;
-
     generatedProcessor: CreatedFileResult;
-
     generatedProcessors: CreatedFileResult[] = [];
-
     generatedPipeline: CreatedFileResult;
-
     generatedExecutor: CreatedFileResult;
-
+    
     modelsProvider: IModelsProvider;
     generatorsProvider: IGeneratorsProvider = DefaultGeneratorsProvider.Instance;
 }
