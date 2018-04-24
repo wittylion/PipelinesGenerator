@@ -1,4 +1,4 @@
-import { PipelineRunner, PipelineMessage, MessageFilter } from "solid-pipelines";
+import { PipelineRunner, PipelineMessage, MessageFilter, IPipeline } from "solid-pipelines";
 import { GenerateFileFromTemplateArguments } from './GenerateFileFromTemplateArguments'
 import { GenerateFileFromTemplatePipeline } from './GenerateFileFromTemplatePipeline'
 import { CreatedFileResult } from "./models/CreatedFileResult";
@@ -7,7 +7,11 @@ import Generator = require("yeoman-generator");
 import _ from "lodash";
 
 export class GenerateFileFromTemplateExecutor {
-    public static Instance: GenerateFileFromTemplateExecutor = new GenerateFileFromTemplateExecutor();
+    public static Instance: GenerateFileFromTemplateExecutor = new GenerateFileFromTemplateExecutor(GenerateFileFromTemplatePipeline.Instance);
+
+    constructor(public Pipeline: IPipeline) {
+        
+    }
 
     async create(
         fileModel: GenerateFileModel,
@@ -30,6 +34,6 @@ export class GenerateFileFromTemplateExecutor {
     execute(args: GenerateFileFromTemplateArguments) : Promise<void> {
         var runner:PipelineRunner = new PipelineRunner();
 
-        return runner.RunPipeline(GenerateFileFromTemplatePipeline.Instance, args);
+        return runner.RunPipeline(this.Pipeline, args);
     }
 }

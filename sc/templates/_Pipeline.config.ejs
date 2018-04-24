@@ -3,7 +3,7 @@
     <sitecore>
         <objects>
             <pipelineExecutors>
-                <<%= name %> type="<%= namespace %>.<%= name %>Executor, MyLibrary">
+                <<%= name %> type="<%= namespace %>.<%= name %>Executor, <%= library %>">
                     <param name="pipelineName"><%= name %></param>
                 </<%= name %>>
             </pipelineExecutors>
@@ -11,7 +11,7 @@
         
         <pipelines>
             <<%= name %>>
-                <% processors.forEach(function(processor){ %><processor type="<%= processor.options["namespace"] %>.<%= processor.options["className"] %>, MyLibrary" />
+                <% processors.forEach(function(processor){ %><processor type="<%= processor.options["namespace"] %>.<%= processor.options["className"] %>, <%= library %>" />
             <% }); %>
             </<%= name %>>
         </pipelines>

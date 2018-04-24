@@ -4,9 +4,12 @@ import { GeneratePipelineFileExecutor } from "../../feature/GeneratePipelineFile
 import { GenerateCSharpPipelineFilePipeline } from "./GenerateCSharpPipelineFile/GenerateCSharpPipelineFilePipeline";
 import { GenerateProcessorFileExecutor } from "../../feature/GenerateProcessorFile";
 import { GenerateCSharpProcessorFile } from "./GenerateCSharpProcessorFile/GenerateCSharpProcessorFilePipeline";
+import { GenerateFileFromTemplateExecutor } from "../../feature/GenerateFileFromTemplate";
+import { GenerateCSharpFileFromTemplatePipeline } from "./GenerateCSharpFileFromTemplate/GenerateCSharpFileFromTemplatePipeline";
 
 export class Defaults {
 
+    public static FileFromTemplateGenerator = new GenerateFileFromTemplateExecutor(GenerateCSharpFileFromTemplatePipeline.Instance);
     public static PipelineGenerator = new GeneratePipelineFileExecutor(GenerateCSharpPipelineFilePipeline.Instance);
     public static ProcessorGenerator = new GenerateProcessorFileExecutor(GenerateCSharpProcessorFile.Instance);
 
