@@ -10,9 +10,8 @@
         </objects>
         
         <pipelines>
-            <<%= name %>>
-                <% processors.forEach(function(processor){ %><processor type="<%= processor.options["namespace"] %>.<%= processor.options["className"] %>, <%= library %>" />
-            <% }); %>
+            <<%= name %>><% processors.forEach(function(processor){ %>
+                <processor type="<%= processor.options["namespace"] %>.<%= processor.options["className"] %>, <%= library %>" /><% }); %>
             </<%= name %>>
         </pipelines>
     </sitecore>

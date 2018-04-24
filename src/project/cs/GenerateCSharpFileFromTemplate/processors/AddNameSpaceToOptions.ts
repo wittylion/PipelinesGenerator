@@ -11,7 +11,8 @@ export class AddNameSpaceToOptions extends GenerateFileFromTemplateProcessor {
             = await GetNamespaceFromFolderNamesExecutor.getNamespace(
                 args.yeomanGenerator.destinationPath(),
                 true,
-                args.yeomanGenerator.destinationPath(args.fileModel.getFinalPath())
+                undefined,
+                args.fileModel.subdirectories
             );
 
         args.fileModel.options["namespace"] = res.result;
