@@ -25,7 +25,6 @@
   },
   "homepage": "https://github.com/SergAtGitHub/PipelinesGenerator#readme",
   "dependencies": {
-    "find-up": "^2.1.0",
     "solid-pipelines": "^1.1.1",
     "string": "^3.3.3",
     "upath": "^1.0.4",
@@ -33,7 +32,6 @@
     "yosay": "^2.0.2"
   },
   "devDependencies": {
-    "@types/find-up": "^2.1.1",
     "@types/lodash": "^4.14.106",
     "@types/mocha": "^5.0.0",
     "@types/string": "0.0.29",

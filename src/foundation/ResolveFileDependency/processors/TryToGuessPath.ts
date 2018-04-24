@@ -1,9 +1,9 @@
 import { ResolveFileDependencyProcessor } from "../ResolveFileDependencyProcessor";
 import { ResolveFileDependencyArguments } from "../ResolveFileDependencyArguments";
 
-import findUp from 'find-up'
 import { ResolveFileDependencyMessages } from "../ResolveFileDependencyMessages";
 import S from "string";
+import { FindFileExecutor } from "../../FindFile";
 
 export class TryToGuessPath extends ResolveFileDependencyProcessor {
     public static readonly Instance = new TryToGuessPath();
@@ -15,12 +15,10 @@ export class TryToGuessPath extends ResolveFileDependencyProcessor {
             return;
         }
         
-        let result = await findUp(
+        let result = await FindFileExecutor.findFiles(
+            args.fromDirectory,
             args.fileNamePattern,
-            {
-                cwd: args.fromDirectory
-            }
-        );
+        )[0];
 
         args.guesses.push(result);
     }
