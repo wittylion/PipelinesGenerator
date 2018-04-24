@@ -1,13 +1,18 @@
-import { PipelineRunner } from "solid-pipelines";
+import { PipelineRunner, PipelineMessage } from "solid-pipelines";
 import { ChooseProjectArguments } from './ChooseProjectArguments'
 import { ChooseProjectPipeline } from './ChooseProjectPipeline'
 
 export class ChooseProjectExecutor {
     public static Instance: ChooseProjectExecutor = new ChooseProjectExecutor();
 
-    execute(args: ChooseProjectArguments) : Promise<void> {
+    async execute(args: ChooseProjectArguments) : Promise<{result: string, messages: PipelineMessage[]}> {
         var runner:PipelineRunner = new PipelineRunner();
 
-        return runner.RunPipeline(ChooseProjectPipeline.Instance, args);
+        await runner.RunPipeline(ChooseProjectPipeline.Instance, args);
+
+        return {
+            result: args.GetResult(),
+            messages: args.GetAllMessages()
+        };
     }
 }

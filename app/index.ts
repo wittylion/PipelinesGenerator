@@ -4,11 +4,23 @@ import { ChooseProjectExecutor, ChooseProjectArguments } from "../src/project/ap
 class PipelinesGenerator extends Generator {
     async default() {
         let args = new ChooseProjectArguments(this);
-        await ChooseProjectExecutor.Instance.execute(args);
-        this.composeWith(
-            require.resolve('../' + args.GetResultOr('ts')), 
-            {}
-        );
+
+        let chosenProjectResult = await ChooseProjectExecutor.Instance.execute(args);
+
+        if (!chosenProjectResult.result) {
+            this.log(chosenProjectResult.messages
+                .map(message =>
+                    message.Message
+                )
+                .join("\n"));
+            return;
+        }
+        else {
+            this.composeWith(
+                require.resolve('../' + chosenProjectResult.result),
+                this.options
+            );
+        }
     }
 }
 

@@ -22,12 +22,23 @@ export class AskUserToSelectProject extends ChooseProjectProcessor {
             "Please select a project that you want to use: "
         );
 
-        args.SetResultWithInformation(
-            answer,
-            S(ChooseProjectMessages.UserSelectedOption)
-                .template({ answer: answer })
-                .s
-        );
+        if (args.AvailableProjects.filter(x => x.name === answer).length > 0) {
+            args.SetResultWithInformation(
+                answer,
+                S(ChooseProjectMessages.UserSelectedOption)
+                    .template({ answer: answer })
+                    .s
+            );
+            return;
+        }
+        else {
+            args.AbortPipelineWithErrorAndNoResult(
+                S(ChooseProjectMessages.CannotFindProject)
+                    .template({ answer: answer, available: args.AvailableProjects.map(x => x.name).join(", ") })
+                    .s
+            );
+        }
+
     }
 
     public SafeCondition(args: ChooseProjectArguments): boolean {
