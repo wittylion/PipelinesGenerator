@@ -15,9 +15,7 @@
     if (!locals.abstractProcessorClassName) {
         locals.abstractProcessorClassName = "MyProcessor"; 
     }
-%>
-
-import { <%= abstractProcessorClassName %> } from "<%= abstractProcessorFileName %>";
+%>import { <%= abstractProcessorClassName %> } from "<%= abstractProcessorFileName %>";
 import { <%= argumentsClassName %> } from "<%= argumentsFileName %>";
 
 export class <%= name %> extends <%= abstractProcessorClassName %> {

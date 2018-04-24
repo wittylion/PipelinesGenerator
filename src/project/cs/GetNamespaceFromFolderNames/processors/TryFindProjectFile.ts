@@ -1,18 +1,18 @@
 import { GetNamespaceFromFolderNamesProcessor } from "../GetNamespaceFromFolderNamesProcessor";
 import { GetNamespaceFromFolderNamesArguments } from "../GetNamespaceFromFolderNamesArguments";
 
-import findUp = require("find-up");
 import path = require("path");
 import S from "string";
+import { FindFileExecutor } from "../../../../foundation/FindFile";
 
 export class TryFindProjectFile extends GetNamespaceFromFolderNamesProcessor {
     public static readonly Instance = new TryFindProjectFile();
 
     public async SafeExecute(args: GetNamespaceFromFolderNamesArguments): Promise<void> {
-        args.projectDirectory = await findUp(
-            "packages.config",
-            {cwd: args.destinationPath}
-        );
+        args.projectDirectory = await FindFileExecutor.findFiles(
+            args.destinationPath,
+            "packages.config"
+        )[0];
     }
 
     public SafeCondition(args: GetNamespaceFromFolderNamesArguments): boolean {
