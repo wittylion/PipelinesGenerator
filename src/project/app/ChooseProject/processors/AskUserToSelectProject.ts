@@ -5,25 +5,23 @@ import { InputTypeEnum } from "../../../../foundation/YeomanQuestions";
 import S from "string";
 import { ChooseProjectMessages } from "../ChooseProjectMessages";
 import { ChoiceType } from "inquirer";
+import { EnsureOptionExecutor } from "../../../../feature/EnsureOption";
 
 export class AskUserToSelectProject extends ChooseProjectProcessor {
     public static readonly Instance = new AskUserToSelectProject();
 
     public async SafeExecute(args: ChooseProjectArguments): Promise<void> {
         let optionName = "projectName";
-        let optionValueQuestion: Question = {
-            type: InputTypeEnum.List,
-            name: optionName,
-            message: "Please select a project that you want to use: ",
-            choices: args.AvailableProjects.map(x => <ChoiceType>{
+        let answer = await EnsureOptionExecutor.obtainByKeyOrList(
+            args.yeomanGenerator,
+            optionName,
+            args.AvailableProjects.map(x => <ChoiceType>{
                 name: x.description,
                 value: x.name
-            })
-        };
+            }),
+            "Please select a project that you want to use: "
+        );
 
-        let answers = await args.yeomanGenerator.prompt(optionValueQuestion);
-
-        let answer = answers[optionName];
         args.SetResultWithInformation(
             answer,
             S(ChooseProjectMessages.UserSelectedOption)
