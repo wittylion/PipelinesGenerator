@@ -7,11 +7,15 @@ export class SetDirectoryWithProjectFileAsBase extends GetNamespaceFromFolderNam
     public static readonly Instance = new SetDirectoryWithProjectFileAsBase();
 
     public async SafeExecute(args: GetNamespaceFromFolderNamesArguments): Promise<void> {
-        let directories = path.relative(args.projectDirectory, args.destinationPath)
+        let projectDirPath = path.dirname(args.projectDirectory);
+        let projectDirName = path.basename(projectDirPath);
+        let relativePath = path.relative(projectDirPath, args.destinationPath);
+
+        let directories = relativePath
             .split("\\")
             .filter(x => !x.startsWith(".") && !x.startsWith(".."));
 
-        args.directories = [...directories, ...args.directories];
+        args.directories = [projectDirName, ...directories, ...args.directories];
     }
 
     public SafeCondition(args: GetNamespaceFromFolderNamesArguments): boolean {
