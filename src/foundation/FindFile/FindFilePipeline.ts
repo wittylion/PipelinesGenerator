@@ -6,7 +6,8 @@ export class FindFilePipeline implements IPipeline {
 
     GetProcessors(): IProcessor[] {
         return [
-            Processors.FindFilesInCollectedDirectories.Instance,Processors.FindFilesInCollectedDirectories.Instance,
+            Processors.CollectAllPossibleDirectories.Instance,
+            Processors.FindFilesInCollectedDirectories.Instance,
         ];
     }
 }

@@ -11,8 +11,7 @@
         
         <pipelines>
             <<%= name %>>
-            <% processors.forEach(function(processor){ %>    
-                <processor type="<%= processor.options["namespace"] %>.<%= processor.options["className"] %>, MyLibrary" />
+                <% processors.forEach(function(processor){ %><processor type="<%= processor.options["namespace"] %>.<%= processor.options["className"] %>, MyLibrary" />
             <% }); %>
             </<%= name %>>
         </pipelines>

@@ -17,17 +17,17 @@ export class GenerateProcessors extends GenerateCommonPipelineFilesProcessor {
             return model;
         });
 
-        for (const model of processorsModels) {
-            model.subdirectories = [...args.commonSubfolders, ...model.subdirectories];
+        for (const processorModel of processorsModels) {
+            processorModel.subdirectories = [...args.commonSubfolders, ...processorModel.subdirectories];
 
             let processorGeneration = new GenerateProcessorFileArguments(
-                model,
+                processorModel,
                 args.yeomanGenerator
             );
 
             processorGeneration.arguments = args.generatedArguments;
             processorGeneration.abstractProcessor = args.generatedProcessor;
-
+            
             let result = await args.generatorsProvider.getProcessorGenerator().execute(processorGeneration);
 
             args.generatedProcessors.push(result.result);

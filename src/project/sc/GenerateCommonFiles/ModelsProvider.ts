@@ -7,21 +7,21 @@ export class ModelsProvider implements IModelsProvider {
     public static readonly Instance: ModelsProvider = new ModelsProvider();
 
     getMessagesContainerModel(): GenerateFileModel {
-        return _.clone(Defaults.messagesModel);
+        return _.cloneDeep(Defaults.messagesModel);
     }
     getArgumentsModel(): GenerateFileModel {
-        return _.clone(Defaults.argumentsModel);
+        return _.cloneDeep(Defaults.argumentsModel);
     }
     getAbstractProcessorModel(): GenerateFileModel {
-        return _.clone(Defaults.abstractProcessorModel);
+        return _.cloneDeep(Defaults.abstractProcessorModel);
     }
     getProcessorModel(): GenerateFileModel {
-        return _.clone(Defaults.processorModel);
+        return _.cloneDeep(Defaults.processorModel);
     }
     getPipelineModel(): GenerateFileModel {
-        return _.clone(Defaults.pipelineModel);
+        return _.cloneDeep(Defaults.pipelineModel);
     }
     getExecutorModel(): GenerateFileModel {
-        return _.clone(Defaults.executorModel);
+        return _.cloneDeep(Defaults.executorModel);
     }
 }

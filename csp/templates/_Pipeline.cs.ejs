@@ -7,9 +7,7 @@
     if (!locals.namespace) {
         locals.namespace = "MyNamespace"; 
     }
-%>
-
-using System.Collections.Generic;
+%>using System.Collections.Generic;
 using Pipelines;
 using MyNamespace.Processors;
 
@@ -19,8 +17,9 @@ namespace <%= namespace %>
     {
         public static readonly <%= name %> Instance = new <%= name %>();
         public IEnumerable<IProcessor> GetProcessors()
-        {
-            <% processors.forEach(function(processor){ %>yield return <%= processor.options["className"] %>.Instance;<% }); %>
+        {<% processors.forEach(function(processor){ %>
+            yield return <%= processor.options["className"] %>.Instance;<% });
+            %>
         }
     }
 }

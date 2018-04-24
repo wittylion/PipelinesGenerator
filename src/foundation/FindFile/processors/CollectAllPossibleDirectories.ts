@@ -11,13 +11,14 @@ export class CollectAllPossibleDirectories extends FindFileProcessor {
 
     public async SafeExecute(args: FindFileArguments): Promise<void> {
         this.existanceChecker = args.existanceChecker;
+        let folders = this.CollectAllDirectories(
+            args.currentDir,
+            args.subfolders
+        );
 
         args.folders = [
             ...args.folders, 
-            ...this.CollectAllDirectories(
-                args.currentDir,
-                args.subfolders
-            )
+            ...folders
         ];
     }
 
@@ -26,6 +27,7 @@ export class CollectAllPossibleDirectories extends FindFileProcessor {
         let currentDir = dir;
 
         do {
+            result.push(currentDir);
             this.GetSubfoldersRecursively(currentDir, subdirectories).forEach(x => {
                 result.push(x);
             });

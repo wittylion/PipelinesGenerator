@@ -5,8 +5,9 @@ export class <%= name %> implements IPipeline {
     public static readonly Instance = new <%= name %>();
 
     GetProcessors(): IProcessor[] {
-        return [
-            <% processors.forEach(function(processor){ %>Processors.<%= processor.options["className"] %>.Instance,<% }); %>
+        return [<% processors.forEach(function(processor){ %>
+            Processors.<%= processor.options["className"] %>.Instance,<% });
+            %>
         ];
     }
 }
