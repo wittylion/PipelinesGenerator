@@ -2,6 +2,7 @@ import { GetNamespaceFromFolderNamesProcessor } from "../GetNamespaceFromFolderN
 import { GetNamespaceFromFolderNamesArguments } from "../GetNamespaceFromFolderNamesArguments";
 
 import path = require("path");
+import S from "string";
 
 export class SetDestinationDirectoryAsBase extends GetNamespaceFromFolderNamesProcessor {
     public static readonly Instance = new SetDestinationDirectoryAsBase();
@@ -17,7 +18,7 @@ export class SetDestinationDirectoryAsBase extends GetNamespaceFromFolderNamesPr
     }
 
     public CustomCondition(args: GetNamespaceFromFolderNamesArguments): boolean {
-        let safeCondition = !args.shouldFindProjectDirectory;
+        let safeCondition = S(args.projectDirectory).isEmpty();
         return safeCondition;
     }
 }

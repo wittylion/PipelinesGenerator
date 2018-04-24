@@ -14,13 +14,15 @@ export class TryToGuessPath extends ResolveFileDependencyProcessor {
             args.AbortPipelineWithErrorMessage(ResolveFileDependencyMessages.PatternToFindIsEmpty);
             return;
         }
-        
+
         let result = await FindFileExecutor.findFiles(
             args.fromDirectory,
             args.fileNamePattern,
-        )[0];
+        );
 
-        args.guesses.push(result);
+        if (result.length > 0) {
+            args.guesses.push(result[0]);
+        }
     }
 
     public SafeCondition(args: ResolveFileDependencyArguments): boolean {

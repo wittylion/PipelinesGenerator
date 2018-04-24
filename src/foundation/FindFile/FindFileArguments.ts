@@ -23,6 +23,6 @@ export class FindFileArguments extends PipelineContext {
         super();
     }
     
-    public folders: string[];
-    public files: string[];
+    public folders: string[] = [];
+    public files: string[] = [];
 }

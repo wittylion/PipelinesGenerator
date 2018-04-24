@@ -9,10 +9,14 @@ export class TryFindProjectFile extends GetNamespaceFromFolderNamesProcessor {
     public static readonly Instance = new TryFindProjectFile();
 
     public async SafeExecute(args: GetNamespaceFromFolderNamesArguments): Promise<void> {
-        args.projectDirectory = await FindFileExecutor.findFiles(
+        let result = await FindFileExecutor.findFiles(
             args.destinationPath,
             "packages.config"
-        )[0];
+        );
+
+        if (result.length > 0) {
+            args.projectDirectory = result[0];
+        }
     }
 
     public SafeCondition(args: GetNamespaceFromFolderNamesArguments): boolean {

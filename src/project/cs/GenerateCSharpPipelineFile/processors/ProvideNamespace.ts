@@ -10,7 +10,7 @@ export class ProvideNamespace extends GeneratePipelineFileProcessor {
         let res
             = await GetNamespaceFromFolderNamesExecutor.getNamespace(
                 args.yeomanGenerator.destinationPath(),
-                false,
+                true,
                 args.yeomanGenerator.destinationPath(args.fileModel.getFinalPath())
             );
 
