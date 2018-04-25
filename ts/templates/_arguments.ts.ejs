@@ -2,21 +2,18 @@ export class <%= name %> {
 
     public IsAborted: boolean = false;
     
-    public static create(
-        <% argumentsMemebers.forEach(function(member){ %><%= member %>: string,
-        <% }); %>
+    public static create(<% argumentsMemebers.forEach(function(member){ %>
+        <%= member %>: string,<% }); %>
     ): <%= name %> { 
-        let instance = new <%= name %>(
-            <% argumentsMemebers.forEach(function(member){ %><%= member %>,
-            <% }); %>
+        let instance = new <%= name %>(<% argumentsMemebers.forEach(function(member){ %>
+            <%= member %>,<% }); %>
         );
 
         return instance;
     }
 
-    constructor(
-        <% argumentsMemebers.forEach(function(member){ %>public <%= member %>: string,
-        <% }); %>
+    constructor(<% argumentsMemebers.forEach(function(member){ %>
+        public <%= member %>: string,<% }); %>
     ) {
     }
 }

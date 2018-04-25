@@ -6,8 +6,7 @@ export class <%= name %> {
 
     GetProcessors(): <%= abstractProcessorClassName %>[] {
         return [<% processors.forEach(function(processor){ %>
-            Processors.<%= processor.options["className"] %>.Instance,<% });
-            %>
+            Processors.<%= processor.options["className"] %>.Instance,<% });%>
         ];
     }
 }
