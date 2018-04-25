@@ -1,7 +1,7 @@
 {
   "name": "generator-chain",
-  "version": "1.0.2",
-  "description": "Generates SOLID pipelines from SOLID Pipelines package.",
+  "version": "1.1.0",
+  "description": "Pipelines Generator is a yeoman based utility to generate single responsibility classes representing logic actions bound together into commands or queries which are also called pipelines. Available generators: C#, Typescript, Sitecore.",
   "main": "./app/index.js",
   "scripts": {
     "build": "tsc",
@@ -12,11 +12,14 @@
     "url": "git+https://github.com/SergAtGitHub/PipelinesGenerator.git"
   },
   "keywords": [
-    "Pipelines",
-    "SOLID",
-    "Processors",
-    "Chain",
-    "yeoman-generator"
+     "pipelines",
+     "SOLID",
+     "processors",
+     "chain",
+     "yeoman-generator",
+     "generator",
+     "sitecore",
+     "C#"
   ],
   "author": "Sergey Solomentsev",
   "license": "Apache-2.0",
