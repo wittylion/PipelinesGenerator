@@ -96,7 +96,7 @@ The program allows you to pass additional options to your generator. This can si
 |**`pipeline-name`**|`{String}`|Name of the generated pipeline|
 |**`processor-names`**|`{String}`|Processors generated in dedicated folder, separated by whitespace|
 |**`subfolder`**|`{Switch}`|This option specifies whether subfolder for the pipeline must be created, specifying `--no-subfolder` will create all files in the same folder where generator was called|
-|**`arguments-members`**|`{Switch}`|Separated by whitespace list of members, which will be created in arguments file as properties|
+|**`arguments-members`**|`{String}`|Separated by whitespace list of members, which will be created in arguments file as properties|
 
 ## How to get started with Pipeline generator
 
