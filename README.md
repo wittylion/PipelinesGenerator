@@ -6,17 +6,19 @@ Main goal of this generator is to speed up a process of creating pipelines, by i
 
 ## List of available pipelines generators
 
-- Typescript pipeline (_uses an alias **ts** in program_)
+- Typescript pipeline generator (_uses an alias **ts** in program_)
+- Typescript pipeline generator, boosted with [solid-pipelines package](https://www.npmjs.com/package/solid-pipelines) (_uses an alias **tsp** in program_)
 - C# pipeline generator (_uses an alias **cs** in program_)
 - C# pipeline generator, boosted with [Pipelines.NET package](https://www.nuget.org/packages/Pipelines.Net/) (_uses an alias **csp** in program_)
 - Sitecore pipeline (_uses an alias **sc** in program_)
 
-## TypeScript generator [alias: ts]
+## TypeScript generator [alias: ts] and solid-pipelines boosted generator [alias: tsp]
 
 ### Example:
 
 `yo chain:ts --pipeline-name "HelloWorld" --processor-names "AdjustMessageColor LogMessageToConsole"`
 
+### Result:
 Generates for you a structure like this:
 
 ```
@@ -39,8 +41,10 @@ HelloWorld
 
 ## C# generator [alias: cs] and Pipelines net boosted generator [alias: csp]
 
+### Example:
 `yo chain:cs --pipeline-name "HelloWorld" --processor-names "AdjustMessageColor LogMessageToConsole"`
 
+### Result:
 Generates for you a structure like this:
 
 ```
@@ -61,8 +65,10 @@ HelloWorld
 
 ## Sitecore generator [alias: sc]
 
+### Example:
 `yo chain:sc --pipeline-name "HelloWorld" --processor-names "AdjustMessageColor LogMessageToConsole"`
 
+### Result:
 Generates for you a structure like this:
 
 ```
