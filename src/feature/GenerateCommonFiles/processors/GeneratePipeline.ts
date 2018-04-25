@@ -5,6 +5,7 @@ import S from "string";
 import { EnsureFileModelArguments, EnsureFileModelExecutor } from "../../EnsureFileModel";
 import { MessageFilter } from "solid-pipelines";
 import { GeneratePipelineFileExecutor } from "../../GeneratePipelineFile";
+import _ from "lodash";
 
 export class GeneratePipeline extends GenerateCommonPipelineFilesProcessor {
     public static readonly Instance = new GeneratePipeline();
@@ -12,7 +13,18 @@ export class GeneratePipeline extends GenerateCommonPipelineFilesProcessor {
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
         let model = args.modelsProvider.getPipelineModel();
         model.fileName = args.pipelineNameSpecifiedByUser;
-        model.options["className"] = args.pipelineNameSpecifiedByUser;
+
+        _.assign(
+            model.options,
+            {
+                className: args.pipelineNameSpecifiedByUser,
+                abstractProcessorClassName:
+                    args.generatedProcessor
+                        ? args.generatedProcessor.options["className"]
+                        : "MyProcessor"
+            }
+        );
+
         model.subdirectories = [...args.commonSubfolders, ...model.subdirectories];
         let result = await args.generatorsProvider.getPipelineGenerator().create(
             model,

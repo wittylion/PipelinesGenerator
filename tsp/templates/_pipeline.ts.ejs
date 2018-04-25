@@ -1,10 +1,10 @@
+import { IPipeline, IProcessor } from 'solid-pipelines'
 import * as Processors from './processors'
-import { <%= abstractProcessorClassName %> } from './<%= abstractProcessorClassName %>'
 
-export class <%= name %> {
+export class <%= name %> implements IPipeline {
     public static readonly Instance = new <%= name %>();
 
-    GetProcessors(): <%= abstractProcessorClassName %>[] {
+    GetProcessors(): IProcessor[] {
         return [<% processors.forEach(function(processor){ %>
             Processors.<%= processor.options["className"] %>.Instance,<% });
             %>

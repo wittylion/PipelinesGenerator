@@ -15,7 +15,7 @@ describe('Testing typescript pipelines generator.', function () {
         describe('When default:', function () {
             before(function (done) {
                 // The object returned acts like a promise, so return it to wait until the process is done
-                helpers.run(path.join(__dirname, '../ts'))
+                helpers.run(path.join(__dirname, '../tsp'))
                     .on('end', done);
             })
 
@@ -27,7 +27,7 @@ describe('Testing typescript pipelines generator.', function () {
         describe('When generates a single processor in empty directory:', function () {
             before(function (done) {
 
-                helpers.run(path.join(__dirname, '../ts'))
+                helpers.run(path.join(__dirname, '../tsp'))
                     .withOptions({'--processor': 'P'})
                     .on('end', done);
             })
@@ -41,7 +41,7 @@ describe('Testing typescript pipelines generator.', function () {
         describe('When generates a single processor in directory with processors folder:', function () {
             before(function (done) {
 
-                helpers.run(path.join(__dirname, '../ts'))
+                helpers.run(path.join(__dirname, '../tsp'))
                     .withOptions({'--processor': 'P'})
                     .on('ready', (generator: Generator) => {
                         generator.fs.write('./processors/AnotherProcessor.ts', '');
@@ -66,7 +66,7 @@ describe('Testing typescript pipelines generator.', function () {
         describe('When updates file with exports declaration:', function () {
             before(function (done) {
 
-                helpers.run(path.join(__dirname, '../ts'))
+                helpers.run(path.join(__dirname, '../tsp'))
                     .withOptions({'--export-dir': 'true'})
                     .on('ready', (generator: Generator) => {
                         generator.fs.write('./Update.ts', 'Update');
@@ -105,7 +105,7 @@ describe('Testing typescript pipelines generator.', function () {
         describe('When generates file with exports declaration:', function () {
             before(function (done) {
 
-                helpers.run(path.join(__dirname, '../ts'))
+                helpers.run(path.join(__dirname, '../tsp'))
                     .withOptions({'--export-dir': 'true'})
                     .on('ready', (generator: Generator) => {
                         generator.fs.write('./Export.ts', 'Export');
@@ -141,7 +141,7 @@ describe('Testing typescript pipelines generator.', function () {
         describe('When generates processor:', function () {
             before(function (done) {
 
-                helpers.run(path.join(__dirname, '../ts'))
+                helpers.run(path.join(__dirname, '../tsp'))
                     .withOptions({'--export-dir': 'true'})
                     .on('ready', (generator: Generator) => {
                         generator.fs.write('./Export.ts', 'Export');
@@ -177,7 +177,7 @@ describe('Testing typescript pipelines generator.', function () {
         describe('When simple Hello World pipeline is created by providing answers:', function () {
             before(function (done) {
                 // The object returned acts like a promise, so return it to wait until the process is done
-                helpers.run(path.join(__dirname, '../ts'))
+                helpers.run(path.join(__dirname, '../tsp'))
                     .withPrompts({ pipelineName: 'HelloWorld' })
                     .withPrompts({ processorNames: 'HelloWorld' })
                     .withPrompts({ subfolder: 'n' })
@@ -274,7 +274,7 @@ describe('Testing typescript pipelines generator.', function () {
         describe('When subdirectory is requested for simple Hello World processor:', function () {
             before(function (done) {
                 // The object returned acts like a promise, so return it to wait until the process is done
-                helpers.run(path.join(__dirname, '../ts'))
+                helpers.run(path.join(__dirname, '../tsp'))
                     .withPrompts({ pipelineName: 'HelloWorld' })
                     .withPrompts({ processorNames: 'HelloWorld' })
                     .withOptions({ '--subfolder': 'true' })
@@ -305,7 +305,7 @@ describe('Testing typescript pipelines generator.', function () {
         describe('When only pipeline is set:', function () {
             before(function (done) {
                 // The object returned acts like a promise, so return it to wait until the process is done
-                helpers.run(path.join(__dirname, '../ts'))
+                helpers.run(path.join(__dirname, '../tsp'))
                     .withPrompts({ pipelineName: 'TestedSome' })
                     .withArguments(['--no-subfolder'])
                     .on('end', done);
@@ -319,7 +319,7 @@ describe('Testing typescript pipelines generator.', function () {
         describe('When pipeline with "Pipeline" suffix is set:', function () {
             before(function (done) {
                 // The object returned acts like a promise, so return it to wait until the process is done
-                helpers.run(path.join(__dirname, '../ts'))
+                helpers.run(path.join(__dirname, '../tsp'))
                     .withPrompts({ pipelineName: 'TestedPipeline' })
                     .withArguments(['--no-subfolder'])
                     .on('end', done);
@@ -340,7 +340,7 @@ describe('Testing typescript pipelines generator.', function () {
         describe('When processors are set:', function () {
             before(function (done) {
                 // The object returned acts like a promise, so return it to wait until the process is done
-                helpers.run(path.join(__dirname, '../ts'))
+                helpers.run(path.join(__dirname, '../tsp'))
                     .withPrompts({ pipelineName: 'TestedPipeline' })
                     .withPrompts({ processorNames: 'A B' })
                     .withArguments(['--no-subfolder'])
@@ -358,7 +358,7 @@ describe('Testing typescript pipelines generator.', function () {
         describe('When members are requested:', function () {
             before(function (done) {
                 // The object returned acts like a promise, so return it to wait until the process is done
-                helpers.run(path.join(__dirname, '../ts'))
+                helpers.run(path.join(__dirname, '../tsp'))
                     .withPrompts({ pipelineName: 'TestedPipeline' })
                     .withArguments(['--no-subfolder'])
                     .withOptions({ '--arguments-members': 'Hello World' })
@@ -380,7 +380,7 @@ describe('Testing typescript pipelines generator.', function () {
         describe('When arguments members are skipped from arguments:', function () {
             before(function (done) {
                 // The object returned acts like a promise, so return it to wait until the process is done
-                helpers.run(path.join(__dirname, '../ts'))
+                helpers.run(path.join(__dirname, '../tsp'))
                     .withPrompts({ pipelineName: 'TestedPipeline' })
                     .withArguments(['--no-subfolder', '--no-arguments-members'])
                     .on('end', done);

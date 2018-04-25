@@ -1,0 +1,36 @@
+<% 
+
+    if (!locals.argumentsFileName) {
+        locals.argumentsFileName = "../MyArguments"; 
+    }
+    
+    if (!locals.argumentsClassName) {
+        locals.argumentsClassName = "MyArguments"; 
+    }
+    
+    if (!locals.abstractProcessorFileName) {
+        locals.abstractProcessorFileName = "../MyProcessor"; 
+    }
+    
+    if (!locals.abstractProcessorClassName) {
+        locals.abstractProcessorClassName = "MyProcessor"; 
+    }
+%>import { <%= abstractProcessorClassName %> } from "<%= abstractProcessorFileName %>";
+import { <%= argumentsClassName %> } from "<%= argumentsFileName %>";
+
+export class <%= name %> extends <%= abstractProcessorClassName %> {
+    public static readonly Instance = new <%= name %>();
+
+    public async SafeExecute(args: <%= argumentsClassName %>): Promise<void> {
+        throw new Error("Not implemented.");
+    }
+
+    public SafeCondition(args: <%= argumentsClassName %>): boolean {
+        return super.SafeCondition(args) && this.CustomCondition(args);
+    }
+
+    public CustomCondition(args: <%= argumentsClassName %>): boolean {
+        let safeCondition = true;
+        return safeCondition;
+    }
+}

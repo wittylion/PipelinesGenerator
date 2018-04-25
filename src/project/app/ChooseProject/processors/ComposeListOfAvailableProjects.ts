@@ -7,6 +7,7 @@ export class ComposeListOfAvailableProjects extends ChooseProjectProcessor {
 
     public async SafeExecute(args: ChooseProjectArguments): Promise<void> {
         args.AvailableProjects.push(new ProjectModel("ts", "Typescript language"));
+        args.AvailableProjects.push(new ProjectModel("tsp", "Typescript language [solid-pipelines boosted]"));
         args.AvailableProjects.push(new ProjectModel("cs", "C# language"));
         args.AvailableProjects.push(new ProjectModel("csp", "C# language [Pipelines.Net boosted]"));
         args.AvailableProjects.push(new ProjectModel("sc", "Sitecore framework"));

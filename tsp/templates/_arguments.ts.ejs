@@ -1,7 +1,7 @@
-export class <%= name %> {
+import { PipelineContext } from "solid-pipelines";
 
-    public IsAborted: boolean = false;
-    
+export class <%= name %> extends PipelineContext {
+
     public static create(
         <% argumentsMemebers.forEach(function(member){ %><%= member %>: string,
         <% }); %>
@@ -17,6 +17,7 @@ export class <%= name %> {
     constructor(
         <% argumentsMemebers.forEach(function(member){ %>public <%= member %>: string,
         <% }); %>
-    ) {
+    ) { 
+        super();
     }
 }
