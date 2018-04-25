@@ -1,25 +1,27 @@
 import { IModelsProvider } from "../../../feature/GenerateCommonFiles/IModelsProvider";
-import { GenerateFileModel } from "../../../feature/GenerateFileFromTemplate/GenerateFileModel";
+import { GenerateFileModel } from "../../../feature/GenerateFileFromTemplate/models/GenerateFileModel";
 import { Defaults } from "../Defaults";
 import _ from "lodash";
 
 export class ModelsProvider implements IModelsProvider {
+    public static Instance = new ModelsProvider();
+
     getMessagesContainerModel(): GenerateFileModel {
-        return _.clone(Defaults.messagesModel);
+        return _.cloneDeep(Defaults.messagesModel);
     }
     getArgumentsModel(): GenerateFileModel {
-        return _.clone(Defaults.argumentsModel);
+        return _.cloneDeep(Defaults.argumentsModel);
     }
     getAbstractProcessorModel(): GenerateFileModel {
-        return _.clone(Defaults.abstractProcessorModel);
+        return _.cloneDeep(Defaults.abstractProcessorModel);
     }
     getProcessorModel(): GenerateFileModel {
-        return _.clone(Defaults.processorModel);
+        return _.cloneDeep(Defaults.processorModel);
     }
     getPipelineModel(): GenerateFileModel {
-        return _.clone(Defaults.pipelineModel);
+        return _.cloneDeep(Defaults.pipelineModel);
     }
     getExecutorModel(): GenerateFileModel {
-        return _.clone(Defaults.executorModel);
+        return _.cloneDeep(Defaults.executorModel);
     }
 }

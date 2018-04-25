@@ -2,23 +2,30 @@ import { GenerateArgumentsFileProcessor } from "../GenerateArgumentsFileProcesso
 import { GenerateArgumentsFileArguments } from "../GenerateArgumentsFileArguments";
 import { GenerateFileFromTemplateArguments, GenerateFileFromTemplateExecutor } from "../../GenerateFileFromTemplate";
 import _ from "lodash";
+import { GenerateArgumentsFileMessages } from "../GenerateArgumentsFileMessages";
+import S from "string";
 
 export class GenerateArgumentsFile extends GenerateArgumentsFileProcessor {
     public static readonly Instance = new GenerateArgumentsFile();
 
     public async SafeExecute(args: GenerateArgumentsFileArguments): Promise<void> {
-        let argumentsGeneration = new GenerateFileFromTemplateArguments();
-
-        argumentsGeneration.yeomanGenerator = args.yeomanGenerator;
-        argumentsGeneration.fileModel = args.fileModel;
-        _.assign(
-            argumentsGeneration.creationOptions,
+        let res = await args.fileGenerator.create(
+            args.fileModel,
+            args.yeomanGenerator,
             {
                 argumentsMemebers: args.members
             }
         );
 
-        await GenerateFileFromTemplateExecutor.Instance.execute(argumentsGeneration);
+        if (res.result) {
+            let message = S(
+                GenerateArgumentsFileMessages.ArgumentsWereSuccessfullyGenerated
+            ).template({ name: res.result.fileName }).s;
+
+            args.SetResultWithInformation(res.result, message);
+        }
+
+        args.AddMessageObjects(res.messages);
     }
 
     public SafeCondition(args: GenerateArgumentsFileArguments): boolean {

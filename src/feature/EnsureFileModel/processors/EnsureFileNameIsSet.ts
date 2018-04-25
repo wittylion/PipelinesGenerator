@@ -3,7 +3,7 @@ import { EnsureFileModelArguments } from "../EnsureFileModelArguments";
 import S from "string";
 import { InteractionModeEnum } from "../InteractionModeEnum";
 import { EnsureOptionExecutor } from "../../EnsureOption";
-import { InputTypeEnum } from "../../EnsureOption/InputTypeEnum";
+import { InputTypeEnum } from "../../../foundation/YeomanQuestions";
 
 export class EnsureFileNameIsSet extends EnsureFileModelProcessor {
     public static readonly Instance = new EnsureFileNameIsSet();
@@ -16,11 +16,11 @@ export class EnsureFileNameIsSet extends EnsureFileModelProcessor {
                 InputTypeEnum.Input,
                 false,
                 false,
-                args.fileModel.className
+                args.fileModel.options["className"]
             );
         }
         else {
-            args.fileModel.fileName = args.fileModel.className;
+            args.fileModel.fileName = args.fileModel.options["className"];
         }
     }
 

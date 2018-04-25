@@ -1,0 +1,26 @@
+<% 
+    if (!locals.library) {
+        locals.library = "MyLibrary"; 
+    }
+    
+    if (!locals.processors || locals.processors.length === 0) {
+        locals.processors = [{ options: { namespace: "ProcessorNamespace", className: "MyProcessor" } }]; 
+    }
+%><?xml version="1.0" encoding="utf-8" ?>
+<configuration xmlns:patch="http://www.sitecore.net/xmlconfig/">
+    <sitecore>
+        <objects>
+            <pipelineExecutors>
+                <<%= name %> type="<%= namespace %>.<%= name %>Executor, <%= library %>">
+                    <param name="pipelineName"><%= name %></param>
+                </<%= name %>>
+            </pipelineExecutors>
+        </objects>
+        
+        <pipelines>
+            <<%= name %>><% processors.forEach(function(processor){ %>
+                <processor type="<%= processor.options["namespace"] %>.<%= processor.options["className"] %>, <%= library %>" /><% }); %>
+            </<%= name %>>
+        </pipelines>
+    </sitecore>
+</configuration>

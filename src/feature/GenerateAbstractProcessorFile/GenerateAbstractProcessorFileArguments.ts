@@ -1,12 +1,16 @@
 import { PipelineContext } from "solid-pipelines";
-import { GenerateFileModel } from "../GenerateFileFromTemplate/GenerateFileModel";
+import { GenerateFileModel } from "../GenerateFileFromTemplate/models/GenerateFileModel";
 import Generator = require("yeoman-generator");
 import { InteractionModeEnum } from "../EnsureFileModel/InteractionModeEnum";
+import { YeomanQueryContext } from "../../foundation/PipelinesExtensions";
+import { CreatedFileResult } from "../GenerateFileFromTemplate/models/CreatedFileResult";
+import { GenerateFileFromTemplateExecutor } from "../GenerateFileFromTemplate";
 
-export class GenerateAbstractProcessorFileArguments extends PipelineContext {
+export class GenerateAbstractProcessorFileArguments extends YeomanQueryContext<CreatedFileResult> {
     public static Create(
         fileModel: GenerateFileModel,
         yeomanGenerator: Generator,
+        fileGenerator: GenerateFileFromTemplateExecutor,
         possibleName?: string,
         possibleExtension?: string,
         argumentsClassName?: string,
@@ -16,8 +20,8 @@ export class GenerateAbstractProcessorFileArguments extends PipelineContext {
         return new GenerateAbstractProcessorFileArguments(
             fileModel,
             yeomanGenerator,
+            fileGenerator,
             possibleName,
-            possibleExtension,
             argumentsClassName,
             argumentsFileName,
             interactionMode);
@@ -25,13 +29,15 @@ export class GenerateAbstractProcessorFileArguments extends PipelineContext {
 
     constructor(
         public fileModel: GenerateFileModel,
-        public yeomanGenerator: Generator,
+        yeomanGenerator: Generator,
+        public fileGenerator: GenerateFileFromTemplateExecutor,
         public possibleName?: string,
-        public possibleExtension?: string,
         public argumentsClassName?: string,
         public argumentsFileName?: string,
         public interactionMode?: InteractionModeEnum) {
-        super();
+        super(yeomanGenerator);
 
     }
+
+    argumentsImportPath: string = "";
 }

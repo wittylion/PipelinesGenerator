@@ -6,12 +6,14 @@ export class GenerateMessagesFile extends GenerateMessagesFileProcessor {
     public static readonly Instance = new GenerateMessagesFile();
 
     public async SafeExecute(args: GenerateMessagesFileArguments): Promise<void> {
-        let mainExportsGeneration = new GenerateFileFromTemplateArguments();
+        let result 
+            = await args.fileGenerator.create(
+                args.fileModel,
+                args.yeomanGenerator
+            );
 
-        mainExportsGeneration.fileModel = args.fileModel;
-        mainExportsGeneration.yeomanGenerator = args.yeomanGenerator;
-
-        await GenerateFileFromTemplateExecutor.Instance.execute(mainExportsGeneration);
+        args.SetResultWithInformation(result.result, "Messages file is created.");
+        args.AddMessageObjects(result.messages);
     }
 
     public SafeCondition(args: GenerateMessagesFileArguments): boolean {

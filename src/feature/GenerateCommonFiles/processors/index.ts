@@ -1,4 +1,3 @@
-export * from './EnsureExtensionIsSet'
 export * from './EnsureCommonSubfolders'
 export * from './GenerateArguments'
 export * from './GenerateAbstractProcessor'

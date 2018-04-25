@@ -1,0 +1,7 @@
+export * from './CheckAbstractProcessor'
+export * from './CheckArguments'
+export * from './CheckClassName'
+export * from './CheckFileName'
+export * from './GenerateProcessorFile'
+export * from './TrySetClassNameToFileNameIfMissing'
+export * from './TrySetFileNameToClassNameIfMissing'

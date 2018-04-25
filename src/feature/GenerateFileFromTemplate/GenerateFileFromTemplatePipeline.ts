@@ -6,6 +6,14 @@ export class GenerateFileFromTemplatePipeline implements IPipeline {
 
     GetProcessors(): IProcessor[] {
         return [
+            ...this.BeforeFileGeneration(),
+            ...this.SetOptions(),
+            ...this.GenerateFileProcessors()
+        ];
+    }
+
+    BeforeFileGeneration(): IProcessor[] {
+        return [
             Processors.ValidateGenerator.Instance,
             Processors.EnsureFileNameIsSet.Instance,
             Processors.EnsureTemplateDestination.Instance,
@@ -16,8 +24,20 @@ export class GenerateFileFromTemplatePipeline implements IPipeline {
             Processors.EnsureClassNameAsLeadingSubdirectory.Instance,
             Processors.AdjustCaseOfSubdirectories.Instance,
             Processors.EnsureDestination.Instance,
+        ];
+    }
+
+    SetOptions(): IProcessor[] {
+        return [
             Processors.FillCreationOptions.Instance,
-            Processors.CreateFileFromTemplate.Instance
+        ];
+    }
+
+    GenerateFileProcessors(): IProcessor[] {
+
+        return [
+            Processors.CreateFileFromTemplate.Instance,
+            Processors.GenerateResult.Instance,
         ];
     }
 }

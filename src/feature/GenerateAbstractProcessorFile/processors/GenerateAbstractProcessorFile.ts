@@ -1,23 +1,32 @@
 import { GenerateAbstractProcessorFileProcessor } from "../GenerateAbstractProcessorFileProcessor";
 import { GenerateAbstractProcessorFileArguments } from "../GenerateAbstractProcessorFileArguments";
 import { GenerateFileFromTemplateArguments, GenerateFileFromTemplateExecutor } from "../../GenerateFileFromTemplate";
-import _ from "lodash";
+import { GenerateAbstractProcessorFileMessages } from "../GenerateAbstractProcessorFileMessages";
+import S from "string";
 
 export class GenerateAbstractProcessorFile extends GenerateAbstractProcessorFileProcessor {
     public static readonly Instance = new GenerateAbstractProcessorFile();
 
     public async SafeExecute(args: GenerateAbstractProcessorFileArguments): Promise<void> {
-        let abstractProcessorGeneration = new GenerateFileFromTemplateArguments();
+        let result
+            = await args.fileGenerator.create(
+                args.fileModel,
+                args.yeomanGenerator,
+                {
+                    argumentsClassName: args.argumentsClassName,
+                    argumentsFileName: args.argumentsImportPath
+                }
+            );
 
-        abstractProcessorGeneration.fileModel = args.fileModel;
-        abstractProcessorGeneration.yeomanGenerator = args.yeomanGenerator;
-        _.assign(abstractProcessorGeneration.creationOptions,
-            {
-                argumentsClassName: args.argumentsClassName,
-                argumentsFileName: args.argumentsFileName
-            });
+        if (!!result.result) {
+            args.SetResultWithInformation(
+                result.result,
+                S(GenerateAbstractProcessorFileMessages.AbstractProcessorGenerated)
+                    .template(result.result.fileName).s
+            );
+        }
 
-        await GenerateFileFromTemplateExecutor.Instance.execute(abstractProcessorGeneration);
+        args.AddMessageObjects(result.messages);
     }
 
     public SafeCondition(args: GenerateAbstractProcessorFileArguments): boolean {

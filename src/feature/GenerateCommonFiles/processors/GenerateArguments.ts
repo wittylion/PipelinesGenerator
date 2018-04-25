@@ -14,22 +14,23 @@ export class GenerateArguments extends GenerateCommonPipelineFilesProcessor {
             args.AbortPipelineWithErrorMessage("You have to specify some data for arguments generation.");
             return;
         }
+
         model.subdirectories = [
             ...args.commonSubfolders, 
             ...model.subdirectories
         ];
-
         let argumentsGeneration = GenerateArgumentsFileArguments.Create(
             model, 
             args.yeomanGenerator,
-            args.pipelineNameSpecifiedByUser,
-            args.extension
+            args.generatorsProvider.getFileFromTemplateGenerator(),
+            args.pipelineNameSpecifiedByUser
         );
 
-        await GenerateArgumentsFileExecutor.Instance.execute(argumentsGeneration);
+        let executionResult 
+            = await args.generatorsProvider.getArgumentsGenerator().execute(argumentsGeneration);
 
-        args.generatedArgumentsClassName = argumentsGeneration.fileModel.className;
-        args.generatedArgumentsFileName = argumentsGeneration.fileModel.fileName;
+        args.generatedArguments = executionResult.result;
+        args.AddMessageObjects(argumentsGeneration.GetAllMessages());
     }
 
     public SafeCondition(args: GenerateCommonPipelineFilesArguments): boolean {

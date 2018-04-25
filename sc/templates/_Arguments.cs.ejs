@@ -1,0 +1,10 @@
+using Sitecore.Pipelines;
+
+namespace <%= namespace %>
+{
+    public class <%= name %> : PipelineArgs
+    {
+        <% argumentsMemebers.forEach(function(member){ %>public string <%= member %> { get; set; }
+        <% }); %>
+    }
+}

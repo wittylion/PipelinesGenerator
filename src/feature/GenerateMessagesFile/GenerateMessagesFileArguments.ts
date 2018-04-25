@@ -1,14 +1,17 @@
 import { PipelineContext } from "solid-pipelines";
 import Generator = require("yeoman-generator");
-import { GenerateFileModel } from "../GenerateFileFromTemplate/GenerateFileModel";
+import { GenerateFileModel } from "../GenerateFileFromTemplate/models/GenerateFileModel";
 import { InteractionModeEnum } from "../EnsureFileModel/InteractionModeEnum";
+import { YeomanQueryContext } from "../../foundation/PipelinesExtensions";
+import { CreatedFileResult } from "../GenerateFileFromTemplate/models/CreatedFileResult";
+import { GenerateFileFromTemplateExecutor } from "../GenerateFileFromTemplate";
 
-export class GenerateMessagesFileArguments extends PipelineContext {
+export class GenerateMessagesFileArguments extends YeomanQueryContext<CreatedFileResult> {
     public static Create(
         fileModel: GenerateFileModel,
         yeomanGenerator: Generator,
+        fileGenerator: GenerateFileFromTemplateExecutor,
         possibleName?: string,
-        possibleExtension?: string,
         argumentsClassName?: string,
         argumentsFileName?: string,
         interactionMode?: InteractionModeEnum
@@ -16,8 +19,8 @@ export class GenerateMessagesFileArguments extends PipelineContext {
         return new GenerateMessagesFileArguments(
             fileModel,
             yeomanGenerator,
+            fileGenerator,
             possibleName,
-            possibleExtension,
             argumentsClassName,
             argumentsFileName,
             interactionMode);
@@ -25,13 +28,13 @@ export class GenerateMessagesFileArguments extends PipelineContext {
 
     constructor(
         public fileModel: GenerateFileModel,
-        public yeomanGenerator: Generator,
+        yeomanGenerator: Generator,
+        public fileGenerator: GenerateFileFromTemplateExecutor,
         public possibleName?: string,
-        public possibleExtension?: string,
         public argumentsClassName?: string,
         public argumentsFileName?: string,
         public interactionMode?: InteractionModeEnum) {
-        super();
+        super(yeomanGenerator);
 
     }
 }

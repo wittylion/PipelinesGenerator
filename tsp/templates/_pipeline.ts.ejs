@@ -1,0 +1,12 @@
+import { IPipeline, IProcessor } from 'solid-pipelines'
+import * as Processors from './processors'
+
+export class <%= name %> implements IPipeline {
+    public static readonly Instance = new <%= name %>();
+
+    GetProcessors(): IProcessor[] {
+        return [<% processors.forEach(function(processor){ %>
+            Processors.<%= processor.options["className"] %>.Instance,<% });%>
+        ];
+    }
+}

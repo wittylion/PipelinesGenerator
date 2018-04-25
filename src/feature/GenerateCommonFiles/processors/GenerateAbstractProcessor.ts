@@ -11,26 +11,23 @@ export class GenerateAbstractProcessor extends GenerateCommonPipelineFilesProces
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
         let model = args.modelsProvider.getAbstractProcessorModel();
         model.subdirectories = [...args.commonSubfolders, ...model.subdirectories];
-        let argsPath =
-            path.basename(
-                path.relative(
-                    args.yeomanGenerator.destinationRoot(),
-                    args.yeomanGenerator.destinationPath(args.generatedArgumentsFileName)
-                ), args.extension);
 
         let abstractProcessorGeneration = new GenerateAbstractProcessorFileArguments(
             model,
             args.yeomanGenerator,
+            args.generatorsProvider.getFileFromTemplateGenerator(),
             args.pipelineNameSpecifiedByUser,
-            args.extension,
-            args.generatedArgumentsClassName,
-            argsPath
+            args.generatedArguments.options["className"],
+            args.generatedArguments.fileName
         );
 
-        await GenerateAbstractProcessorFileExecutor.Instance.execute(abstractProcessorGeneration);
+        let result =
+            await args.generatorsProvider
+                .getAbstractProcessorGenerator()
+                .execute(abstractProcessorGeneration);
 
-        args.generatedProcessorClassName = abstractProcessorGeneration.fileModel.className;
-        args.generatedProcessorFileName = abstractProcessorGeneration.fileModel.fileName;
+        args.generatedProcessor = result.result;
+        args.AddMessageObjects(result.messages);
     }
 
     public SafeCondition(args: GenerateCommonPipelineFilesArguments): boolean {

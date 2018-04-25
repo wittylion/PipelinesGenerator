@@ -1,0 +1,25 @@
+<% 
+
+    if (!locals.abstractProcessorClassName) {
+        locals.abstractProcessorClassName = "MyProcessor"; 
+    }
+    
+    if (!locals.namespace) {
+        locals.namespace = "MyNamespace"; 
+    }
+%>using System.Collections.Generic;
+using Pipelines;
+using <%= namespace %>.Processors;
+
+namespace <%= namespace %>
+{
+    public class <%= name %> : IPipeline
+    {
+        public static readonly <%= name %> Instance = new <%= name %>();
+        public IEnumerable<IProcessor> GetProcessors()
+        {<% processors.forEach(function(processor){ %>
+            yield return <%= processor.options["className"] %>.Instance;<% });
+            %>
+        }
+    }
+}

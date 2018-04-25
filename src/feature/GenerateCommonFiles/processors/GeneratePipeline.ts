@@ -4,34 +4,38 @@ import { GenerateFileFromTemplateArguments, GenerateFileFromTemplateExecutor } f
 import S from "string";
 import { EnsureFileModelArguments, EnsureFileModelExecutor } from "../../EnsureFileModel";
 import { MessageFilter } from "solid-pipelines";
+import { GeneratePipelineFileExecutor } from "../../GeneratePipelineFile";
+import _ from "lodash";
 
 export class GeneratePipeline extends GenerateCommonPipelineFilesProcessor {
     public static readonly Instance = new GeneratePipeline();
 
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
         let model = args.modelsProvider.getPipelineModel();
-        model.subdirectories = [...args.commonSubfolders, ...model.subdirectories];
+        model.fileName = args.pipelineNameSpecifiedByUser;
 
-        let ensurer = EnsureFileModelArguments.Create(
-            args.yeomanGenerator,
-            model,
-            args.pipelineNameSpecifiedByUser,
-            args.extension
+        _.assign(
+            model.options,
+            {
+                className: args.pipelineNameSpecifiedByUser,
+                abstractProcessorClassName:
+                    args.generatedProcessor
+                        ? args.generatedProcessor.options["className"]
+                        : "MyProcessor"
+            }
         );
-        await EnsureFileModelExecutor.Instance.execute(ensurer);
 
-        let pipelineGeneration = new GenerateFileFromTemplateArguments();
+        model.subdirectories = [...args.commonSubfolders, ...model.subdirectories];
+        let result = await args.generatorsProvider.getPipelineGenerator().create(
+            model,
+            args.yeomanGenerator,
+            args.generatorsProvider.getFileFromTemplateGenerator(),
+            args.generatedProcessors,
+            args.generatedProcessor
+        );
 
-        pipelineGeneration.fileModel = model;
-        pipelineGeneration.creationOptions['processors'] = args.processorsNames;
-        pipelineGeneration.yeomanGenerator = args.yeomanGenerator;
-
-        await GenerateFileFromTemplateExecutor.Instance.execute(pipelineGeneration);
-
-        pipelineGeneration.GetMessages(MessageFilter.All).forEach(x => args.AddMessageObject(x));
-
-        args.generatedPipelineClassName = pipelineGeneration.fileModel.className;
-        args.generatedPipelineFileName = pipelineGeneration.fileModel.fileName;
+        args.generatedPipeline = result.result;
+        args.AddMessageObjects(result.messages);
     }
 
     public SafeCondition(args: GenerateCommonPipelineFilesArguments): boolean {

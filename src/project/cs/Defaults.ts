@@ -1,7 +1,17 @@
-import { GenerateFileModel } from "../../feature/GenerateFileFromTemplate/GenerateFileModel";
+import { GenerateFileModel } from "../../feature/GenerateFileFromTemplate/models/GenerateFileModel";
 import _ from "lodash";
+import { GeneratePipelineFileExecutor } from "../../feature/GeneratePipelineFile";
+import { GenerateCSharpPipelineFilePipeline } from "./GenerateCSharpPipelineFile/GenerateCSharpPipelineFilePipeline";
+import { GenerateProcessorFileExecutor } from "../../feature/GenerateProcessorFile";
+import { GenerateCSharpProcessorFile } from "./GenerateCSharpProcessorFile/GenerateCSharpProcessorFilePipeline";
+import { GenerateFileFromTemplateExecutor } from "../../feature/GenerateFileFromTemplate";
+import { GenerateCSharpFileFromTemplatePipeline } from "./GenerateCSharpFileFromTemplate/GenerateCSharpFileFromTemplatePipeline";
 
 export class Defaults {
+
+    public static FileFromTemplateGenerator = new GenerateFileFromTemplateExecutor(GenerateCSharpFileFromTemplatePipeline.Instance);
+    public static PipelineGenerator = new GeneratePipelineFileExecutor(GenerateCSharpPipelineFilePipeline.Instance);
+    public static ProcessorGenerator = new GenerateProcessorFileExecutor(GenerateCSharpProcessorFile.Instance);
 
     public static argumentsModel: GenerateFileModel;
     public static abstractProcessorModel: GenerateFileModel;
@@ -61,5 +71,6 @@ export class Defaults {
         Defaults.processorModel.templateName = "_PredefinedProcessor.cs.ejs";
         Defaults.processorModel.extension = Defaults.extension;
         Defaults.processorModel.subdirectoryNameTuner = Defaults.commonSubdirectoryCaseTuner;
+        Defaults.processorModel.subdirectories.push('Processors');
     }
 }

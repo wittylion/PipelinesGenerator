@@ -1,7 +1,19 @@
-import { PipelineContext } from "solid-pipelines";
+export class <%= name %> {
 
-export class <%= name %> extends PipelineContext {
-    <% argumentsMemebers.forEach(function(member){ %><%= member %>: string;
-    <% }); %>
+    public IsAborted: boolean = false;
     
+    public static create(<% argumentsMemebers.forEach(function(member){ %>
+        <%= member %>: string,<% }); %>
+    ): <%= name %> { 
+        let instance = new <%= name %>(<% argumentsMemebers.forEach(function(member){ %>
+            <%= member %>,<% }); %>
+        );
+
+        return instance;
+    }
+
+    constructor(<% argumentsMemebers.forEach(function(member){ %>
+        public <%= member %>: string,<% }); %>
+    ) {
+    }
 }

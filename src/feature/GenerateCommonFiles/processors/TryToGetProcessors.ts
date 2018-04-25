@@ -2,8 +2,8 @@ import { GenerateCommonPipelineFilesProcessor } from "../GenerateCommonPipelineF
 import { GenerateCommonPipelineFilesArguments } from "../GenerateCommonPipelineFilesArguments";
 import S from "string";
 import { EnsureOptionExecutor } from "../../EnsureOption";
-import { InputTypeEnum } from "../../EnsureOption/InputTypeEnum";
 import path = require("path");
+import { InputTypeEnum } from "../../../foundation/YeomanQuestions";
 
 export class TryToGetProcessors extends GenerateCommonPipelineFilesProcessor {
     public static readonly Instance = new TryToGetProcessors();
@@ -24,7 +24,7 @@ export class TryToGetProcessors extends GenerateCommonPipelineFilesProcessor {
                 defaultValue
             );
 
-        args.processorsNames = S(processorNames).isEmpty() ? [] : processorNames.split(' ');
+        args.processorNamesSpecifiedByUser = S(processorNames).isEmpty() ? [] : processorNames.split(' ');
     }
 
     public SafeCondition(args: GenerateCommonPipelineFilesArguments): boolean {
@@ -32,7 +32,7 @@ export class TryToGetProcessors extends GenerateCommonPipelineFilesProcessor {
     }
 
     public CustomCondition(args: GenerateCommonPipelineFilesArguments): boolean {
-        let safeCondition = args.processorsNames.length < 1;
+        let safeCondition = args.generatedProcessors.length < 1;
         return safeCondition;
     }
 }

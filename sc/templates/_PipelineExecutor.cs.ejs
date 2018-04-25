@@ -1,0 +1,22 @@
+using Sitecore.Pipelines;
+using System.Threading.Tasks;
+
+namespace <%= namespace %>
+{
+    public class <%= name %>
+    {
+        public static readonly <%= name %> Instance = new <%= name %>("<%= name %>");
+
+        public string Pipeline { get; }
+
+        public <%= name %>(string pipelineName)
+        {
+            this.Pipeline = pipelineName;
+        }
+
+        public virtual Task Execute(<%= argumentsClassName %> arguments)
+        {
+            return Task.Run(() => CorePipeline.Run(this.Pipeline, arguments));
+        }
+    }
+}

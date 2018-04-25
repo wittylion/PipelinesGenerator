@@ -1,4 +1,14 @@
-import { GenerateFileModel } from "../../feature/GenerateFileFromTemplate/GenerateFileModel";
+import { GenerateFileModel } from "../../feature/GenerateFileFromTemplate/models/GenerateFileModel";
+import { GenerateTypescriptProcessorFilePipeline } from "./GenerateTypescriptProcessorFile/GenerateTypescriptProcessorFilePipeline";
+import { GenerateProcessorFileExecutor } from "../../feature/GenerateProcessorFile";
+import { GenerateTypescriptExecutorFilePipeline } from "./GenerateTypescriptExecutorFile/GenerateTypescriptExecutorFilePipeline";
+import { GenerateExecutorFileExecutor } from "../../feature/GenerateExecutorFile";
+import { GenerateTypescriptArgumentsFilePipeline } from "./GenerateTypescriptArgumentsFile/GenerateTypescriptArgumentsFilePipeline";
+import { GenerateArgumentsFileExecutor } from "../../feature/GenerateArgumentsFile";
+import { GenerateCommonPipelineFilesExecutor } from "../../feature/GenerateCommonFiles";
+import { GenerateCommonFilesPipeline } from "./GenerateCommonFiles";
+import { GenerateTypescriptAbstractProcessorFilePipeline } from "./GenerateTypescriptAbstractProcessorFile/GenerateTypescriptAbstractProcessorFilePipeline";
+import { GenerateAbstractProcessorFileExecutor } from "../../feature/GenerateAbstractProcessorFile/GenerateAbstractProcessorFileExecutor";
 
 export class Defaults {
 
@@ -11,6 +21,14 @@ export class Defaults {
     public static processorModel: GenerateFileModel;
     public static messagesModel: GenerateFileModel;
 
+    public static AbstractProcessorGenerator = new GenerateAbstractProcessorFileExecutor(GenerateTypescriptAbstractProcessorFilePipeline.Instance);
+    public static ProcessorGenerator = new GenerateProcessorFileExecutor(GenerateTypescriptProcessorFilePipeline.Instance);
+    public static ArgumentsGenerator = new GenerateArgumentsFileExecutor(GenerateTypescriptArgumentsFilePipeline.Instance);
+    public static ExecutorGenerator = new GenerateExecutorFileExecutor(GenerateTypescriptExecutorFilePipeline.Instance);
+    public static CommonFilesGenerator = new GenerateCommonPipelineFilesExecutor(GenerateCommonFilesPipeline.Instance);
+
+    public static exportDeclaration: string = "export {{classes}} from '{{file}}'";
+
     public static extension: string = ".ts";
 
     public static initializeModels() {
@@ -20,7 +38,7 @@ export class Defaults {
         Defaults.argumentsModel.extension = Defaults.extension;
         Defaults.argumentsModel.ensureSuffixInClassName = true;
         Defaults.argumentsModel.ensureSuffixInFileName = true;
-        
+
         Defaults.messagesModel = new GenerateFileModel();
         Defaults.messagesModel.templateName = "_messages.ts.ejs";
         Defaults.messagesModel.suffix = "Messages";
@@ -58,9 +76,10 @@ export class Defaults {
         Defaults.mainExportsModel.fileName = "index";
         Defaults.mainExportsModel.templateName = "_exports.ts.ejs";
         Defaults.mainExportsModel.extension = Defaults.extension;
-        
+
         Defaults.processorModel = new GenerateFileModel();
         Defaults.processorModel.templateName = "_predefinedProcessor.ts.ejs";
         Defaults.processorModel.extension = Defaults.extension;
+        Defaults.processorModel.subdirectories.push('processors');
     }
 }

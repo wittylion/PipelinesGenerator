@@ -1,16 +1,26 @@
 using System.Threading.Tasks;
-using Pipelines;
 
-namespace MyNamespace
+namespace <%= namespace %>
 {
     public class <%= name %>
     {
-        public static readonly <%= name %> Instance = new <%= name %>();
+        public static readonly <%= name %> Instance = new <%= name %>(<%= pipelineClassName %>.Instance);
 
-        public virtual Task Execute(<%= argumentsClassName %> arguments)
+        public <%= pipelineClassName %> Pipeline { get; }
+
+        public <%= name %>(<%= pipelineClassName %> pipeline)
         {
-            PipelineRunner runner = new PipelineRunner();
-            return runner.RunPipeline(<%= pipelineClassName %>.Instance, arguments);
+            this.Pipeline = pipeline;
+        }
+
+        public virtual async Task Execute(<%= argumentsClassName %> arguments)
+        {
+            var processors = this.Pipeline.GetProcessors();
+            
+            foreach (var processor in processors)
+            {
+                await processor.Execute(arguments);
+            }
         }
     }
 }

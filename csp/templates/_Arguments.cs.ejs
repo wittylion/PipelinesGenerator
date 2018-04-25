@@ -1,0 +1,10 @@
+using Pipelines;
+
+namespace <%= namespace %>
+{
+    public class <%= name %> : PipelineContext
+    {
+        <% argumentsMemebers.forEach(function(member){ %>public string <%= member %> { get; set; }
+        <% }); %>
+    }
+}

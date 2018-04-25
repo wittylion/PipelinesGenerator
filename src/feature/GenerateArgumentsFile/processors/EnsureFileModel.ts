@@ -1,6 +1,7 @@
 import { GenerateArgumentsFileProcessor } from "../GenerateArgumentsFileProcessor";
 import { GenerateArgumentsFileArguments } from "../GenerateArgumentsFileArguments";
 import { EnsureFileModelArguments, EnsureFileModelExecutor } from "../../EnsureFileModel";
+import { GenerateArgumentsFileOptions } from "../GenerateArgumentsFileOptions";
 
 export class EnsureFileModel extends GenerateArgumentsFileProcessor {
     public static readonly Instance = new EnsureFileModel();
@@ -10,7 +11,7 @@ export class EnsureFileModel extends GenerateArgumentsFileProcessor {
             args.yeomanGenerator,
             args.fileModel,
             args.possibleName,
-            args.possibleExtension,
+            GenerateArgumentsFileOptions.ARGUMENTS_NAME,
             args.interactionMode
         );
         await EnsureFileModelExecutor.Instance.execute(ensurer);

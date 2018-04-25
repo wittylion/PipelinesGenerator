@@ -1,13 +1,22 @@
-import { PipelineRunner } from "solid-pipelines";
 import { <%= argumentsClassName %> } from './<%= argumentsFileName %>'
 import { <%= pipelineClassName %> } from './<%= pipelineFileName %>'
 
 export class <%= name %> {
-    public static Instance: <%= name %> = new <%= name %>();
+    public static Instance: <%= name %> = new <%= name %>(<%= pipelineClassName %>.Instance);
 
-    execute(args: <%= argumentsClassName %>) : Promise<void> {
-        var runner:PipelineRunner = new PipelineRunner();
+    constructor(public pipeline: <%= pipelineClassName %>) {
+    }
 
-        return runner.RunPipeline(<%= pipelineClassName %>.Instance, args);
+    async execute(args: <%= argumentsClassName %>) : Promise<void> {
+        let processors = this.pipeline.GetProcessors();
+
+        if (!processors || processors.length === 0) {
+            return;
+        }
+
+        for (let index = 0; index < processors.length; index++) {
+            const processor = processors[index];
+            await processor.Execute(args);
+        }
     }
 }

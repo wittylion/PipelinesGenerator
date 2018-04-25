@@ -1,0 +1,27 @@
+namespace <%= namespace %>
+{
+    public abstract class <%= name %>
+    {
+        public void Process(<%= argumentsClassName %> args)
+        {
+            if (args.Aborted)
+            {
+                return;
+            }
+
+            if (!this.SafeCondition(args))
+            {
+                return;
+            }
+
+            this.SafeExecute(args);
+        }
+
+        public abstract void SafeExecute(<%= argumentsClassName %> args);
+
+        public virtual bool SafeCondition(<%= argumentsClassName %> args)
+        {
+            return true;
+        }
+    }
+}

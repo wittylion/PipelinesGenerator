@@ -2,47 +2,59 @@ import { GenerateCommonPipelineFilesProcessor } from "../GenerateCommonPipelineF
 import { GenerateCommonPipelineFilesArguments } from "../GenerateCommonPipelineFilesArguments";
 import { GenerateFileFromTemplateArguments, GenerateFileFromTemplateExecutor } from "../../GenerateFileFromTemplate";
 import S from "string";
-import path = require("path");
+import upath = require("upath");
+import { GenerateExecutorFileArguments, GenerateExecutorFileExecutor } from "../../GenerateExecutorFile";
+import { InteractionModeEnum } from "../../EnsureFileModel/InteractionModeEnum";
 
 export class GenerateExecutor extends GenerateCommonPipelineFilesProcessor {
     public static readonly Instance = new GenerateExecutor();
 
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
         let model = args.modelsProvider.getExecutorModel();
-        if (!model) {
-            args.AbortPipelineWithErrorMessage("You have to specify some data for executor file to be generated.");
-            return;
-        }
-
-        if (S(model.templateName).isEmpty()) {
-            args.AbortPipelineWithErrorMessage("You have to provide a template name for executor file to be generated.");
-            return;
-        }
-
-        if (S(model.className).isEmpty()) {
-            model.className = args.pipelineNameSpecifiedByUser;
-        }
-
-        if (S(model.fileName).isEmpty()) {
-            model.fileName = args.pipelineNameSpecifiedByUser;
-        }
-
         model.subdirectories = [...args.commonSubfolders, ...model.subdirectories];
-        let executorGeneration = new GenerateFileFromTemplateArguments();
 
-        executorGeneration.fileModel = model;
-        executorGeneration.yeomanGenerator = args.yeomanGenerator;
-        executorGeneration.creationOptions['argumentsClassName'] = args.generatedArgumentsClassName;
-        executorGeneration.creationOptions['argumentsFileName']
-            = path.basename(args.generatedArgumentsFileName, args.extension);
-        executorGeneration.creationOptions['pipelineClassName'] = args.generatedPipelineClassName;
-        executorGeneration.creationOptions['pipelineFileName']
-            = path.basename(args.generatedPipelineFileName, args.extension);
+        let executorGeneration = new GenerateExecutorFileArguments(
+            model,
+            args.yeomanGenerator,
+            args.generatorsProvider.getFileFromTemplateGenerator(),
+            args.pipelineNameSpecifiedByUser,
+            InteractionModeEnum.Minimum
+        );
 
-        await GenerateFileFromTemplateExecutor.Instance.execute(executorGeneration);
-        
-        args.generatedExecutorClassName = executorGeneration.fileModel.className;
-        args.generatedExecutorFileName = executorGeneration.fileModel.fileName;
+        if (!S(args.generatedArguments.options["className"]).isEmpty()) {
+            executorGeneration.argumentsClassName = args.generatedArguments.options["className"];
+        }
+        else {
+            args.AddWarning("Cannot obtain arguments class name during the 'Pipeline executor' creation.");
+        }
+
+        if (!S(args.generatedArguments.fileName).isEmpty()) {
+            executorGeneration.argumentsFileName
+                = upath.trimExt(upath.basename(args.generatedArguments.fileName));
+        }
+        else {
+            args.AddWarning("Cannot obtain arguments file name during the 'Pipeline executor' creation.");
+        }
+
+        if (!S(args.generatedPipeline.options["className"]).isEmpty()) {
+            executorGeneration.pipelineClassName = args.generatedPipeline.options["className"];
+        }
+        else {
+            args.AddWarning("Cannot obtain pipeline class name during the 'Pipeline executor' creation.");
+        }
+
+        if (!S(args.generatedPipeline.fileName).isEmpty()) {
+            executorGeneration.pipelineFileName
+                = upath.trimExt(upath.basename(args.generatedPipeline.fileName));
+        }
+        else {
+            args.AddWarning("Cannot obtain pipeline file name during the 'Pipeline executor' creation.");
+        }
+
+        let result = await args.generatorsProvider.getExecutorGenerator().execute(executorGeneration);
+
+        args.generatedExecutor = result.result;
+        args.AddMessageObjects(executorGeneration.GetAllMessages());
     }
 
     public SafeCondition(args: GenerateCommonPipelineFilesArguments): boolean {
