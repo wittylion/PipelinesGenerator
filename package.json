@@ -12,14 +12,14 @@
     "url": "git+https://github.com/SergAtGitHub/PipelinesGenerator.git"
   },
   "keywords": [
-     "pipelines",
-     "SOLID",
-     "processors",
-     "chain",
-     "yeoman-generator",
-     "generator",
-     "sitecore",
-     "C#"
+    "pipelines",
+    "SOLID",
+    "processors",
+    "chain",
+    "yeoman-generator",
+    "generator",
+    "sitecore",
+    "C#"
   ],
   "author": "Sergey Solomentsev",
   "license": "Apache-2.0",
@@ -31,19 +31,19 @@
     "solid-pipelines": "^1.1.1",
     "string": "^3.3.3",
     "upath": "^1.0.4",
-    "yeoman-generator": "^2.0.3",
+    "yeoman-generator": "^2.0.4",
     "yosay": "^2.0.2"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.106",
-    "@types/mocha": "^5.0.0",
+    "@types/lodash": "^4.14.108",
+    "@types/mocha": "^5.2.0",
     "@types/string": "0.0.29",
     "@types/yeoman-generator": "^2.0.3",
     "@types/yeoman-test": "^1.7.4",
     "@types/yosay": "0.0.29",
-    "mocha": "^5.0.5",
+    "mocha": "^5.1.1",
     "yeoman-assert": "^3.1.1",
     "yeoman-test": "^1.7.0",
-    "yo": "^2.0.1"
+    "yo": "^2.0.2"
   }
 }
