@@ -15,7 +15,7 @@ export class TryFindProjectFile extends GetNamespaceFromFolderNamesProcessor {
         );
 
         if (result.length > 0) {
-            args.projectDirectory = result[0];
+            args.projectDirectory = path.dirname(result[0]);
         }
     }
 
