@@ -8,13 +8,11 @@ export class AddExportDeclaration extends GenerateExecutorFileProcessor {
     public static readonly Instance = new AddExportDeclaration();
 
     public async SafeExecute(args: GenerateExecutorFileArguments): Promise<void> {
-        let res = await GenerateExportsExecutor.exportAllFiles(
+        await GenerateExportsExecutor.exportAllFiles(
             args.yeomanGenerator,
             path.join(...args.fileModel.subdirectories),
             args.fileModel.fileName
         );
-
-        args.AddMessageObjects(res.messages);
     }
 
     public SafeCondition(args: GenerateExecutorFileArguments): boolean {

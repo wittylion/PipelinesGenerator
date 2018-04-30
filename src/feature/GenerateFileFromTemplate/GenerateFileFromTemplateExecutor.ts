@@ -18,10 +18,11 @@ export class GenerateFileFromTemplateExecutor {
         yeomanGenerator: Generator,
         creationOptions?: {}
     ) : Promise<{result: CreatedFileResult, messages: PipelineMessage[]}> {
-        let args: GenerateFileFromTemplateArguments = new GenerateFileFromTemplateArguments();
+        let args: GenerateFileFromTemplateArguments = new GenerateFileFromTemplateArguments(
+            yeomanGenerator,
+            fileModel,
+        );
 
-        args.fileModel = fileModel;
-        args.yeomanGenerator = yeomanGenerator;
         if (creationOptions) {
             _.assign(args.creationOptions, creationOptions);
         }

@@ -1,44 +1,31 @@
 import { GenerateProcessorFileProcessor } from "../GenerateProcessorFileProcessor";
-import { GenerateProcessorFileArguments } from "../GenerateProcessorFileArguments";
 import { GenerateProcessorFileMessages } from "../GenerateProcessorFileMessages";
 import S from "string";
+import { GenerateProcessorModel } from "../models/GenerateProcessorModel";
+import { CreatedFileResult } from "../../GenerateFileFromTemplate/models/CreatedFileResult";
 
 export class CheckArguments extends GenerateProcessorFileProcessor {
     public static readonly Instance = new CheckArguments();
 
-    public async SafeExecute(args: GenerateProcessorFileArguments): Promise<void> {
+    public async SafeExecute(args: GenerateProcessorModel): Promise<void> {
         if (!args.arguments) {
-            args.AddWarning(GenerateProcessorFileMessages.ArgumentsMustBeProvided);
-            return;
+            args.arguments = new CreatedFileResult("Arguments", {});
         }
 
-        let templateData = { 
-            processor: args.fileModel.options["className"], 
-            file: args.fileModel.fileName 
-        };
-
         if (S(args.arguments.options["className"]).isEmpty()) {
-            args.AbortPipelineWithErrorMessage(
-                S(GenerateProcessorFileMessages.ArgumentsClassNameIsMissing)
-                    .template(templateData).s
-            );
-            return;
+            args.arguments.options["className"] = "MyArguments";
         }
 
         if (S(args.arguments.fileName).isEmpty()) {
-            args.AbortPipelineWithErrorMessage(
-                S(GenerateProcessorFileMessages.ArgumentsFileNameIsMissing)
-                    .template(templateData).s
-            );
-            return;
+            args.arguments.fileName = "Arguments";
         }
     }
 
-    public SafeCondition(args: GenerateProcessorFileArguments): boolean {
+    public SafeCondition(args: GenerateProcessorModel): boolean {
         return super.SafeCondition(args) && this.CustomCondition(args);
     }
 
-    public CustomCondition(args: GenerateProcessorFileArguments): boolean {
+    public CustomCondition(args: GenerateProcessorModel): boolean {
         let safeCondition = true;
         return safeCondition;
     }

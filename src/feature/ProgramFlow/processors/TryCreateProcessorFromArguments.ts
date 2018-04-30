@@ -1,6 +1,6 @@
 import { ProgramFlowProcessor } from "../ProgramFlowProcessor";
 import { ProgramFlowArguments } from "../ProgramFlowArguments";
-import { GenerateProcessorFileExecutor, GenerateProcessorFileArguments } from "../../GenerateProcessorFile";
+import { GenerateProcessorFileExecutor } from "../../GenerateProcessorFile";
 import { ObtainOptionExecutor } from "../../ObtainOption";
 import { GenerateArgumentsFileOptions } from "../../GenerateArgumentsFile/GenerateArgumentsFileOptions";
 import S from "string";
@@ -28,11 +28,7 @@ export class TryCreateProcessorFromArguments extends ProgramFlowProcessor {
         let model = args.modelsProvider.getProcessorModel();
         model.options["className"] = processorName;
 
-        let processorGeneration = new GenerateProcessorFileArguments(
-            model,
-            args.yeomanGenerator,
-            args.generatorsProvider.getFileFromTemplateGenerator(),
-        );
+        let processorGeneration = model;
 
         let argsName = await ObtainOptionExecutor.obtainByKey(
             args.yeomanGenerator,
@@ -60,19 +56,7 @@ export class TryCreateProcessorFromArguments extends ProgramFlowProcessor {
             model.subdirectories = [];
         }
 
-        let result
-            = await GenerateProcessorFileExecutor.Instance.execute(processorGeneration);
-
-        let failMessages = processorGeneration.GetWarningsAndErrors();
-
-        if (failMessages.length > 0) {
-            args.AbortPipelineWithErrorMessage("Cannot create a processor");
-        }
-        else {
-            args.AbortPipelineWithInformationMessage("Processor is created.");
-        }
-
-        args.AddMessageObjects(result.messages);
+        await args.generatorsProvider.getProcessorGenerator().execute(processorGeneration);
     }
 
     public SafeCondition(args: ProgramFlowArguments): boolean {

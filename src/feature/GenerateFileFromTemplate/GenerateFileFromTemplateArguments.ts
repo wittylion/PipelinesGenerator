@@ -4,8 +4,12 @@ import { GenerateFileModel } from "./models/GenerateFileModel";
 import { CreatedFileResult } from "./models/CreatedFileResult";
 
 export class GenerateFileFromTemplateArguments extends PipelineContext {
-    yeomanGenerator: Generator;
-    fileModel: GenerateFileModel;
+    constructor(
+        public yeomanGenerator: Generator,
+        public fileModel: GenerateFileModel
+    ) {
+        super();
+    }
     result: CreatedFileResult;
 
     destination: string;

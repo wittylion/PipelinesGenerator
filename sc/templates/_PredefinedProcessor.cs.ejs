@@ -2,20 +2,20 @@ using System.Threading.Tasks;
 
 namespace <%= namespace %>
 {
-    public class <%= name %> : <%= abstractProcessorClassName %>
+    public class <%= name %> : <%= abstractProcessor.options["className"] %>
     {
         public static readonly <%= name %> Instance = new <%= name %>();
-        public override void SafeExecute(<%= argumentsClassName %> args)
+        public override void SafeExecute(<%= arguments.options["className"] %> args)
         {
             throw new System.NotImplementedException();
         }
 
-        public override bool SafeCondition(<%= argumentsClassName %> args)
+        public override bool SafeCondition(<%= arguments.options["className"] %> args)
         {
             return base.SafeCondition(args) && this.CustomCondition(args);
         }
 
-        public virtual bool CustomCondition(<%= argumentsClassName %> args)
+        public virtual bool CustomCondition(<%= arguments.options["className"] %> args)
         {
             var safeCondition = true;
             return safeCondition;

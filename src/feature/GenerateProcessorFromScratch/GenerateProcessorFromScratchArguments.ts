@@ -6,13 +6,14 @@ import { YeomanQueryContext } from "../../foundation/PipelinesExtensions";
 
 import Generator = require("yeoman-generator");
 import { GenerateFileFromTemplateExecutor } from "../GenerateFileFromTemplate";
+import { GenerateProcessorModel } from "../GenerateProcessorFile/models/GenerateProcessorModel";
 
 export class GenerateProcessorFromScratchArguments extends YeomanQueryContext<CreatedFileResult> {
     constructor(
         yeomanGenerator: Generator,
         public fileGenerator: GenerateFileFromTemplateExecutor,
         public processorGenerator: GenerateProcessorFileExecutor,
-        public model: GenerateFileModel,
+        public model: GenerateProcessorModel,
         public argumentsModel?: CreatedFileResult,
         public processorModel?: CreatedFileResult,
 

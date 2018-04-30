@@ -7,6 +7,7 @@ export class GenerateFileModel {
     subdirectories: string[] = [];
     subdirectoryNameTuner: (subdirectory: string) => string;
     extension: string = "";
+    destinationPath: string = "";
     
     ensureSuffixInFileName: boolean = true;
     ensureSuffixInClassName: boolean = true;
@@ -20,6 +21,14 @@ export class GenerateFileModel {
 
     getFinalPath(): string {
         return path.join(this.getSubdirectory(), this.getFinalName());
+    }
+    
+    getFinalDestination(): any {
+        return path.join(this.destinationPath, this.getFinalPath());
+    }
+    
+    getFinalDirectoryDestination(): any {
+        return path.join(this.destinationPath, this.getSubdirectory());
     }
 
     getFinalName(): string {

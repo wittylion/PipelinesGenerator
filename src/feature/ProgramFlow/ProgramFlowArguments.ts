@@ -12,7 +12,7 @@ export class ProgramFlowArguments extends YeomanContext {
     constructor(
         yeomanGenerator: Generator,
         public modelsProvider: IModelsProvider,
-        public generatorsProvider: IGeneratorsProvider = DefaultGeneratorsProvider.Instance
+        public generatorsProvider: IGeneratorsProvider
     ) {
         super(yeomanGenerator);
     }

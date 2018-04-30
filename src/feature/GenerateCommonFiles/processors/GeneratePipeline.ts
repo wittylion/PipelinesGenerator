@@ -25,6 +25,7 @@ export class GeneratePipeline extends GenerateCommonPipelineFilesProcessor {
             }
         );
 
+        model.destinationPath = args.yeomanGenerator.destinationPath();
         model.subdirectories = [...args.commonSubfolders, ...model.subdirectories];
         let result = await args.generatorsProvider.getPipelineGenerator().create(
             model,

@@ -3,30 +3,29 @@ import { GeneratePipelineFileProcessor } from "../../../../feature/GeneratePipel
 import S from "string";
 import { GetNamespaceFromFolderNamesExecutor } from "../../GetNamespaceFromFolderNames";
 import { GenerateProcessorFileProcessor } from "../../../../feature/GenerateProcessorFile/GenerateProcessorFileProcessor";
-import { GenerateProcessorFileArguments } from "../../../../feature/GenerateProcessorFile";
+import { GenerateProcessorModel } from "../../../../feature/GenerateProcessorFile/models/GenerateProcessorModel";
 
 export class ProvideNamespace extends GenerateProcessorFileProcessor {
     public static readonly Instance = new ProvideNamespace();
 
-    public async SafeExecute(args: GenerateProcessorFileArguments): Promise<void> {
+    public async SafeExecute(args: GenerateProcessorModel): Promise<void> {
         let res
             = await GetNamespaceFromFolderNamesExecutor.getNamespace(
-                args.yeomanGenerator.destinationPath(),
+                args.destinationPath,
                 true,
                 undefined,
-                args.fileModel.subdirectories
+                args.subdirectories
             );
 
-        args.fileModel.options["namespace"] = res.result;
-        args.AddMessageObjects(res.messages);
+        args.options["namespace"] = res.result;
     }
 
-    public SafeCondition(args: GenerateProcessorFileArguments): boolean {
+    public SafeCondition(args: GenerateProcessorModel): boolean {
         return super.SafeCondition(args) && this.CustomCondition(args);
     }
 
-    public CustomCondition(args: GenerateProcessorFileArguments): boolean {
-        let safeCondition = S(args.fileModel.options["namespace"]).isEmpty();
+    public CustomCondition(args: GenerateProcessorModel): boolean {
+        let safeCondition = S(args.options["namespace"]).isEmpty();
         return safeCondition;
     }
 }

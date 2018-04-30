@@ -13,6 +13,7 @@ export class GenerateExecutor extends GenerateCommonPipelineFilesProcessor {
         let model = args.modelsProvider.getExecutorModel();
         model.subdirectories = [...args.commonSubfolders, ...model.subdirectories];
 
+        model.destinationPath = args.yeomanGenerator.destinationPath();
         let executorGeneration = new GenerateExecutorFileArguments(
             model,
             args.yeomanGenerator,

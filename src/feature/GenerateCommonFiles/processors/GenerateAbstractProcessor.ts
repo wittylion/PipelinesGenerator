@@ -11,6 +11,7 @@ export class GenerateAbstractProcessor extends GenerateCommonPipelineFilesProces
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
         let model = args.modelsProvider.getAbstractProcessorModel();
         model.subdirectories = [...args.commonSubfolders, ...model.subdirectories];
+        model.destinationPath = args.yeomanGenerator.destinationPath();
 
         let abstractProcessorGeneration = new GenerateAbstractProcessorFileArguments(
             model,

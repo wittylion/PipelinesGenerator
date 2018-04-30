@@ -1,6 +1,5 @@
 import { GenerateProcessorFromScratchProcessor } from "../GenerateProcessorFromScratchProcessor";
 import { GenerateProcessorFromScratchArguments } from "../GenerateProcessorFromScratchArguments";
-import { GenerateProcessorFileArguments } from "../../GenerateProcessorFile";
 import { GenerateProcessorFromScratchMessages } from "../GenerateProcessorFromScratchMessages";
 
 export class GenerateProcessor extends GenerateProcessorFromScratchProcessor {

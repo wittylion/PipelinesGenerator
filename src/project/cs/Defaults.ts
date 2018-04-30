@@ -4,36 +4,43 @@ import { GeneratePipelineFileExecutor } from "../../feature/GeneratePipelineFile
 import { GenerateCSharpPipelineFilePipeline } from "./GenerateCSharpPipelineFile/GenerateCSharpPipelineFilePipeline";
 import { GenerateProcessorFileExecutor } from "../../feature/GenerateProcessorFile";
 import { GenerateCSharpProcessorFile } from "./GenerateCSharpProcessorFile/GenerateCSharpProcessorFilePipeline";
-import { GenerateFileFromTemplateExecutor } from "../../feature/GenerateFileFromTemplate";
+import { GenerateFileFromTemplateExecutor, GenerateFileFromTemplateArguments } from "../../feature/GenerateFileFromTemplate";
 import { GenerateCSharpFileFromTemplatePipeline } from "./GenerateCSharpFileFromTemplate/GenerateCSharpFileFromTemplatePipeline";
+import { GenerateProcessorModel } from "../../feature/GenerateProcessorFile/models/GenerateProcessorModel";
+
+import Generator = require("yeoman-generator");
 
 export class Defaults {
 
     public static FileFromTemplateGenerator = new GenerateFileFromTemplateExecutor(GenerateCSharpFileFromTemplatePipeline.Instance);
     public static PipelineGenerator = new GeneratePipelineFileExecutor(GenerateCSharpPipelineFilePipeline.Instance);
-    public static ProcessorGenerator = new GenerateProcessorFileExecutor(GenerateCSharpProcessorFile.Instance);
+    public static ProcessorGenerator;
 
     public static argumentsModel: GenerateFileModel;
     public static abstractProcessorModel: GenerateFileModel;
     public static pipelineModel: GenerateFileModel;
     public static executorModel: GenerateFileModel;
-    public static processorModel: GenerateFileModel;
+    public static processorModel: GenerateProcessorModel;
     public static messagesModel: GenerateFileModel;
 
     public static extension: string = ".cs";
 
-    public static commonSubdirectoryCaseTuner(x: string): string {
-        return _.upperFirst(_.camelCase(x));
-    }
-
-    public static initializeModels() {
+    public static initializeModels(yeomanGenerator: Generator) {
+        Defaults.ProcessorGenerator = new GenerateProcessorFileExecutor(
+            new GenerateCSharpProcessorFile(
+                (model) => GenerateFileFromTemplateExecutor.Instance.execute(
+                    new GenerateFileFromTemplateArguments(yeomanGenerator, model)
+                )
+            )
+        );
+        
         Defaults.argumentsModel = new GenerateFileModel();
         Defaults.argumentsModel.templateName = "_Arguments.cs.ejs";
         Defaults.argumentsModel.suffix = "Arguments";
         Defaults.argumentsModel.extension = Defaults.extension;
         Defaults.argumentsModel.ensureSuffixInClassName = true;
         Defaults.argumentsModel.ensureSuffixInFileName = true;
-        Defaults.argumentsModel.subdirectoryNameTuner = Defaults.commonSubdirectoryCaseTuner;
+        Defaults.argumentsModel.destinationPath = yeomanGenerator.destinationPath();
         
         Defaults.messagesModel = new GenerateFileModel();
         Defaults.messagesModel.templateName = "_messages.cs.ejs";
@@ -41,7 +48,7 @@ export class Defaults {
         Defaults.messagesModel.extension = Defaults.extension;
         Defaults.messagesModel.ensureSuffixInClassName = true;
         Defaults.messagesModel.ensureSuffixInFileName = true;
-        Defaults.messagesModel.subdirectoryNameTuner = Defaults.commonSubdirectoryCaseTuner;
+        Defaults.messagesModel.destinationPath = yeomanGenerator.destinationPath();
 
         Defaults.abstractProcessorModel = new GenerateFileModel();
         Defaults.abstractProcessorModel.templateName = "_AbstractProcessor.cs.ejs";
@@ -49,7 +56,7 @@ export class Defaults {
         Defaults.abstractProcessorModel.extension = Defaults.extension;
         Defaults.abstractProcessorModel.ensureSuffixInClassName = true;
         Defaults.abstractProcessorModel.ensureSuffixInFileName = true;
-        Defaults.abstractProcessorModel.subdirectoryNameTuner = Defaults.commonSubdirectoryCaseTuner;
+        Defaults.abstractProcessorModel.destinationPath = yeomanGenerator.destinationPath();
 
         Defaults.pipelineModel = new GenerateFileModel();
         Defaults.pipelineModel.templateName = "_Pipeline.cs.ejs";
@@ -57,7 +64,7 @@ export class Defaults {
         Defaults.pipelineModel.extension = Defaults.extension;
         Defaults.pipelineModel.ensureSuffixInClassName = true;
         Defaults.pipelineModel.ensureSuffixInFileName = true;
-        Defaults.pipelineModel.subdirectoryNameTuner = Defaults.commonSubdirectoryCaseTuner;
+        Defaults.pipelineModel.destinationPath = yeomanGenerator.destinationPath();
 
         Defaults.executorModel = new GenerateFileModel();
         Defaults.executorModel.templateName = "_PipelineExecutor.cs.ejs";
@@ -65,12 +72,12 @@ export class Defaults {
         Defaults.executorModel.extension = Defaults.extension;
         Defaults.executorModel.ensureSuffixInClassName = true;
         Defaults.executorModel.ensureSuffixInFileName = true;
-        Defaults.executorModel.subdirectoryNameTuner = Defaults.commonSubdirectoryCaseTuner;
+        Defaults.executorModel.destinationPath = yeomanGenerator.destinationPath();
 
-        Defaults.processorModel = new GenerateFileModel();
+        Defaults.processorModel = new GenerateProcessorModel();
         Defaults.processorModel.templateName = "_PredefinedProcessor.cs.ejs";
         Defaults.processorModel.extension = Defaults.extension;
-        Defaults.processorModel.subdirectoryNameTuner = Defaults.commonSubdirectoryCaseTuner;
+        Defaults.processorModel.destinationPath = yeomanGenerator.destinationPath();
         Defaults.processorModel.subdirectories.push('Processors');
     }
 }

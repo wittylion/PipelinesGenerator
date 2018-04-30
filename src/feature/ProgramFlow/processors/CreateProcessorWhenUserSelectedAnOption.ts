@@ -1,6 +1,6 @@
 import { ProgramFlowProcessor } from "../ProgramFlowProcessor";
 import { ProgramFlowArguments } from "../ProgramFlowArguments";
-import { GenerateProcessorFileExecutor, GenerateProcessorFileArguments } from "../../GenerateProcessorFile";
+import { GenerateProcessorFileExecutor } from "../../GenerateProcessorFile";
 import { ObtainOptionExecutor } from "../../ObtainOption";
 import { GenerateArgumentsFileOptions } from "../../GenerateArgumentsFile/GenerateArgumentsFileOptions";
 import S from "string";

@@ -2,8 +2,9 @@ import { GenerateCommonPipelineFilesProcessor } from "../GenerateCommonPipelineF
 import { GenerateCommonPipelineFilesArguments } from "../GenerateCommonPipelineFilesArguments";
 import S from "string";
 import upath = require("upath");
-import { GenerateProcessorFileArguments, GenerateProcessorFileExecutor } from "../../GenerateProcessorFile";
+import { GenerateProcessorFileExecutor } from "../../GenerateProcessorFile";
 import { MessageFilter } from "solid-pipelines";
+import { CreatedFileResult } from "../../GenerateFileFromTemplate/models/CreatedFileResult";
 
 export class GenerateProcessors extends GenerateCommonPipelineFilesProcessor {
     public static readonly Instance = new GenerateProcessors();
@@ -20,18 +21,15 @@ export class GenerateProcessors extends GenerateCommonPipelineFilesProcessor {
         for (const processorModel of processorsModels) {
             processorModel.subdirectories = [...args.commonSubfolders, ...processorModel.subdirectories];
 
-            let processorGeneration = new GenerateProcessorFileArguments(
-                processorModel,
-                args.yeomanGenerator,
-                args.generatorsProvider.getFileFromTemplateGenerator(),
+            processorModel.arguments = args.generatedArguments;
+            processorModel.abstractProcessor = args.generatedProcessor;
+            await args.generatorsProvider.getProcessorGenerator().execute(processorModel);
+
+            let result = new CreatedFileResult(
+                processorModel.getFinalDestination(), 
+                processorModel.options
             );
-
-            processorGeneration.arguments = args.generatedArguments;
-            processorGeneration.abstractProcessor = args.generatedProcessor;
-            
-            let result = await args.generatorsProvider.getProcessorGenerator().execute(processorGeneration);
-
-            args.generatedProcessors.push(result.result);
+            args.generatedProcessors.push(result);
         }
     }
 

@@ -7,8 +7,7 @@ import { GenerateCommonPipelineFilesExecutor } from ".";
 import { GeneratePipelineFileExecutor } from "../GeneratePipelineFile";
 import { GenerateFileFromTemplateExecutor } from "../GenerateFileFromTemplate";
 
-export class DefaultGeneratorsProvider implements IGeneratorsProvider {
-    public static Instance = new DefaultGeneratorsProvider();
+export abstract class DefaultGeneratorsProvider implements IGeneratorsProvider {
 
     getFileFromTemplateGenerator(): GenerateFileFromTemplateExecutor {
         return GenerateFileFromTemplateExecutor.Instance;
@@ -22,9 +21,7 @@ export class DefaultGeneratorsProvider implements IGeneratorsProvider {
     getAbstractProcessorGenerator(): GenerateAbstractProcessorFileExecutor {
         return GenerateAbstractProcessorFileExecutor.Instance;
     }
-    getProcessorGenerator(): GenerateProcessorFileExecutor {
-        return GenerateProcessorFileExecutor.Instance;
-    }
+    abstract getProcessorGenerator(): GenerateProcessorFileExecutor;
     getExecutorGenerator(): GenerateExecutorFileExecutor {
         return GenerateExecutorFileExecutor.Instance;
     }

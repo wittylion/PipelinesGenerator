@@ -29,25 +29,10 @@ export class CreateExports extends ProgramFlowProcessor {
             dir = '.';
         }
 
-        let result = await GenerateExportsExecutor.exportAllFromDirectory(
+        await GenerateExportsExecutor.exportAllFromDirectory(
             args.yeomanGenerator,
             dir
         );
-
-        let failMessages = result.messages
-            .filter(
-                x =>
-                    x.MessageType === MessageType.Error
-                    || x.MessageType === MessageType.Warning
-            );
-
-        if (failMessages.length > 0) {
-            failMessages.forEach(x => args.AddMessageObject(x));
-            args.AbortPipelineWithErrorMessage("Cannot create exports file.");
-        }
-        else {
-            args.AbortPipelineWithInformationMessage("Exports file is created.");
-        }
     }
 
     public SafeCondition(args: ProgramFlowArguments): boolean {

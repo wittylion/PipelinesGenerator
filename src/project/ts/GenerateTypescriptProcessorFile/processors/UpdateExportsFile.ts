@@ -1,25 +1,23 @@
-import { GenerateProcessorFileArguments } from "../../../../feature/GenerateProcessorFile";
 import { GenerateProcessorFileProcessor } from "../../../../feature/GenerateProcessorFile/GenerateProcessorFileProcessor";
 import { GenerateExportsExecutor } from "../../GenerateExports";
 
 import path = require("path");
+import { GenerateProcessorModel } from "../../../../feature/GenerateProcessorFile/models/GenerateProcessorModel";
 
 export class UpdateExportsFile extends GenerateProcessorFileProcessor {
-    public static readonly Instance = new UpdateExportsFile();
-
-    public async SafeExecute(args: GenerateProcessorFileArguments): Promise<void> {
-        await GenerateExportsExecutor.exportAllFiles(
-            args.yeomanGenerator,
-            path.join(...args.fileModel.subdirectories),
-            args.fileModel.fileName
-        );
+    constructor(public exportAllFiles: (processorModel: GenerateProcessorModel) => Promise<void>) {
+        super();
     }
 
-    public SafeCondition(args: GenerateProcessorFileArguments): boolean {
+    public async SafeExecute(args: GenerateProcessorModel): Promise<void> {
+        await this.exportAllFiles(args);
+    }
+
+    public SafeCondition(args: GenerateProcessorModel): boolean {
         return super.SafeCondition(args) && this.CustomCondition(args);
     }
 
-    public CustomCondition(args: GenerateProcessorFileArguments): boolean {
+    public CustomCondition(args: GenerateProcessorModel): boolean {
         let safeCondition = true;
         return safeCondition;
     }

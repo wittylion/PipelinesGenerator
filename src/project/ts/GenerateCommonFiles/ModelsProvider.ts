@@ -2,6 +2,7 @@ import { IModelsProvider } from "../../../feature/GenerateCommonFiles/IModelsPro
 import { GenerateFileModel } from "../../../feature/GenerateFileFromTemplate/models/GenerateFileModel";
 import { Defaults } from "../Defaults";
 import _ from "lodash";
+import { GenerateProcessorModel } from "../../../feature/GenerateProcessorFile/models/GenerateProcessorModel";
 
 export class ModelsProvider implements IModelsProvider {
     public static Instance = new ModelsProvider();
@@ -15,7 +16,7 @@ export class ModelsProvider implements IModelsProvider {
     getAbstractProcessorModel(): GenerateFileModel {
         return _.cloneDeep(Defaults.abstractProcessorModel);
     }
-    getProcessorModel(): GenerateFileModel {
+    getProcessorModel(): GenerateProcessorModel {
         return _.cloneDeep(Defaults.processorModel);
     }
     getPipelineModel(): GenerateFileModel {

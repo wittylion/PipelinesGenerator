@@ -6,7 +6,7 @@ export class Initializing extends TypescriptYeomanPipelineProcessor {
     public static readonly Instance = new Initializing();
 
     public async SafeExecute(args: TypescriptYeomanPipelineArguments): Promise<void> {
-        Defaults.initializeModels();
+        Defaults.initializeModels(args.yeomanGenerator);
     }
 
     public SafeCondition(args: TypescriptYeomanPipelineArguments): boolean {

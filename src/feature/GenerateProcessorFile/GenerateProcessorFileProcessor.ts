@@ -1,4 +1,7 @@
-import { SafeProcessor } from "solid-pipelines";
-import { GenerateProcessorFileArguments } from "./GenerateProcessorFileArguments";
+import { SafeTypeProcessor } from "solid-pipelines";
+import { GenerateProcessorModel } from "./models/GenerateProcessorModel";
 
-export abstract class GenerateProcessorFileProcessor extends SafeProcessor<GenerateProcessorFileArguments> {  }
+export abstract class GenerateProcessorFileProcessor
+    extends SafeTypeProcessor<GenerateProcessorModel> {
+
+}

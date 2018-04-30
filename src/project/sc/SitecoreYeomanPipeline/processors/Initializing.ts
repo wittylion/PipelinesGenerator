@@ -7,8 +7,8 @@ export class Initializing extends SitecoreYeomanPipelineProcessor {
     public static readonly Instance = new Initializing();
 
     public async SafeExecute(args: SitecoreYeomanPipelineArguments): Promise<void> {
-        CSharpDefaults.initializeModels();
-        Defaults.initializeModels();
+        CSharpDefaults.initializeModels(args.yeomanGenerator);
+        Defaults.initializeModels(args.yeomanGenerator);
     }
 
     public SafeCondition(args: SitecoreYeomanPipelineArguments): boolean {

@@ -1,34 +1,29 @@
 import S from "string";
 
 import { GenerateProcessorFileProcessor } from "../../../../feature/GenerateProcessorFile/GenerateProcessorFileProcessor";
-import { GenerateProcessorFileArguments } from "../../../../feature/GenerateProcessorFile/GenerateProcessorFileArguments";
 import { GenerateTypescriptPathExecutor } from "../../GenerateTypescriptPath/GenerateTypescriptPathExecutor";
+import { GenerateProcessorModel } from "../../../../feature/GenerateProcessorFile/models/GenerateProcessorModel";
 
 export class GenerateArgumentsImportStatement extends GenerateProcessorFileProcessor {
     public static readonly Instance = new GenerateArgumentsImportStatement();
 
-    public async SafeExecute(args: GenerateProcessorFileArguments): Promise<void> {
+    public async SafeExecute(args: GenerateProcessorModel): Promise<void> {
         let result
             = await GenerateTypescriptPathExecutor.getPath(
-                args.yeomanGenerator.destinationPath(args.fileModel.getSubdirectory()),
-                args.yeomanGenerator.destinationPath(args.arguments.fileName)
+                args.getFinalDirectoryDestination(),
+                args.arguments.fileName
             );
 
         if (result.result) {
-            args.fileModel.options["argumentsFileName"] = result.result;
+            args.options["argumentsFileName"] = result.result;
         }
-        else {
-            args.AbortPipelineWithErrorMessage("Cannot obtain import statement for arguments path.");
-        }
-
-        args.AddMessageObjects(result.messages);
     }
 
-    public SafeCondition(args: GenerateProcessorFileArguments): boolean {
+    public SafeCondition(args: GenerateProcessorModel): boolean {
         return super.SafeCondition(args) && this.CustomCondition(args);
     }
 
-    public CustomCondition(args: GenerateProcessorFileArguments): boolean {
+    public CustomCondition(args: GenerateProcessorModel): boolean {
         let safeCondition = args.arguments && !S(args.arguments.fileName).isEmpty();
         return safeCondition;
     }

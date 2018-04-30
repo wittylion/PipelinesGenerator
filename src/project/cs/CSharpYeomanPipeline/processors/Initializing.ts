@@ -6,7 +6,7 @@ export class Initializing extends CSharpYeomanPipelineProcessor {
     public static readonly Instance = new Initializing();
 
     public async SafeExecute(args: CSharpYeomanPipelineArguments): Promise<void> {
-        Defaults.initializeModels();
+        Defaults.initializeModels(args.yeomanGenerator);
     }
 
     public SafeCondition(args: CSharpYeomanPipelineArguments): boolean {

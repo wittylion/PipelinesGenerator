@@ -4,32 +4,32 @@
         locals.argumentsFileName = "../MyArguments"; 
     }
     
-    if (!locals.argumentsClassName) {
-        locals.argumentsClassName = "MyArguments"; 
+    if (!locals.arguments.options["className"]) {
+        locals.arguments.options["className"] = "MyArguments"; 
     }
     
     if (!locals.abstractProcessorFileName) {
         locals.abstractProcessorFileName = "../MyProcessor"; 
     }
     
-    if (!locals.abstractProcessorClassName) {
-        locals.abstractProcessorClassName = "MyProcessor"; 
+    if (!locals.abstractProcessor.options["className"]) {
+        locals.abstractProcessor.options["className"] = "MyProcessor"; 
     }
-%>import { <%= abstractProcessorClassName %> } from "<%= abstractProcessorFileName %>";
-import { <%= argumentsClassName %> } from "<%= argumentsFileName %>";
+%>import { <%= abstractProcessor.options["className"] %> } from "<%= abstractProcessorFileName %>";
+import { <%= arguments.options["className"] %> } from "<%= argumentsFileName %>";
 
-export class <%= name %> extends <%= abstractProcessorClassName %> {
+export class <%= name %> extends <%= abstractProcessor.options["className"] %> {
     public static readonly Instance = new <%= name %>();
 
-    public async SafeExecute(args: <%= argumentsClassName %>): Promise<void> {
+    public async SafeExecute(args: <%= arguments.options["className"] %>): Promise<void> {
         throw new Error("Not implemented.");
     }
 
-    public SafeCondition(args: <%= argumentsClassName %>): boolean {
+    public SafeCondition(args: <%= arguments.options["className"] %>): boolean {
         return super.SafeCondition(args) && this.CustomCondition(args);
     }
 
-    public CustomCondition(args: <%= argumentsClassName %>): boolean {
+    public CustomCondition(args: <%= arguments.options["className"] %>): boolean {
         let safeCondition = true;
         return safeCondition;
     }

@@ -22,5 +22,5 @@ export class GenerateCommonPipelineFilesArguments extends YeomanContext {
     generatedExecutor: CreatedFileResult;
     
     modelsProvider: IModelsProvider;
-    generatorsProvider: IGeneratorsProvider = DefaultGeneratorsProvider.Instance;
+    generatorsProvider: IGeneratorsProvider;
 }

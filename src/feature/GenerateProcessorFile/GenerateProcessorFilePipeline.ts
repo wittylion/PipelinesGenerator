@@ -1,8 +1,10 @@
 import { IPipeline, IProcessor } from 'solid-pipelines'
 import * as Processors from './processors'
+import { GenerateProcessorModel } from './models/GenerateProcessorModel';
 
 export class GenerateProcessorFilePipeline implements IPipeline {
-    public static readonly Instance = new GenerateProcessorFilePipeline();
+    constructor(public fileGenerator: (processor: GenerateProcessorModel) => Promise<void>) {
+    }
 
     GetProcessors(): IProcessor[] {
         return [
@@ -25,7 +27,7 @@ export class GenerateProcessorFilePipeline implements IPipeline {
 
     GenerateProcessor(): IProcessor[] {
         return [
-            Processors.GenerateProcessorFile.Instance
+            new Processors.GenerateProcessorFile(this.fileGenerator)
         ];
     }
 }

@@ -15,6 +15,7 @@ export class GenerateArguments extends GenerateCommonPipelineFilesProcessor {
             return;
         }
 
+        model.destinationPath = args.yeomanGenerator.destinationPath();
         model.subdirectories = [
             ...args.commonSubfolders, 
             ...model.subdirectories
