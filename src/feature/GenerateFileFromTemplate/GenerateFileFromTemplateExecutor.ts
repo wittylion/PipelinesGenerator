@@ -7,26 +7,23 @@ import Generator = require("yeoman-generator");
 import _ from "lodash";
 
 export class GenerateFileFromTemplateExecutor {
-    public static Instance: GenerateFileFromTemplateExecutor = new GenerateFileFromTemplateExecutor(GenerateFileFromTemplatePipeline.Instance);
 
     constructor(public Pipeline: IPipeline) {
-        
+
     }
 
     async create(
         fileModel: GenerateFileModel,
-        yeomanGenerator: Generator,
         creationOptions?: {}
     ) : Promise<{result: CreatedFileResult, messages: PipelineMessage[]}> {
         let args: GenerateFileFromTemplateArguments = new GenerateFileFromTemplateArguments(
-            yeomanGenerator,
             fileModel,
         );
 
         if (creationOptions) {
             _.assign(args.creationOptions, creationOptions);
         }
-        
+
         await this.execute(args);
 
         return {result: args.result, messages: args.GetMessages(MessageFilter.All)};

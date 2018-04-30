@@ -5,7 +5,6 @@ import { CreatedFileResult } from "./models/CreatedFileResult";
 
 export class GenerateFileFromTemplateArguments extends PipelineContext {
     constructor(
-        public yeomanGenerator: Generator,
         public fileModel: GenerateFileModel
     ) {
         super();

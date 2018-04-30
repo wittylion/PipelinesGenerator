@@ -11,7 +11,6 @@ export class GenerateArgumentsFile extends GenerateArgumentsFileProcessor {
     public async SafeExecute(args: GenerateArgumentsFileArguments): Promise<void> {
         let res = await args.fileGenerator.create(
             args.fileModel,
-            args.yeomanGenerator,
             {
                 argumentsMemebers: args.members
             }

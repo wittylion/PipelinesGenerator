@@ -5,11 +5,13 @@ import path = require("path");
 import S from "string";
 
 export class EnsureDestination extends GenerateFileFromTemplateProcessor {
-    public static readonly Instance = new EnsureDestination();
+    constructor(public destinationEnsurer: DestinationEnsurer) {
+        super();
+    }
 
     public async SafeExecute(args: GenerateFileFromTemplateArguments): Promise<void> {
         args.fileModel.fileName = path.join(...args.fileModel.subdirectories, args.fileModel.fileName);
-        args.destination = args.yeomanGenerator.destinationPath(args.fileModel.fileName);
+        args.destination = await this.destinationEnsurer.ensure(args.fileModel.fileName);
     }
 
     public SafeCondition(args: GenerateFileFromTemplateArguments): boolean {

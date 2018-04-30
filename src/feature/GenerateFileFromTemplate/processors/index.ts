@@ -1,4 +1,3 @@
-export * from './ValidateGenerator'
 export * from './EnsureTemplateDestination'
 export * from './ValidateTemplateDestination'
 export * from './EnsureSuffixInFileName'

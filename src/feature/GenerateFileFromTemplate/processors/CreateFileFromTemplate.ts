@@ -3,13 +3,17 @@ import { GenerateFileFromTemplateArguments } from "../GenerateFileFromTemplateAr
 import S from "string";
 
 export class CreateFileFromTemplate extends GenerateFileFromTemplateProcessor {
-    public static readonly Instance = new CreateFileFromTemplate();
+
+    constructor(public fileGenerator: FileFromTemplateGenerator) {
+        super();
+    }
 
     public async SafeExecute(args: GenerateFileFromTemplateArguments): Promise<void> {
-        args.yeomanGenerator.fs.copyTpl(
+        await this.fileGenerator.generate(
             args.templateDestination,
             args.destination,
-            args.creationOptions);
+            args.creationOptions
+        );
     }
 
     public SafeCondition(args: GenerateFileFromTemplateArguments): boolean {

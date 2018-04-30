@@ -11,7 +11,6 @@ export class GenerateAbstractProcessorFile extends GenerateAbstractProcessorFile
         let result
             = await args.fileGenerator.create(
                 args.fileModel,
-                args.yeomanGenerator,
                 {
                     argumentsClassName: args.argumentsClassName,
                     argumentsFileName: args.argumentsImportPath

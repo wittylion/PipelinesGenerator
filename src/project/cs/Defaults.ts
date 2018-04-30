@@ -12,7 +12,7 @@ import Generator = require("yeoman-generator");
 
 export class Defaults {
 
-    public static FileFromTemplateGenerator = new GenerateFileFromTemplateExecutor(GenerateCSharpFileFromTemplatePipeline.Instance);
+    public static FileFromTemplateGenerator;
     public static PipelineGenerator = new GeneratePipelineFileExecutor(GenerateCSharpPipelineFilePipeline.Instance);
     public static ProcessorGenerator;
 
@@ -26,14 +26,24 @@ export class Defaults {
     public static extension: string = ".cs";
 
     public static initializeModels(yeomanGenerator: Generator) {
+
+        Defaults.FileFromTemplateGenerator = new GenerateFileFromTemplateExecutor(
+            new GenerateCSharpFileFromTemplatePipeline(
+                { ensure: async (template: string) => yeomanGenerator.templatePath(template) },
+                { ensure: async (template: string) => yeomanGenerator.destinationPath(template) },
+                { check: async(path: string) => yeomanGenerator.fs.exists(path) },
+                { generate: async (...args) => yeomanGenerator.fs.copyTpl(args[0], args[1], args[2]) }
+            )
+        );
+
         Defaults.ProcessorGenerator = new GenerateProcessorFileExecutor(
             new GenerateCSharpProcessorFile(
-                (model) => GenerateFileFromTemplateExecutor.Instance.execute(
-                    new GenerateFileFromTemplateArguments(yeomanGenerator, model)
+                (model) => Defaults.FileFromTemplateGenerator.execute(
+                    new GenerateFileFromTemplateArguments(model)
                 )
             )
         );
-        
+
         Defaults.argumentsModel = new GenerateFileModel();
         Defaults.argumentsModel.templateName = "_Arguments.cs.ejs";
         Defaults.argumentsModel.suffix = "Arguments";
@@ -41,7 +51,7 @@ export class Defaults {
         Defaults.argumentsModel.ensureSuffixInClassName = true;
         Defaults.argumentsModel.ensureSuffixInFileName = true;
         Defaults.argumentsModel.destinationPath = yeomanGenerator.destinationPath();
-        
+
         Defaults.messagesModel = new GenerateFileModel();
         Defaults.messagesModel.templateName = "_messages.cs.ejs";
         Defaults.messagesModel.suffix = "Messages";

@@ -2,7 +2,14 @@ import { IPipeline, IProcessor } from 'solid-pipelines'
 import * as Processors from './processors'
 
 export class GenerateFileFromTemplatePipeline implements IPipeline {
-    public static readonly Instance = new GenerateFileFromTemplatePipeline();
+
+    constructor(
+        public templateDestinationEnsurer: DestinationEnsurer,
+        public fileDestinationEnsurer: DestinationEnsurer,
+        public fileChecker: FileExistanceChecker,
+        public fileFromTemplateGenerator: FileFromTemplateGenerator,
+    ) {
+    }
 
     GetProcessors(): IProcessor[] {
         return [
@@ -14,16 +21,15 @@ export class GenerateFileFromTemplatePipeline implements IPipeline {
 
     BeforeFileGeneration(): IProcessor[] {
         return [
-            Processors.ValidateGenerator.Instance,
             Processors.EnsureFileNameIsSet.Instance,
-            Processors.EnsureTemplateDestination.Instance,
-            Processors.ValidateTemplateDestination.Instance,
+            new Processors.EnsureTemplateDestination(this.templateDestinationEnsurer),
+            new Processors.ValidateTemplateDestination(this.fileChecker),
             Processors.EnsureSuffixInFileName.Instance,
             Processors.EnsureExtensionInFileName.Instance,
             Processors.EnsureSuffixInClassName.Instance,
             Processors.EnsureClassNameAsLeadingSubdirectory.Instance,
             Processors.AdjustCaseOfSubdirectories.Instance,
-            Processors.EnsureDestination.Instance,
+            new Processors.EnsureDestination(this.fileDestinationEnsurer),
         ];
     }
 
@@ -36,8 +42,8 @@ export class GenerateFileFromTemplatePipeline implements IPipeline {
     GenerateFileProcessors(): IProcessor[] {
 
         return [
-            Processors.CreateFileFromTemplate.Instance,
-            Processors.GenerateResult.Instance,
+            new Processors.CreateFileFromTemplate(this.fileFromTemplateGenerator),
+            new Processors.GenerateResult(this.fileChecker),
         ];
     }
 }

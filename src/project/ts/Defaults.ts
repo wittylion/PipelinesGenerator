@@ -14,6 +14,7 @@ import { GenerateAbstractProcessorFileExecutor } from "../../feature/GenerateAbs
 import { GenerateProcessorModel } from "../../feature/GenerateProcessorFile/models/GenerateProcessorModel";
 import { GenerateFileFromTemplateExecutor, GenerateFileFromTemplateArguments } from "../../feature/GenerateFileFromTemplate";
 import { GenerateExportsExecutor, GenerateExportsArguments } from "./GenerateExports";
+import { GenerateFileFromTemplatePipeline } from "../../feature/GenerateFileFromTemplate/GenerateFileFromTemplatePipeline";
 
 export class Defaults {
 
@@ -26,6 +27,7 @@ export class Defaults {
     public static processorModel: GenerateProcessorModel;
     public static messagesModel: GenerateFileModel;
 
+    public static FileFromTemplateGenerator;
     public static AbstractProcessorGenerator = new GenerateAbstractProcessorFileExecutor(GenerateTypescriptAbstractProcessorFilePipeline.Instance);
     public static ProcessorGenerator: GenerateProcessorFileExecutor;
     public static ArgumentsGenerator = new GenerateArgumentsFileExecutor(GenerateTypescriptArgumentsFilePipeline.Instance);
@@ -37,10 +39,20 @@ export class Defaults {
     public static extension: string = ".ts";
 
     public static initializeModels(yeomanGenerator: Generator) {
+
+        Defaults.FileFromTemplateGenerator = new GenerateFileFromTemplateExecutor(
+            new GenerateFileFromTemplatePipeline(
+                { ensure: async (template: string) => yeomanGenerator.templatePath(template) },
+                { ensure: async (template: string) => yeomanGenerator.destinationPath(template) },
+                { check: async(path: string) => yeomanGenerator.fs.exists(path) },
+                { generate: async (...args) => yeomanGenerator.fs.copyTpl(args[0], args[1], args[2]) }
+            )
+        );
+
         Defaults.ProcessorGenerator = new GenerateProcessorFileExecutor(
             new GenerateTypescriptProcessorFilePipeline(
-                (model) => GenerateFileFromTemplateExecutor.Instance.execute(
-                    new GenerateFileFromTemplateArguments(yeomanGenerator, model)
+                (model) => Defaults.FileFromTemplateGenerator.execute(
+                    new GenerateFileFromTemplateArguments(model)
                 ),
                 (model) => GenerateExportsExecutor.Instance.exportAllFiles(
                     yeomanGenerator,

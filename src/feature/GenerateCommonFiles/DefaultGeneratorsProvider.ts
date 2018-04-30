@@ -9,9 +9,8 @@ import { GenerateFileFromTemplateExecutor } from "../GenerateFileFromTemplate";
 
 export abstract class DefaultGeneratorsProvider implements IGeneratorsProvider {
 
-    getFileFromTemplateGenerator(): GenerateFileFromTemplateExecutor {
-        return GenerateFileFromTemplateExecutor.Instance;
-    }
+    abstract getFileFromTemplateGenerator(): GenerateFileFromTemplateExecutor;
+
     getPipelineGenerator(): GeneratePipelineFileExecutor {
         return GeneratePipelineFileExecutor.Instance;
     }

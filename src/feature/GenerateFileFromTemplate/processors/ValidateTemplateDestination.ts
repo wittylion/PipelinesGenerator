@@ -4,7 +4,10 @@ import { GenerateFileFromTemplateArguments } from "../GenerateFileFromTemplateAr
 import S = require("string");
 
 export class ValidateTemplateDestination extends GenerateFileFromTemplateProcessor {
-    public static readonly Instance = new ValidateTemplateDestination();
+
+    constructor(public checker: FileExistanceChecker) {
+        super();
+    }
 
     public async SafeExecute(args: GenerateFileFromTemplateArguments): Promise<void> {
         if (S(args.templateDestination).isEmpty()) {
@@ -18,7 +21,8 @@ export class ValidateTemplateDestination extends GenerateFileFromTemplateProcess
             return;
         }
 
-        if (!args.yeomanGenerator.fs.exists(args.templateDestination)) {
+        let templateExists = this.checker.check(args.templateDestination);
+        if (!templateExists) {
             args.AbortPipelineWithErrorMessage("The file in '" + args.templateDestination + "' templpate destination was not found. Please ensure the existence of the file and try again.");
             return;
         }

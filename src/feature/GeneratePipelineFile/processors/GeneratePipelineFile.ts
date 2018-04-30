@@ -8,7 +8,6 @@ export class GeneratePipelineFile extends GeneratePipelineFileProcessor {
     public async SafeExecute(args: GeneratePipelineFileArguments): Promise<void> {
         let result = await args.fileGenerator.create(
             args.fileModel,
-            args.yeomanGenerator,
             {
                 processors: args.processors
             }

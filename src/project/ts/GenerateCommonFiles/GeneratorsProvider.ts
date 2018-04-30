@@ -1,7 +1,13 @@
 import { DefaultGeneratorsProvider } from "../../../feature/GenerateCommonFiles/DefaultGeneratorsProvider";
 import { Defaults } from "../Defaults";
+import { GenerateFileFromTemplateExecutor } from "../../../feature/GenerateFileFromTemplate/GenerateFileFromTemplateExecutor";
 
 export class GeneratorsProvider extends DefaultGeneratorsProvider {
+
+    getFileFromTemplateGenerator(): GenerateFileFromTemplateExecutor {
+        return Defaults.FileFromTemplateGenerator;
+    }
+
     public static Instance = new GeneratorsProvider();
 
     getExecutorGenerator() {

@@ -1,7 +1,7 @@
 import { GetNamespaceFromFolderNamesProcessor } from "../GetNamespaceFromFolderNamesProcessor";
 import { GetNamespaceFromFolderNamesArguments } from "../GetNamespaceFromFolderNamesArguments";
 
-import path = require("path");
+import path = require("upath");
 import S from "string";
 import { FindFileExecutor } from "../../../../foundation/FindFile";
 

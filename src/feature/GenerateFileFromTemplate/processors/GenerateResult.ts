@@ -5,7 +5,10 @@ import S = require("string");
 import { CreatedFileResult } from "../models/CreatedFileResult";
 
 export class GenerateResult extends GenerateFileFromTemplateProcessor {
-    public static readonly Instance = new GenerateResult();
+
+    constructor(public existanceChecker: FileExistanceChecker) {
+        super();
+    }
 
     public async SafeExecute(args: GenerateFileFromTemplateArguments): Promise<void> {
         if (S(args.destination).isEmpty()) {
@@ -15,7 +18,8 @@ export class GenerateResult extends GenerateFileFromTemplateProcessor {
             return;
         }
 
-        if (!args.yeomanGenerator.fs.exists(args.destination)) {
+        let fileExists = await this.existanceChecker.check(args.destination);
+        if (!fileExists) {
             args.AbortPipelineWithErrorMessage("The file '" + args.destination + "' was not created, please review passed data or contact developers.");
             return;
         }
