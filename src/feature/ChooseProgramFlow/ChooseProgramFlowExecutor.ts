@@ -5,13 +5,15 @@ import { ChooseProgramFlowPipeline } from './ChooseProgramFlowPipeline'
 import { injectable, inject } from "inversify";
 import CHOOSE_PROGRAM_FLOW from "./ServiceIdentifiers";
 import "reflect-metadata";
+import SOLID_PIPELINES from "../../foundation/PipelinesExtensions/ServiceIdentifiers";
 
 @injectable()
 export class ChooseProgramFlowExecutor {
-    public static Instance: ChooseProgramFlowExecutor = new ChooseProgramFlowExecutor(ChooseProgramFlowPipeline.Instance);
 
     constructor(
-        
+
+        public runner: PipelineRunner,
+                
         @inject(CHOOSE_PROGRAM_FLOW.PIPELINE)
         public pipeline: IPipeline
     
@@ -19,9 +21,7 @@ export class ChooseProgramFlowExecutor {
     }
 
     async execute(args: ChooseProgramFlowArguments) : Promise<string> {
-        var runner:PipelineRunner = new PipelineRunner();
-
-        await runner.RunPipeline(this.pipeline, args);
+        await this.runner.RunPipeline(this.pipeline, args);
 
         return args.GetResult();
     }

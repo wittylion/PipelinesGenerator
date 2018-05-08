@@ -5,10 +5,13 @@ import { ProgramFlowPipeline } from './ProgramFlowPipeline'
 import { injectable, inject } from "inversify";
 import "reflect-metadata";
 import PROGRAM_FLOW from "./ServiceIdentifiers";
+import SOLID_PIPELINES from "../../foundation/PipelinesExtensions/ServiceIdentifiers";
 
 @injectable()
 export class ProgramFlowExecutor {
     constructor(
+
+        public runner: PipelineRunner,
         
         @inject(PROGRAM_FLOW.PIPELINE)
         public pipeline: IPipeline
@@ -18,13 +21,11 @@ export class ProgramFlowExecutor {
     }
 
     async execute(args: ProgramFlowArguments): Promise<{ message: string }> {
-        var runner: PipelineRunner = new PipelineRunner();
-
-        await runner.RunPipeline(this.pipeline, args);
+        await this.runner.RunPipeline(this.pipeline, args);
 
         return {
             message: args
-                .GetMessages(MessageFilter.All)
+                .GetAllMessages()
                 .map(message => message.Message)
                 .join('\n')
         };
