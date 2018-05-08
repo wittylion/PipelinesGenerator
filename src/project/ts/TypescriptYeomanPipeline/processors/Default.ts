@@ -5,22 +5,18 @@ import { ModelsProvider, GeneratorsProvider, GenerateCommonFilesPipeline } from 
 import { GenerateCommonPipelineFilesExecutor } from "../../../../feature/GenerateCommonFiles";
 import { TypescriptProgramFlowPipeline } from "../../TypescriptProgramFlow/TypescriptProgramFlowPipeline";
 import GENERATE_COMMON_FILES from "../../../../feature/GenerateCommonFiles/ServiceIdentifiers";
+import { ProgramFlowPredefinedExecutor } from "../../../../feature/ProgramFlow/ProgramFlowPredefinedExecutor";
+import PROGRAM_FLOW from "../../../../feature/ProgramFlow/ServiceIdentifiers";
 
 export class Default extends TypescriptYeomanPipelineProcessor {
     public static readonly Instance = new Default();
 
     public async SafeExecute(args: TypescriptYeomanPipelineArguments): Promise<void> {
-        let programFlowArguments = new ProgramFlowArguments(
-            args.yeomanGenerator, 
-            args.container.get(GENERATE_COMMON_FILES.MODELS_PROVIDER), 
-            args.container.get(GENERATE_COMMON_FILES.GENERATORS_PROVIDER), 
+
+        let programFlow = args.container.get<ProgramFlowPredefinedExecutor>(
+            PROGRAM_FLOW.PREDEFINED_EXECUTOR
         );
-        
-        let programFlow = new ProgramFlowExecutor(TypescriptProgramFlowPipeline.Instance);
-
-        let result = await programFlow.execute(programFlowArguments);
-
-        console.log(result.message);
+        let result = await programFlow.execute();
     }
 
     public SafeCondition(args: TypescriptYeomanPipelineArguments): boolean {

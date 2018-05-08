@@ -6,17 +6,31 @@ import GENERATE_COMMON_FILES from "../../../../feature/GenerateCommonFiles/Servi
 import { ModelsProvider } from "../../GenerateCommonFiles";
 import { GeneratorsProvider } from "../../GenerateCommonFiles/GeneratorsProvider";
 import { IGeneratorsProvider } from "../../../../feature/GenerateCommonFiles/abstractions/IGeneratorsProvider";
+import Generator = require("yeoman-generator");
+import { injectProgramFlow } from "../../../../feature/ProgramFlow/DependencyInjection";
+import YEOMAN from "../../../../foundation/YeomanPipeline/ServiceIdentifiers";
+import { IPipeline } from "solid-pipelines";
+import PROGRAM_FLOW from "../../../../feature/ProgramFlow/ServiceIdentifiers";
+import { TypescriptProgramFlowPipeline } from "../../TypescriptProgramFlow/TypescriptProgramFlowPipeline";
 
 export class Initializing extends TypescriptYeomanPipelineProcessor {
     public static readonly Instance = new Initializing();
 
     public async SafeExecute(args: TypescriptYeomanPipelineArguments): Promise<void> {
 
+        args.container.bind<Generator>(YEOMAN.INSTANCE)
+            .toConstantValue(args.yeomanGenerator);
+
         args.container.bind<IModelsProvider>(GENERATE_COMMON_FILES.MODELS_PROVIDER)
             .to(ModelsProvider);
             
         args.container.bind<IGeneratorsProvider>(GENERATE_COMMON_FILES.GENERATORS_PROVIDER)
             .to(GeneratorsProvider);
+
+        injectProgramFlow(args.container);
+        
+        args.container.rebind<IPipeline>(PROGRAM_FLOW.PIPELINE)
+            .to(TypescriptProgramFlowPipeline);
 
         Defaults.initializeModels(args.yeomanGenerator);
     }

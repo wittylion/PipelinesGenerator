@@ -6,22 +6,17 @@ import { GenerateCommonPipelineFilesExecutor } from "../../../../feature/Generat
 import { ProgramFlowPipeline } from "../../../../feature/ProgramFlow/ProgramFlowPipeline";
 import { GeneratorsProvider } from "../../GenerateCommonFiles/GeneratorsProvider";
 import GENERATE_COMMON_FILES from "../../../../feature/GenerateCommonFiles/ServiceIdentifiers";
+import { ProgramFlowPredefinedExecutor } from "../../../../feature/ProgramFlow/ProgramFlowPredefinedExecutor";
+import PROGRAM_FLOW from "../../../../feature/ProgramFlow/ServiceIdentifiers";
 
 export class Default extends CSharpYeomanPipelineProcessor {
     public static readonly Instance = new Default();
 
     public async SafeExecute(args: CSharpYeomanPipelineArguments): Promise<void> {
-        let programFlowArguments = new ProgramFlowArguments(
-            args.yeomanGenerator, 
-            args.container.get(GENERATE_COMMON_FILES.MODELS_PROVIDER), 
-            args.container.get(GENERATE_COMMON_FILES.GENERATORS_PROVIDER), 
+        let programFlow = args.container.get<ProgramFlowPredefinedExecutor>(
+            PROGRAM_FLOW.PREDEFINED_EXECUTOR
         );
-        
-        let programFlow = new ProgramFlowExecutor(ProgramFlowPipeline.Instance);
-
-        let result = await programFlow.execute(programFlowArguments);
-
-        console.log(result.message);
+        let result = await programFlow.execute();
     }
 
     public SafeCondition(args: CSharpYeomanPipelineArguments): boolean {

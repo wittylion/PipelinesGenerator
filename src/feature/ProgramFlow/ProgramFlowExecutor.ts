@@ -2,10 +2,18 @@ import { PipelineRunner, IPipeline, MessageFilter } from "solid-pipelines";
 import { ProgramFlowArguments } from './ProgramFlowArguments'
 import { ProgramFlowPipeline } from './ProgramFlowPipeline'
 
-export class ProgramFlowExecutor {
-    public static Instance: ProgramFlowExecutor = new ProgramFlowExecutor(ProgramFlowPipeline.Instance);
+import { injectable, inject } from "inversify";
+import "reflect-metadata";
+import PROGRAM_FLOW from "./ServiceIdentifiers";
 
-    constructor(public pipeline: IPipeline) {
+@injectable()
+export class ProgramFlowExecutor {
+    constructor(
+        
+        @inject(PROGRAM_FLOW.PIPELINE)
+        public pipeline: IPipeline
+        
+    ) {
 
     }
 

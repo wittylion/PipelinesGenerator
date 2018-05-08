@@ -11,7 +11,7 @@ export class YeomanPipelineArguments extends YeomanContext {
     }
 
     
-    private _container : Container = new Container();
+    private _container : Container = new Container({ skipBaseClassChecks: true });
     public get container() : Container {
         return this._container;
     }
