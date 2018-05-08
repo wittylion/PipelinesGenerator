@@ -4,6 +4,7 @@ import { ProgramFlowArguments, ProgramFlowExecutor } from "../../../../feature/P
 import { ModelsProvider, GeneratorsProvider, GenerateCommonFilesPipeline } from "../../GenerateCommonFiles";
 import { GenerateCommonPipelineFilesExecutor } from "../../../../feature/GenerateCommonFiles";
 import { TypescriptProgramFlowPipeline } from "../../TypescriptProgramFlow/TypescriptProgramFlowPipeline";
+import GENERATE_COMMON_FILES from "../../../../feature/GenerateCommonFiles/ServiceIdentifiers";
 
 export class Default extends TypescriptYeomanPipelineProcessor {
     public static readonly Instance = new Default();
@@ -11,7 +12,7 @@ export class Default extends TypescriptYeomanPipelineProcessor {
     public async SafeExecute(args: TypescriptYeomanPipelineArguments): Promise<void> {
         let programFlowArguments = new ProgramFlowArguments(
             args.yeomanGenerator, 
-            ModelsProvider.Instance, 
+            args.container.get(GENERATE_COMMON_FILES.MODELS_PROVIDER), 
             GeneratorsProvider.Instance
         );
         

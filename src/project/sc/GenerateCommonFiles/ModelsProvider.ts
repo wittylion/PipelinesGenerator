@@ -4,6 +4,10 @@ import _ from "lodash";
 import { IModelsProvider } from "../../../feature/GenerateCommonFiles/IModelsProvider";
 import { GenerateProcessorModel } from "../../../feature/GenerateProcessorFile/models/GenerateProcessorModel";
 
+import { injectable } from "inversify";
+import "reflect-metadata"
+
+@injectable()
 export class ModelsProvider implements IModelsProvider {
     public static readonly Instance: ModelsProvider = new ModelsProvider();
 

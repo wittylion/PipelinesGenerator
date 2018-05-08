@@ -6,6 +6,7 @@ import { SitecoreYeomanPipelineProcessor } from '../SitecoreYeomanPipelineProces
 import { SitecoreYeomanPipelineArguments } from '../SitecoreYeomanPipelineArguments';
 import { ModelsProvider } from '../../GenerateCommonFiles/ModelsProvider';
 import { GeneratorsProvider } from '../../../cs/GenerateCommonFiles/GeneratorsProvider';
+import GENERATE_COMMON_FILES from '../../../../feature/GenerateCommonFiles/ServiceIdentifiers';
 
 export class Default extends SitecoreYeomanPipelineProcessor {
     public static readonly Instance = new Default();
@@ -13,7 +14,7 @@ export class Default extends SitecoreYeomanPipelineProcessor {
     public async SafeExecute(args: SitecoreYeomanPipelineArguments): Promise<void> {
         let programFlowArguments = new ProgramFlowArguments(
             args.yeomanGenerator, 
-            ModelsProvider.Instance, 
+            args.container.get(GENERATE_COMMON_FILES.MODELS_PROVIDER), 
             GeneratorsProvider.Instance
         );
         

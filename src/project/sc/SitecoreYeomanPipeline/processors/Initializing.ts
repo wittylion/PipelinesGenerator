@@ -2,11 +2,18 @@ import { Defaults } from "../../Defaults";
 import { Defaults as CSharpDefaults } from "../../../cs/Defaults";
 import { SitecoreYeomanPipelineProcessor } from "../SitecoreYeomanPipelineProcessor";
 import { SitecoreYeomanPipelineArguments } from "../SitecoreYeomanPipelineArguments";
+import { IModelsProvider } from "../../../../feature/GenerateCommonFiles/IModelsProvider";
+import GENERATE_COMMON_FILES from "../../../../feature/GenerateCommonFiles/ServiceIdentifiers";
+import { ModelsProvider } from "../../GenerateCommonFiles/ModelsProvider";
 
 export class Initializing extends SitecoreYeomanPipelineProcessor {
     public static readonly Instance = new Initializing();
 
     public async SafeExecute(args: SitecoreYeomanPipelineArguments): Promise<void> {
+
+        args.container.bind<IModelsProvider>(GENERATE_COMMON_FILES.MODELS_PROVIDER)
+            .to(ModelsProvider);
+
         CSharpDefaults.initializeModels(args.yeomanGenerator);
         Defaults.initializeModels(args.yeomanGenerator);
     }

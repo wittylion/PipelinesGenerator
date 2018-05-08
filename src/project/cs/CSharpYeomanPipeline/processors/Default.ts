@@ -5,6 +5,7 @@ import { ModelsProvider } from "../../GenerateCommonFiles/ModelsProvider";
 import { GenerateCommonPipelineFilesExecutor } from "../../../../feature/GenerateCommonFiles";
 import { ProgramFlowPipeline } from "../../../../feature/ProgramFlow/ProgramFlowPipeline";
 import { GeneratorsProvider } from "../../GenerateCommonFiles/GeneratorsProvider";
+import GENERATE_COMMON_FILES from "../../../../feature/GenerateCommonFiles/ServiceIdentifiers";
 
 export class Default extends CSharpYeomanPipelineProcessor {
     public static readonly Instance = new Default();
@@ -12,7 +13,7 @@ export class Default extends CSharpYeomanPipelineProcessor {
     public async SafeExecute(args: CSharpYeomanPipelineArguments): Promise<void> {
         let programFlowArguments = new ProgramFlowArguments(
             args.yeomanGenerator, 
-            ModelsProvider.Instance, 
+            args.container.get(GENERATE_COMMON_FILES.MODELS_PROVIDER), 
             GeneratorsProvider.Instance
         );
         
