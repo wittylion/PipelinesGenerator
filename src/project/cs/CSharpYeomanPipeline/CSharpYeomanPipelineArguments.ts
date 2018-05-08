@@ -1,8 +1,8 @@
 import { PipelineContext } from "solid-pipelines";
-import { YeomanContext } from "../../../foundation/PipelinesExtensions";
 import Generator = require("yeoman-generator");
+import { YeomanPipelineArguments } from "../../../foundation/YeomanPipeline/YeomanPipelineArguments";
 
-export class CSharpYeomanPipelineArguments extends YeomanContext {
+export class CSharpYeomanPipelineArguments extends YeomanPipelineArguments {
     constructor(
         public yeomanGenerator: Generator
     ) { 
