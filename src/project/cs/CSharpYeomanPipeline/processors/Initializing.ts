@@ -8,7 +8,7 @@ import { IGeneratorsProvider } from "../../../../feature/GenerateCommonFiles/abs
 import { GeneratorsProvider } from "../../GenerateCommonFiles/GeneratorsProvider";
 import Generator = require("yeoman-generator");
 import YEOMAN from "../../../../foundation/YeomanPipeline/ServiceIdentifiers";
-import { injectProgramFlow } from "../../../../feature/ProgramFlow/DependencyInjection";
+import { injectCommon } from "../../../../feature/DependencyInjection/Common";
 
 export class Initializing extends CSharpYeomanPipelineProcessor {
     public static readonly Instance = new Initializing();
@@ -23,7 +23,7 @@ export class Initializing extends CSharpYeomanPipelineProcessor {
         args.container.bind<IGeneratorsProvider>(GENERATE_COMMON_FILES.GENERATORS_PROVIDER)
             .to(GeneratorsProvider);
             
-        injectProgramFlow(args.container);
+        injectCommon(args.container);
         
         Defaults.initializeModels(generator);
     }

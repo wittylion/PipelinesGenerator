@@ -7,11 +7,11 @@ import GENERATE_COMMON_FILES from "../../../../feature/GenerateCommonFiles/Servi
 import { ModelsProvider } from "../../GenerateCommonFiles/ModelsProvider";
 import { IGeneratorsProvider } from "../../../../feature/GenerateCommonFiles/abstractions/IGeneratorsProvider";
 import { GeneratorsProvider } from "../../../cs/GenerateCommonFiles/GeneratorsProvider";
-import { injectProgramFlow } from "../../../../feature/ProgramFlow/DependencyInjection";
 import { IPipeline } from "solid-pipelines";
 import PROGRAM_FLOW from "../../../../feature/ProgramFlow/ServiceIdentifiers";
 import YEOMAN from "../../../../foundation/YeomanPipeline/ServiceIdentifiers";
 import Generator = require("yeoman-generator");
+import { injectCommon } from "../../../../feature/DependencyInjection/Common";
 
 export class Initializing extends SitecoreYeomanPipelineProcessor {
     public static readonly Instance = new Initializing();
@@ -26,7 +26,7 @@ export class Initializing extends SitecoreYeomanPipelineProcessor {
         args.container.bind<IGeneratorsProvider>(GENERATE_COMMON_FILES.GENERATORS_PROVIDER)
             .to(GeneratorsProvider);
 
-        injectProgramFlow(args.container);
+        injectCommon(args.container);
         
         CSharpDefaults.initializeModels(generator);
         Defaults.initializeModels(generator);

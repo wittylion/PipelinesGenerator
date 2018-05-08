@@ -1,6 +1,9 @@
 import { IPipeline, IProcessor } from 'solid-pipelines'
 import * as Processors from './processors'
+import { injectable } from 'inversify';
+import "reflect-metadata";
 
+@injectable()
 export class ChooseProgramFlowPipeline implements IPipeline {
     public static readonly Instance = new ChooseProgramFlowPipeline();
 

@@ -7,11 +7,11 @@ import { ModelsProvider } from "../../GenerateCommonFiles";
 import { GeneratorsProvider } from "../../GenerateCommonFiles/GeneratorsProvider";
 import { IGeneratorsProvider } from "../../../../feature/GenerateCommonFiles/abstractions/IGeneratorsProvider";
 import Generator = require("yeoman-generator");
-import { injectProgramFlow } from "../../../../feature/ProgramFlow/DependencyInjection";
 import YEOMAN from "../../../../foundation/YeomanPipeline/ServiceIdentifiers";
 import { IPipeline } from "solid-pipelines";
 import PROGRAM_FLOW from "../../../../feature/ProgramFlow/ServiceIdentifiers";
 import { TypescriptProgramFlowPipeline } from "../../TypescriptProgramFlow/TypescriptProgramFlowPipeline";
+import { injectCommon } from "../../../../feature/DependencyInjection/Common";
 
 export class Initializing extends TypescriptYeomanPipelineProcessor {
     public static readonly Instance = new Initializing();
@@ -26,7 +26,7 @@ export class Initializing extends TypescriptYeomanPipelineProcessor {
         args.container.bind<IGeneratorsProvider>(GENERATE_COMMON_FILES.GENERATORS_PROVIDER)
             .to(GeneratorsProvider);
 
-        injectProgramFlow(args.container);
+        injectCommon(args.container);
         
         args.container.rebind<IPipeline>(PROGRAM_FLOW.PIPELINE)
             .to(TypescriptProgramFlowPipeline);

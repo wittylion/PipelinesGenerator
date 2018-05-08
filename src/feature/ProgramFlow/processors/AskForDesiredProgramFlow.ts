@@ -3,17 +3,25 @@ import { ProgramFlowArguments } from "../ProgramFlowArguments";
 import { MessageFilter } from "solid-pipelines";
 import { GenerateCommonPipelineFilesArguments } from "../../GenerateCommonFiles";
 import { ChooseProgramFlowArguments, ChooseProgramFlowExecutor } from "../../ChooseProgramFlow";
+import { inject, injectable } from "inversify";
+import { ChooseProgramFlowPredefinedExecutor } from "../../ChooseProgramFlow/ChooseProgramFlowPredefinedExecutor";
+import CHOOSE_PROGRAM_FLOW from "../../ChooseProgramFlow/ServiceIdentifiers";
+import "reflect-metadata";
 
+@injectable()
 export class AskForDesiredProgramFlow extends ProgramFlowProcessor {
-    public static readonly Instance = new AskForDesiredProgramFlow();
+
+    constructor(
+
+        @inject(CHOOSE_PROGRAM_FLOW.PREDEFINED_EXECUTOR)
+        public programFlowQuestion: ChooseProgramFlowPredefinedExecutor
+
+    ) {
+        super();
+    }
 
     public async SafeExecute(args: ProgramFlowArguments): Promise<void> {
-        
-        let commonFilesGeneratorArguments = new ChooseProgramFlowArguments(args.yeomanGenerator);
-        args.selectedDesiredFlow = await ChooseProgramFlowExecutor.Instance.execute(commonFilesGeneratorArguments);
-
-        args.AddMessageObjects(
-            commonFilesGeneratorArguments.GetAllMessages());
+        args.selectedDesiredFlow = await this.programFlowQuestion.executeQuery(x => x.GetResult());
     }
 
     public SafeCondition(args: ProgramFlowArguments): boolean {

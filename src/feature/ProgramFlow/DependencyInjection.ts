@@ -1,9 +1,10 @@
 import { Container } from "inversify";
-import { IPipeline } from "solid-pipelines";
+import { IPipeline, IProcessor } from "solid-pipelines";
 import { ProgramFlowPipeline } from "./ProgramFlowPipeline";
 import { ProgramFlowExecutor, ProgramFlowArguments } from ".";
 import { ProgramFlowPredefinedExecutor } from "./ProgramFlowPredefinedExecutor";
 import PROGRAM_FLOW from "./ServiceIdentifiers";
+import { AskForDesiredProgramFlow } from "./processors";
 
 
 function injectProgramFlow(container: Container): void {
@@ -18,6 +19,9 @@ function injectProgramFlow(container: Container): void {
         
     container.bind<ProgramFlowPredefinedExecutor>(PROGRAM_FLOW.PREDEFINED_EXECUTOR)
         .to(ProgramFlowPredefinedExecutor);
+        
+    container.bind<IProcessor>(PROGRAM_FLOW.PROCESSOR)
+        .to(AskForDesiredProgramFlow);
 }
 
 export { injectProgramFlow }
