@@ -18,8 +18,7 @@ export class Initializing extends SitecoreYeomanPipelineProcessor {
 
     public async SafeExecute(args: SitecoreYeomanPipelineArguments): Promise<void> {
 
-        args.container.bind<Generator>(YEOMAN.INSTANCE)
-            .toConstantValue(args.yeomanGenerator);
+        let generator = args.container.get<Generator>(YEOMAN.INSTANCE);        
 
         args.container.bind<IModelsProvider>(GENERATE_COMMON_FILES.MODELS_PROVIDER)
             .to(ModelsProvider);
@@ -29,8 +28,8 @@ export class Initializing extends SitecoreYeomanPipelineProcessor {
 
         injectProgramFlow(args.container);
         
-        CSharpDefaults.initializeModels(args.yeomanGenerator);
-        Defaults.initializeModels(args.yeomanGenerator);
+        CSharpDefaults.initializeModels(generator);
+        Defaults.initializeModels(generator);
     }
 
     public SafeCondition(args: SitecoreYeomanPipelineArguments): boolean {

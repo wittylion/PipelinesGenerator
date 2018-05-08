@@ -1,12 +1,15 @@
 import { CSharpYeomanPipelineProcessor } from "../CSharpYeomanPipelineProcessor";
 import { CSharpYeomanPipelineArguments } from "../CSharpYeomanPipelineArguments";
 import { CSharpYeomanPipelineMessages } from "../CSharpYeomanPipelineMessages";
+import YEOMAN from "../../../../foundation/YeomanPipeline/ServiceIdentifiers";
+import Generator = require("yeoman-generator");
 
 export class Prompting extends CSharpYeomanPipelineProcessor {
     public static readonly Instance = new Prompting();
 
     public async SafeExecute(args: CSharpYeomanPipelineArguments): Promise<void> {
-        args.yeomanGenerator.log(CSharpYeomanPipelineMessages.Greeting);
+        let generator = args.container.get<Generator>(YEOMAN.INSTANCE);
+        generator.log(CSharpYeomanPipelineMessages.Greeting);
     }
 
     public SafeCondition(args: CSharpYeomanPipelineArguments): boolean {

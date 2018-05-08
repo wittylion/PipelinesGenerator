@@ -4,7 +4,7 @@ import { YeomanPipelineArguments } from "../../../foundation/YeomanPipeline/Yeom
 
 export class TypescriptYeomanPipelineArguments extends YeomanPipelineArguments {
     constructor(
-        public yeomanGenerator: Generator
+        yeomanGenerator: Generator
     ) { 
         super(yeomanGenerator);
     }

@@ -18,8 +18,7 @@ export class Initializing extends TypescriptYeomanPipelineProcessor {
 
     public async SafeExecute(args: TypescriptYeomanPipelineArguments): Promise<void> {
 
-        args.container.bind<Generator>(YEOMAN.INSTANCE)
-            .toConstantValue(args.yeomanGenerator);
+        let generator = args.container.get<Generator>(YEOMAN.INSTANCE);
 
         args.container.bind<IModelsProvider>(GENERATE_COMMON_FILES.MODELS_PROVIDER)
             .to(ModelsProvider);
@@ -32,7 +31,7 @@ export class Initializing extends TypescriptYeomanPipelineProcessor {
         args.container.rebind<IPipeline>(PROGRAM_FLOW.PIPELINE)
             .to(TypescriptProgramFlowPipeline);
 
-        Defaults.initializeModels(args.yeomanGenerator);
+        Defaults.initializeModels(generator);
     }
 
     public SafeCondition(args: TypescriptYeomanPipelineArguments): boolean {

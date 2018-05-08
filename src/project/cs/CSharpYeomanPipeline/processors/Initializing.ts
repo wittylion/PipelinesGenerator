@@ -14,9 +14,8 @@ export class Initializing extends CSharpYeomanPipelineProcessor {
     public static readonly Instance = new Initializing();
 
     public async SafeExecute(args: CSharpYeomanPipelineArguments): Promise<void> {
-        
-        args.container.bind<Generator>(YEOMAN.INSTANCE)
-            .toConstantValue(args.yeomanGenerator);
+
+        let generator = args.container.get<Generator>(YEOMAN.INSTANCE);
 
         args.container.bind<IModelsProvider>(GENERATE_COMMON_FILES.MODELS_PROVIDER)
             .to(ModelsProvider);
@@ -26,7 +25,7 @@ export class Initializing extends CSharpYeomanPipelineProcessor {
             
         injectProgramFlow(args.container);
         
-        Defaults.initializeModels(args.yeomanGenerator);
+        Defaults.initializeModels(generator);
     }
 
     public SafeCondition(args: CSharpYeomanPipelineArguments): boolean {
