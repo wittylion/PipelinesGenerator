@@ -2,6 +2,10 @@ import { DefaultGeneratorsProvider } from "../../../feature/GenerateCommonFiles/
 import { Defaults } from "../Defaults";
 import { GenerateFileFromTemplateExecutor } from "../../../feature/GenerateFileFromTemplate/GenerateFileFromTemplateExecutor";
 
+import { injectable } from "inversify";
+import "reflect-metadata"
+
+@injectable()
 export class GeneratorsProvider extends DefaultGeneratorsProvider {
 
     getFileFromTemplateGenerator(): GenerateFileFromTemplateExecutor {

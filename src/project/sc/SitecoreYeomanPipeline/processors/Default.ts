@@ -15,7 +15,7 @@ export class Default extends SitecoreYeomanPipelineProcessor {
         let programFlowArguments = new ProgramFlowArguments(
             args.yeomanGenerator, 
             args.container.get(GENERATE_COMMON_FILES.MODELS_PROVIDER), 
-            GeneratorsProvider.Instance
+            args.container.get(GENERATE_COMMON_FILES.GENERATORS_PROVIDER), 
         );
         
         let programFlow = new ProgramFlowExecutor(ProgramFlowPipeline.Instance);
