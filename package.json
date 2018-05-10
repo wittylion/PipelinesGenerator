@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/SergAtGitHub/PipelinesGenerator#readme",
   "dependencies": {
-    "solid-pipelines": "^1.1.1",
+    "solid-pipelines": "^1.1.2",
     "string": "^3.3.3",
     "upath": "^1.0.5",
     "yeoman-generator": "^2.0.5",
@@ -43,7 +43,7 @@
     "@types/yosay": "0.0.29",
     "mocha": "^5.1.1",
     "yeoman-assert": "^3.1.1",
-    "yeoman-test": "^1.7.0",
+    "yeoman-test": "^1.7.1",
     "yo": "^2.0.2"
   }
 }
