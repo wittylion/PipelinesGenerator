@@ -9,7 +9,7 @@ export class AddNameSpaceToOptions extends GenerateFileFromTemplateProcessor {
     public async SafeExecute(args: GenerateFileFromTemplateArguments): Promise<void> {
         let res
             = await GetNamespaceFromFolderNamesExecutor.getNamespace(
-                args.destination,
+                args.fileModel.destinationPath,
                 true,
                 undefined,
                 args.fileModel.subdirectories

@@ -92,6 +92,13 @@ describe('Testing C# pipelines with Pipelines.Net package generator.', function 
                 );
             });
 
+            it('Generates a correct namespace for abstract processor;', function () {
+                assert.fileContent(
+                    './HelloWorld/HelloWorldProcessor.cs',
+                    new RegExp("namespace " + currentDir + ".HelloWorld")
+                );
+            });
+
             it('Сreates default Arguments in subdirectory', function () {
                 assert.file('./HelloWorld/HelloWorldArguments.cs');
             });
