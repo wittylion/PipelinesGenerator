@@ -3,21 +3,12 @@ using Pipelines;
 
 namespace <%= namespace %>
 {
-    public class <%= name %>
+    public class <%= name %> : PipelineExecutor
     {
         public static readonly <%= name %> Instance = new <%= name %>(<%= pipelineClassName %>.Instance);
 
-        public IPipeline Pipeline { get; }
-
-        public <%= name %>(IPipeline pipeline)
+        public <%= name %>(IPipeline pipeline) : base(pipeline)
         {
-            this.Pipeline = pipeline;
-        }
-
-        public virtual Task Execute(<%= argumentsClassName %> arguments)
-        {
-            PipelineRunner runner = new PipelineRunner();
-            return runner.RunPipeline(this.Pipeline, arguments);
         }
     }
 }

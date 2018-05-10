@@ -1,16 +1,14 @@
-import { IPipeline, PipelineRunner } from "solid-pipelines";
+import { IPipeline, PipelineRunner, PipelineExecutor } from "solid-pipelines";
 import { <%= argumentsClassName %> } from './<%= argumentsFileName %>'
 import { <%= pipelineClassName %> } from './<%= pipelineFileName %>'
 
-export class <%= name %> {
+export class <%= name %> extends PipelineExecutor {
     public static Instance: <%= name %> = new <%= name %>(<%= pipelineClassName %>.Instance);
 
-    constructor(public pipeline: IPipeline) {
-    }
-
-    execute(args: <%= argumentsClassName %>) : Promise<void> {
-        var runner:PipelineRunner = new PipelineRunner();
-
-        return runner.RunPipeline(this.pipeline, args);
+    constructor(
+        public pipeline: IPipeline,
+        public pipelineRunner: PipelineRunner = PipelineRunner.StaticInstance,
+    ) {
+        super(pipeline, pipelineRunner);
     }
 }

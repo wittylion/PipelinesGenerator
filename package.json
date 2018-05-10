@@ -5,7 +5,8 @@
   "main": "./app/index.js",
   "scripts": {
     "build": "tsc",
-    "test": "mocha"
+    "test": "mocha",
+    "pretest": "npm run build"
   },
   "repository": {
     "type": "git",
