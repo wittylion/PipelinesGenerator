@@ -21,15 +21,11 @@ import { <%= arguments.options["className"] %> } from "<%= argumentsFileName %>"
 export class <%= name %> extends <%= abstractProcessor.options["className"] %> {
     public static readonly Instance = new <%= name %>();
 
-    public async SafeExecute(args: <%= arguments.options["className"] %>): Promise<void> {
+    public async SafeProcessorExecute(args: <%= arguments.options["className"] %>): Promise<void> {
         throw new Error("Not implemented.");
     }
 
-    public SafeCondition(args: <%= arguments.options["className"] %>): boolean {
-        return super.SafeCondition(args) && this.CustomCondition(args);
-    }
-
-    public CustomCondition(args: <%= arguments.options["className"] %>): boolean {
+    public SafeProcessorCondition(args: <%= arguments.options["className"] %>): boolean {
         let safeCondition = true;
         return safeCondition;
     }

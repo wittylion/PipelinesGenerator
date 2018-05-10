@@ -7,7 +7,7 @@ export class <%= name %> {
     constructor(public pipeline: <%= pipelineClassName %>) {
     }
 
-    async execute(args: <%= argumentsClassName %>) : Promise<void> {
+    async Execute(args: <%= argumentsClassName %>) : Promise<void> {
         let processors = this.pipeline.GetProcessors();
 
         if (!processors || processors.length === 0) {

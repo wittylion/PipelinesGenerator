@@ -1,9 +1,17 @@
 import { <%= argumentsClassName %> } from "<%= argumentsFileName %>";
 
 export abstract class <%= name %> {
-    public abstract SafeExecute(args: <%= argumentsClassName %>): Promise<void>;
-    
+    public async SafeExecute(args: <%= argumentsClassName %>): Promise<void> {
+        await this.SafeProcessorExecute(args);
+    }
+
+    public abstract SafeProcessorExecute(args: <%= argumentsClassName %>): Promise<void>;
+
     public SafeCondition(args: <%= argumentsClassName %>): boolean {
+        return this.SafeProcessorCondition(args);
+    }
+    
+    public SafeProcessorCondition(args: <%= argumentsClassName %>): boolean {
         return true;
     }
 

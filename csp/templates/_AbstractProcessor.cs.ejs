@@ -1,8 +1,25 @@
+using System.Threading.Tasks;
 using Pipelines;
 
 namespace <%= namespace %>
 {
     public abstract class <%= name %> : SafeProcessor<<%= argumentsClassName %>>
     {
+        public override async Task SafeExecute(<%= argumentsClassName %> args)
+        {
+            await this.SafeProcessorExecute(args);
+        }
+
+        public abstract Task SafeProcessorExecute(<%= argumentsClassName %> args);
+
+        public override bool SafeCondition(<%= argumentsClassName %> args)
+        {
+            return base.SafeCondition(args) && this.SafeProcessorCondition(args);
+        }
+
+        public virtual bool SafeProcessorCondition(<%= argumentsClassName %> args)
+        {
+            return true;
+        }
     }
 }

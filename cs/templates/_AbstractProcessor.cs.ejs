@@ -24,9 +24,19 @@ namespace <%= namespace %>
             return this.SafeExecute(args);
         }
 
-        public abstract Task SafeExecute(<%= argumentsClassName %> args);
+        public async Task SafeExecute(<%= argumentsClassName %> args)
+        {
+            await this.SafeProcessorExecute(args);
+        }
 
-        public virtual bool SafeCondition(<%= argumentsClassName %> args)
+        public abstract Task SafeProcessorExecute(<%= argumentsClassName %> args);
+
+        public bool SafeCondition(<%= argumentsClassName %> args)
+        {
+            return this.SafeProcessorCondition(args);
+        }
+
+        public virtual bool SafeProcessorCondition(<%= argumentsClassName %> args)
         {
             return true;
         }

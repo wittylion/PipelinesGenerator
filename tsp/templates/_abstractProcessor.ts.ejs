@@ -1,4 +1,19 @@
 import { SafeProcessor } from "solid-pipelines";
 import { <%= argumentsClassName %> } from "<%= argumentsFileName %>";
 
-export abstract class <%= name %> extends SafeProcessor<<%= argumentsClassName %>> {  }
+export abstract class <%= name %> 
+    extends SafeProcessor<<%= argumentsClassName %>> {
+    public async SafeExecute(args: <%= argumentsClassName %>): Promise<void> {
+        await this.SafeProcessorExecute(args);
+    }
+
+    public abstract SafeProcessorExecute(args: <%= argumentsClassName %>): Promise<void>;
+
+    public SafeCondition(args: <%= argumentsClassName %>): boolean {
+        return super.SafeCondition(args) && this.SafeProcessorCondition(args);
+    }
+    
+    public SafeProcessorCondition(args: <%= argumentsClassName %>): boolean {
+        return true;
+    }
+}
