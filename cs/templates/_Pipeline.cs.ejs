@@ -17,7 +17,12 @@ namespace <%= namespace %>
         public static readonly <%= name %> Instance = new <%= name %>();
         public IEnumerable<<%= abstractProcessorClassName %>> GetProcessors()
         {<% processors.forEach(function(processor){ %>
-            yield return <%= processor.options["className"] %>.Instance;<% });%>
-        }
+            yield return this.Get<%= processor.options["className"] %>Instance();<% });%>
+        }<% processors.forEach(function(processor){ %>
+        
+        public virtual <%= abstractProcessorClassName %> Get<%= processor.options["className"] %>Instance()
+        {
+            return <%= processor.options["className"] %>.Instance;
+        }<% });%>
     }
 }

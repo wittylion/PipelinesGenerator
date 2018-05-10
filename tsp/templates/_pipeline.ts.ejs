@@ -6,7 +6,11 @@ export class <%= name %> implements IPipeline {
 
     GetProcessors(): IProcessor[] {
         return [<% processors.forEach(function(processor){ %>
-            Processors.<%= processor.options["className"] %>.Instance,<% });%>
+            this.Get<%= processor.options["className"] %>Instance(),<% });%>
         ];
-    }
+    }<% processors.forEach(function(processor){ %>
+    
+    public Get<%= processor.options["className"] %>Instance(): IProcessor {
+        return Processors.<%= processor.options["className"] %>.Instance;
+    }<% });%>
 }
