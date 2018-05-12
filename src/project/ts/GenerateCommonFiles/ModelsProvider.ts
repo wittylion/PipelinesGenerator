@@ -3,10 +3,11 @@ import { GenerateFileModel } from "../../../feature/GenerateFileFromTemplate/mod
 import { Defaults } from "../Defaults";
 import _ from "lodash";
 import { GenerateProcessorModel } from "../../../feature/GenerateProcessorFile/models/GenerateProcessorModel";
+import { injectable } from "inversify";
+import "reflect-metadata"
 
+@injectable()
 export class ModelsProvider implements IModelsProvider {
-    public static Instance = new ModelsProvider();
-
     getMessagesContainerModel(): GenerateFileModel {
         return _.cloneDeep(Defaults.messagesModel);
     }

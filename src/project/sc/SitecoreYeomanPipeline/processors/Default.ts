@@ -6,22 +6,18 @@ import { SitecoreYeomanPipelineProcessor } from '../SitecoreYeomanPipelineProces
 import { SitecoreYeomanPipelineArguments } from '../SitecoreYeomanPipelineArguments';
 import { ModelsProvider } from '../../GenerateCommonFiles/ModelsProvider';
 import { GeneratorsProvider } from '../../../cs/GenerateCommonFiles/GeneratorsProvider';
+import GENERATE_COMMON_FILES from '../../../../feature/GenerateCommonFiles/ServiceIdentifiers';
+import PROGRAM_FLOW from '../../../../feature/ProgramFlow/ServiceIdentifiers';
+import { ProgramFlowPredefinedExecutor } from '../../../../feature/ProgramFlow/ProgramFlowPredefinedExecutor';
 
 export class Default extends SitecoreYeomanPipelineProcessor {
     public static readonly Instance = new Default();
 
     public async SafeExecute(args: SitecoreYeomanPipelineArguments): Promise<void> {
-        let programFlowArguments = new ProgramFlowArguments(
-            args.yeomanGenerator, 
-            ModelsProvider.Instance, 
-            GeneratorsProvider.Instance
+        let programFlow = args.container.get<ProgramFlowPredefinedExecutor>(
+            PROGRAM_FLOW.PREDEFINED_EXECUTOR
         );
-        
-        let programFlow = new ProgramFlowExecutor(ProgramFlowPipeline.Instance);
-
-        let result = await programFlow.execute(programFlowArguments);
-
-        console.log(result.message);
+        let result = await programFlow.execute();
     }
 
     public SafeCondition(args: SitecoreYeomanPipelineArguments): boolean {

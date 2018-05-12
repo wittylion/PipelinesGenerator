@@ -32,6 +32,8 @@
   "homepage": "https://github.com/SergAtGitHub/PipelinesGenerator#readme",
   "dependencies": {
     "solid-pipelines": "^1.1.2",
+    "inversify": "^4.13.0",
+    "reflect-metadata": "^0.1.12",
     "string": "^3.3.3",
     "upath": "^1.0.5",
     "yeoman-generator": "^2.0.5",

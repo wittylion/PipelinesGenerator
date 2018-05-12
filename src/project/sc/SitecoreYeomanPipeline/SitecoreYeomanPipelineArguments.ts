@@ -5,7 +5,7 @@ import { CSharpYeomanPipelineArguments } from "../../cs/CSharpYeomanPipeline/CSh
 
 export class SitecoreYeomanPipelineArguments extends CSharpYeomanPipelineArguments {
     constructor(
-        public yeomanGenerator: Generator
+        yeomanGenerator: Generator
     ) { 
         super(yeomanGenerator);
     }

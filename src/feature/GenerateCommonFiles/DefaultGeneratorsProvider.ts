@@ -7,6 +7,10 @@ import { GenerateCommonPipelineFilesExecutor } from ".";
 import { GeneratePipelineFileExecutor } from "../GeneratePipelineFile";
 import { GenerateFileFromTemplateExecutor } from "../GenerateFileFromTemplate";
 
+import { injectable } from "inversify";
+import "reflect-metadata"
+
+@injectable()
 export abstract class DefaultGeneratorsProvider implements IGeneratorsProvider {
 
     abstract getFileFromTemplateGenerator(): GenerateFileFromTemplateExecutor;
