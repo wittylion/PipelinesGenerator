@@ -1,4 +1,4 @@
-import { PipelineContext } from "solid-pipelines";
+import { PipelineContext, QueryContext } from "solid-pipelines";
 import { ProgramFlowModel } from "./models/ProgramFlowModel";
 import { YeomanQueryContext } from "../../foundation/PipelinesExtensions";
 
@@ -8,15 +8,7 @@ import YEOMAN from "../../foundation/YeomanPipeline/ServiceIdentifiers";
 import "reflect-metadata";
 
 @injectable()
-export class ChooseProgramFlowArguments extends YeomanQueryContext<string> {
-    constructor(
-
-        @inject(YEOMAN.INSTANCE)
-        public yeomanGenerator: Generator,
-
-    ) {
-        super(yeomanGenerator);
-    }
+export class ChooseProgramFlowArguments extends QueryContext<string> {
     public availableFlows: ProgramFlowModel[] = [];
     public chosenFlow: ProgramFlowModel;
 }

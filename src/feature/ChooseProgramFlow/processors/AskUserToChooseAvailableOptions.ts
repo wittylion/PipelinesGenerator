@@ -8,15 +8,25 @@ import { ChooseProgramFlowMessages } from "../ChooseProgramFlowMessages";
 import { GenerateCommonPipelineFilesExecutor } from "../../GenerateCommonFiles";
 import { EnsureOptionExecutor } from "../../EnsureOption";
 import "reflect-metadata";
-import { injectable } from "inversify"
+import { injectable, inject } from "inversify"
+import Generator = require("yeoman-generator");
+import YEOMAN from "../../../foundation/YeomanPipeline/ServiceIdentifiers";
 
 @injectable()
 export class AskUserToChooseAvailableOptions extends ChooseProgramFlowProcessor {
+
+    constructor(
+        @inject(YEOMAN.INSTANCE)
+        private yeomanGenerator: Generator
+    ) {
+        super();
+    }
+
     public async SafeExecute(args: ChooseProgramFlowArguments): Promise<void> {
         let optionName = "programFlow";
 
         let answer = await EnsureOptionExecutor.obtainByKeyOrList(
-            args.yeomanGenerator,
+            this.yeomanGenerator,
             optionName,
             args.availableFlows.map(x => <ChoiceType>{
                 name: x.flowDescription,
