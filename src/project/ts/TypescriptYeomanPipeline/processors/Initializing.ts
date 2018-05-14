@@ -20,12 +20,6 @@ export class Initializing extends TypescriptYeomanPipelineProcessor {
 
         let generator = args.container.get<Generator>(YEOMAN.INSTANCE);
 
-        args.container.bind<IModelsProvider>(GENERATE_COMMON_FILES.MODELS_PROVIDER)
-            .to(ModelsProvider);
-            
-        args.container.bind<IGeneratorsProvider>(GENERATE_COMMON_FILES.GENERATORS_PROVIDER)
-            .to(GeneratorsProvider);
-
         injectTypescriptDependencies(args.container);
 
         Defaults.initializeModels(generator);
