@@ -5,13 +5,26 @@ import { ObtainOptionExecutor } from "../../../../feature/ObtainOption";
 import { GenerateExportsOptionNames } from "../../GenerateExports/GenerateExportsOptionNames";
 import S from "string";
 import { MessageType } from "solid-pipelines";
+import Generator = require("yeoman-generator");
+import "reflect-metadata"
+import { injectable, inject } from "inversify";
+import YEOMAN from "../../../../foundation/YeomanPipeline/ServiceIdentifiers";
 
+@injectable()
 export class CreateExports extends ProgramFlowProcessor {
-    public static readonly Instance = new CreateExports();
+    
+    constructor(
+
+        @inject(YEOMAN.INSTANCE)
+        private yeomanGenerator: Generator,
+
+    ) {
+        super();
+    }
 
     public async SafeExecute(args: ProgramFlowArguments): Promise<void> {
         let option = await ObtainOptionExecutor.obtainByKey(
-            args.yeomanGenerator,
+            this.yeomanGenerator,
             GenerateExportsOptionNames.EXPORT_DIRECTORY
         );
         let dir = option;
@@ -30,7 +43,7 @@ export class CreateExports extends ProgramFlowProcessor {
         }
 
         await GenerateExportsExecutor.exportAllFromDirectory(
-            args.yeomanGenerator,
+            this.yeomanGenerator,
             dir
         );
     }

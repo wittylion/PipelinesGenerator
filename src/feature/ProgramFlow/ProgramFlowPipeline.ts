@@ -17,11 +17,8 @@ export class ProgramFlowPipeline implements IPipeline {
 
     GetProcessors(): IProcessor[] {
         return [
-            Processors.TryCreateProcessorFromArguments.Instance,
             ...this.OtherProcessors(),
             ...this.processors,
-            Processors.CreateProcessorWhenUserSelectedAnOption.Instance,
-            Processors.GenerateCommonFilesFlow.Instance,
 
         ];
     }

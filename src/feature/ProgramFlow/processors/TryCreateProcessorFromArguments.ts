@@ -8,16 +8,36 @@ import { GenerateAbstractProcessorFileOptions } from "../../GenerateAbstractProc
 import { GenerateProcessorFileOptions } from "../../GenerateProcessorFile/GenerateProcessorFileOptions";
 import { MessageType } from "solid-pipelines";
 
+import Generator = require("yeoman-generator");
 import fs = require("fs");
 import { CreatedFileResult } from "../../GenerateFileFromTemplate/models/CreatedFileResult";
+import "reflect-metadata";
+import { injectable, inject } from "inversify";
+import YEOMAN from "../../../foundation/YeomanPipeline/ServiceIdentifiers";
+import GENERATE_COMMON_FILES from "../../GenerateCommonFiles/ServiceIdentifiers";
+import { IGeneratorsProvider } from "../../GenerateCommonFiles/abstractions/IGeneratorsProvider";
+import { IModelsProvider } from "../../GenerateCommonFiles/IModelsProvider";
 
+@injectable()
 export class TryCreateProcessorFromArguments extends ProgramFlowProcessor {
-    public static readonly Instance = new TryCreateProcessorFromArguments();
+    constructor(
+
+        @inject(YEOMAN.INSTANCE)
+        private yeomanGenerator: Generator,
+
+        @inject(GENERATE_COMMON_FILES.MODELS_PROVIDER)
+        private modelsProvider: IModelsProvider,
+        
+        @inject(GENERATE_COMMON_FILES.GENERATORS_PROVIDER)
+        private generatorsProvider: IGeneratorsProvider
+    ) {
+        super();
+    }
 
     public async SafeExecute(args: ProgramFlowArguments): Promise<void> {
 
         let processorName = await ObtainOptionExecutor.obtainByKey(
-            args.yeomanGenerator,
+            this.yeomanGenerator,
             GenerateProcessorFileOptions.PROCESSOR_NAME
         );
 
@@ -25,13 +45,13 @@ export class TryCreateProcessorFromArguments extends ProgramFlowProcessor {
             return;
         }
 
-        let model = args.modelsProvider.getProcessorModel();
+        let model = this.modelsProvider.getProcessorModel();
         model.options["className"] = processorName;
 
         let processorGeneration = model;
 
         let argsName = await ObtainOptionExecutor.obtainByKey(
-            args.yeomanGenerator,
+            this.yeomanGenerator,
             GenerateArgumentsFileOptions.ARGUMENTS_NAME
         );
 
@@ -42,7 +62,7 @@ export class TryCreateProcessorFromArguments extends ProgramFlowProcessor {
 
 
         let abstractProcessorName = await ObtainOptionExecutor.obtainByKey(
-            args.yeomanGenerator,
+            this.yeomanGenerator,
             GenerateAbstractProcessorFileOptions.NAME
         );
 
@@ -52,11 +72,11 @@ export class TryCreateProcessorFromArguments extends ProgramFlowProcessor {
         }
 
         if (!fs.existsSync(
-            args.yeomanGenerator.destinationPath(model.getSubdirectory()))) {
+            this.yeomanGenerator.destinationPath(model.getSubdirectory()))) {
             model.subdirectories = [];
         }
 
-        await args.generatorsProvider.getProcessorGenerator().execute(processorGeneration);
+        await this.generatorsProvider.getProcessorGenerator().execute(processorGeneration);
     }
 
     public SafeCondition(args: ProgramFlowArguments): boolean {

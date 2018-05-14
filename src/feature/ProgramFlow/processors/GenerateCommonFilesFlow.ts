@@ -2,16 +2,36 @@ import { ProgramFlowProcessor } from "../ProgramFlowProcessor";
 import { ProgramFlowArguments } from "../ProgramFlowArguments";
 import { MessageFilter } from "solid-pipelines";
 import { GenerateCommonPipelineFilesArguments, GenerateCommonPipelineFilesExecutor } from "../../GenerateCommonFiles";
+import { inject, injectable } from "inversify";
+import YEOMAN from "../../../foundation/YeomanPipeline/ServiceIdentifiers";
+import GENERATE_COMMON_FILES from "../../GenerateCommonFiles/ServiceIdentifiers";
+import { IModelsProvider } from "../../GenerateCommonFiles/IModelsProvider";
+import { IGeneratorsProvider } from "../../GenerateCommonFiles/abstractions/IGeneratorsProvider";
+import Generator = require("yeoman-generator");
+import "reflect-metadata"
 
+@injectable()
 export class GenerateCommonFilesFlow extends ProgramFlowProcessor {
-    public static readonly Instance = new GenerateCommonFilesFlow();
+    constructor(
+
+        @inject(YEOMAN.INSTANCE)
+        private yeomanGenerator: Generator,
+
+        @inject(GENERATE_COMMON_FILES.MODELS_PROVIDER)
+        private modelsProvider: IModelsProvider,
+        
+        @inject(GENERATE_COMMON_FILES.GENERATORS_PROVIDER)
+        private generatorsProvider: IGeneratorsProvider
+    ) {
+        super();
+    }
 
     public async SafeExecute(args: ProgramFlowArguments): Promise<void> {
         
-        let commonFilesGeneratorArguments = new GenerateCommonPipelineFilesArguments(args.yeomanGenerator);
-        commonFilesGeneratorArguments.modelsProvider = args.modelsProvider;
-        commonFilesGeneratorArguments.generatorsProvider = args.generatorsProvider;
-        await args.generatorsProvider.getCommonFilesGenerator().execute(commonFilesGeneratorArguments);
+        let commonFilesGeneratorArguments = new GenerateCommonPipelineFilesArguments(this.yeomanGenerator);
+        commonFilesGeneratorArguments.modelsProvider = this.modelsProvider;
+        commonFilesGeneratorArguments.generatorsProvider = this.generatorsProvider;
+        await this.generatorsProvider.getCommonFilesGenerator().execute(commonFilesGeneratorArguments);
 
         args.AddMessageObjects(
             commonFilesGeneratorArguments.GetAllMessages());
@@ -22,7 +42,7 @@ export class GenerateCommonFilesFlow extends ProgramFlowProcessor {
     }
 
     public CustomCondition(args: ProgramFlowArguments): boolean {
-        let safeCondition = !!args.generatorsProvider.getCommonFilesGenerator() 
+        let safeCondition = !!this.generatorsProvider.getCommonFilesGenerator() 
             && args.selectedDesiredFlow === GenerateCommonPipelineFilesExecutor.Identifier;
         return safeCondition;
     }

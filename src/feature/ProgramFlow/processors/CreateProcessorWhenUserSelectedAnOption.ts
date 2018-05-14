@@ -8,25 +8,46 @@ import { GenerateAbstractProcessorFileOptions } from "../../GenerateAbstractProc
 import { GenerateProcessorFileOptions } from "../../GenerateProcessorFile/GenerateProcessorFileOptions";
 import { MessageType } from "solid-pipelines";
 
+import Generator = require("yeoman-generator");
 import fs = require("fs");
 import { GenerateProcessorFromScratchArguments, GenerateProcessorFromScratchExecutor } from "../../GenerateProcessorFromScratch";
+import "reflect-metadata";
+import { injectable, inject } from "inversify";
+import YEOMAN from "../../../foundation/YeomanPipeline/ServiceIdentifiers";
+import GENERATE_COMMON_FILES from "../../GenerateCommonFiles/ServiceIdentifiers";
+import { IModelsProvider } from "../../GenerateCommonFiles/IModelsProvider";
+import { IGeneratorsProvider } from "../../GenerateCommonFiles/abstractions/IGeneratorsProvider";
 
+@injectable()
 export class CreateProcessorWhenUserSelectedAnOption extends ProgramFlowProcessor {
-    public static readonly Instance = new CreateProcessorWhenUserSelectedAnOption();
+    
+    constructor(
+
+        @inject(YEOMAN.INSTANCE)
+        private yeomanGenerator: Generator,
+
+        @inject(GENERATE_COMMON_FILES.MODELS_PROVIDER)
+        private modelsProvider: IModelsProvider,
+        
+        @inject(GENERATE_COMMON_FILES.GENERATORS_PROVIDER)
+        private generatorsProvider: IGeneratorsProvider
+    ) {
+        super();
+    }
 
     public async SafeExecute(args: ProgramFlowArguments): Promise<void> {
 
-        let model = args.modelsProvider.getProcessorModel();
+        let model = this.modelsProvider.getProcessorModel();
 
         let processorGeneration = new GenerateProcessorFromScratchArguments(
-            args.yeomanGenerator,
-            args.generatorsProvider.getFileFromTemplateGenerator(),
-            args.generatorsProvider.getProcessorGenerator(),
+            this.yeomanGenerator,
+            this.generatorsProvider.getFileFromTemplateGenerator(),
+            this.generatorsProvider.getProcessorGenerator(),
             model
         );
 
         if (!fs.existsSync(
-            args.yeomanGenerator.destinationPath(model.getSubdirectory()))) {
+            this.yeomanGenerator.destinationPath(model.getSubdirectory()))) {
             model.subdirectories = [];
         }
 
