@@ -44,7 +44,6 @@ export class CreateProcessorWhenUserSelectedAnOption extends ProgramFlowProcesso
         let model = this.modelsProvider.getProcessorModel();
 
         let processorGeneration = new GenerateProcessorFromScratchArguments(
-            this.yeomanGenerator,
             this.generatorsProvider.getFileFromTemplateGenerator(),
             this.generatorsProvider.getProcessorGenerator(),
             model

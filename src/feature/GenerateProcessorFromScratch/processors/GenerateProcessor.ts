@@ -1,8 +1,11 @@
 import { GenerateProcessorFromScratchProcessor } from "../GenerateProcessorFromScratchProcessor";
 import { GenerateProcessorFromScratchArguments } from "../GenerateProcessorFromScratchArguments";
+import { injectable, inject } from "inversify";
+import "reflect-metadata";
+import YEOMAN from "../../../foundation/YeomanPipeline/ServiceIdentifiers";
 
+@injectable()
 export class GenerateProcessor extends GenerateProcessorFromScratchProcessor {
-    public static readonly Instance = new GenerateProcessor();
 
     public async SafeExecute(args: GenerateProcessorFromScratchArguments): Promise<void> {
         let generateProcessorArgs = args.model;

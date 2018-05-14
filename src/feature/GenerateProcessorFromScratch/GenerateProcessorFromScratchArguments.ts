@@ -1,16 +1,13 @@
-import { PipelineContext } from "solid-pipelines";
+import { PipelineContext, QueryContext } from "solid-pipelines";
 import { GenerateFileModel } from "../GenerateFileFromTemplate/models/GenerateFileModel";
 import { CreatedFileResult } from "../GenerateFileFromTemplate/models/CreatedFileResult";
 import { GenerateProcessorFileExecutor } from "../GenerateProcessorFile";
-import { YeomanQueryContext } from "../../foundation/PipelinesExtensions";
 
-import Generator = require("yeoman-generator");
 import { GenerateFileFromTemplateExecutor } from "../GenerateFileFromTemplate";
 import { GenerateProcessorModel } from "../GenerateProcessorFile/models/GenerateProcessorModel";
 
-export class GenerateProcessorFromScratchArguments extends YeomanQueryContext<CreatedFileResult> {
+export class GenerateProcessorFromScratchArguments extends QueryContext<CreatedFileResult> {
     constructor(
-        yeomanGenerator: Generator,
         public fileGenerator: GenerateFileFromTemplateExecutor,
         public processorGenerator: GenerateProcessorFileExecutor,
         public model: GenerateProcessorModel,
@@ -18,7 +15,7 @@ export class GenerateProcessorFromScratchArguments extends YeomanQueryContext<Cr
         public processorModel?: CreatedFileResult,
 
     ) {
-        super(yeomanGenerator);
+        super();
     }
 
     guesses: string[] = [];

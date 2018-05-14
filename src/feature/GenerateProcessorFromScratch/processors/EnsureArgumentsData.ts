@@ -5,18 +5,31 @@ import { CreatedFileResult } from "../../GenerateFileFromTemplate/models/Created
 
 import upath from "upath";
 import { GenerateProcessorFromScratchMessages } from "../GenerateProcessorFromScratchMessages";
+import "reflect-metadata";
+import Generator = require("yeoman-generator");
+import { injectable, inject } from "inversify";
+import YEOMAN from "../../../foundation/YeomanPipeline/ServiceIdentifiers";
 
+@injectable()
 export class EnsureArgumentsData extends GenerateProcessorFromScratchProcessor {
-    public static readonly Instance = new EnsureArgumentsData();
+
+    constructor(
+
+        @inject(YEOMAN.INSTANCE)
+        private yeomanGenerator: Generator,
+
+    ) {
+        super();
+    }
 
     public async SafeExecute(args: GenerateProcessorFromScratchArguments): Promise<void> {
-        args.yeomanGenerator.log(GenerateProcessorFromScratchMessages.ProvideArguments);
+        this.yeomanGenerator.log(GenerateProcessorFromScratchMessages.ProvideArguments);
 
         let resolveResult = await ResolveFileDependencyExecutor.resolveFile(
-            args.yeomanGenerator,
+            this.yeomanGenerator,
             "arguments",
             args.model.getFinalName().replace("Processor", "Arguments"),
-            args.yeomanGenerator.destinationPath(args.model.getSubdirectory())
+            this.yeomanGenerator.destinationPath(args.model.getSubdirectory())
         );
 
         let path = resolveResult.result;

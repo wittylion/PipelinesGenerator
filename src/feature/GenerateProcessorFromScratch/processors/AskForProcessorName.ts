@@ -5,9 +5,22 @@ import { InputTypeEnum } from "../../../foundation/YeomanQuestions";
 import { GenerateProcessorFromScratchMessages } from "../GenerateProcessorFromScratchMessages";
 import { GenerateProcessorFileOptions } from "../../GenerateProcessorFile/GenerateProcessorFileOptions";
 import S from "string";
+import { inject, injectable } from "inversify";
+import YEOMAN from "../../../foundation/YeomanPipeline/ServiceIdentifiers";
+import Generator = require("yeoman-generator");
+import "reflect-metadata";
 
+@injectable()
 export class AskForProcessorName extends GenerateProcessorFromScratchProcessor {
-    public static readonly Instance = new AskForProcessorName();
+
+    constructor(
+
+        @inject(YEOMAN.INSTANCE)
+        private yeomanGenerator: Generator,
+
+    ) {
+        super();
+    }
 
     public async SafeExecute(args: GenerateProcessorFromScratchArguments): Promise<void> {
         const optionName = GenerateProcessorFileOptions.PROCESSOR_NAME;
@@ -21,7 +34,7 @@ export class AskForProcessorName extends GenerateProcessorFromScratchProcessor {
             default: args.guesses && args.guesses.length > 0 ? args.guesses[0] : "Processor"
         };
 
-        let answers = await args.yeomanGenerator.prompt(question);
+        let answers = await this.yeomanGenerator.prompt(question);
         let answer = answers[optionName];
 
         args.model.options["className"] = answer;

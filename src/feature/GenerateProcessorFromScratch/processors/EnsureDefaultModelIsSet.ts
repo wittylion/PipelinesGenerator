@@ -1,8 +1,10 @@
 import { GenerateProcessorFromScratchProcessor } from "../GenerateProcessorFromScratchProcessor";
 import { GenerateProcessorFromScratchArguments } from "../GenerateProcessorFromScratchArguments";
+import { injectable } from "inversify";
+import "reflect-metadata";
 
+@injectable()
 export class EnsureDefaultModelIsSet extends GenerateProcessorFromScratchProcessor {
-    public static readonly Instance = new EnsureDefaultModelIsSet();
 
     public async SafeExecute(args: GenerateProcessorFromScratchArguments): Promise<void> {
         args.AbortPipelineWithErrorAndNoResult("Main data about file, including extension and template, must be provided to create a processor.");
