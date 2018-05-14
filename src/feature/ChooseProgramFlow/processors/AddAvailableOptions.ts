@@ -2,10 +2,11 @@ import { ChooseProgramFlowProcessor } from "../ChooseProgramFlowProcessor";
 import { ChooseProgramFlowArguments } from "../ChooseProgramFlowArguments";
 import { ProgramFlowModel } from "../models/ProgramFlowModel";
 import { GenerateCommonPipelineFilesExecutor } from "../../GenerateCommonFiles";
+import "reflect-metadata";
+import { injectable } from "inversify"
 
+@injectable()
 export class AddAvailableOptions extends ChooseProgramFlowProcessor {
-    public static readonly Instance = new AddAvailableOptions();
-
     public async SafeExecute(args: ChooseProgramFlowArguments): Promise<void> {
         args.availableFlows.push(
             new ProgramFlowModel(

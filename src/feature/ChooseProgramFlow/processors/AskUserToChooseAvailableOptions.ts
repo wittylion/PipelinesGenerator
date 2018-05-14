@@ -7,10 +7,11 @@ import S from "string";
 import { ChooseProgramFlowMessages } from "../ChooseProgramFlowMessages";
 import { GenerateCommonPipelineFilesExecutor } from "../../GenerateCommonFiles";
 import { EnsureOptionExecutor } from "../../EnsureOption";
+import "reflect-metadata";
+import { injectable } from "inversify"
 
+@injectable()
 export class AskUserToChooseAvailableOptions extends ChooseProgramFlowProcessor {
-    public static readonly Instance = new AskUserToChooseAvailableOptions();
-
     public async SafeExecute(args: ChooseProgramFlowArguments): Promise<void> {
         let optionName = "programFlow";
 
