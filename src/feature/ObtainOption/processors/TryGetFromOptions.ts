@@ -6,7 +6,13 @@ export class TryGetFromOptions extends ObtainOptionProcessor {
     public static readonly Instance = new TryGetFromOptions();
 
     public async SafeExecute(args: ObtainOptionArguments): Promise<void> {
-        args.optionValue = args.yeomanGenerator.options[args.optionName];
+        let val = args.yeomanGenerator.options[args.optionName];
+        if (val) {
+            args.SetResultWithInformation(
+                val,
+                `Value for ${args.optionName} found in options: ${val}`
+            );
+        }
     }
 
     public SafeCondition(args: ObtainOptionArguments): boolean {
@@ -14,7 +20,7 @@ export class TryGetFromOptions extends ObtainOptionProcessor {
     }
 
     public CustomCondition(args: ObtainOptionArguments): boolean {
-        let safeCondition = S(args.optionValue).isEmpty() && !S(args.optionName).isEmpty();
+        let safeCondition = S(args.GetResult()).isEmpty() && !S(args.optionName).isEmpty();
         return safeCondition;
     }
 }

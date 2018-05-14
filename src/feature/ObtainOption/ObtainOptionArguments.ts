@@ -1,7 +1,7 @@
-import { PipelineContext } from "solid-pipelines";
+import { PipelineContext, QueryContext } from "solid-pipelines";
 import Generator = require("yeoman-generator");
 
-export class ObtainOptionArguments extends PipelineContext {
+export class ObtainOptionArguments extends QueryContext<any> {
     public static Create(generator: Generator, option: string): ObtainOptionArguments {
         let result = new ObtainOptionArguments();
 
@@ -13,5 +13,4 @@ export class ObtainOptionArguments extends PipelineContext {
 
     yeomanGenerator: Generator;
     optionName: string;
-    optionValue: string;
 }

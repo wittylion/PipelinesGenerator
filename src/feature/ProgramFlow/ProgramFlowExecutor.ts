@@ -1,4 +1,4 @@
-import { PipelineRunner, IPipeline, MessageFilter } from "solid-pipelines";
+import { PipelineRunner, IPipeline, MessageFilter, PipelineExecutor } from "solid-pipelines";
 import { ProgramFlowArguments } from './ProgramFlowArguments'
 import { ProgramFlowPipeline } from './ProgramFlowPipeline'
 
@@ -8,26 +8,15 @@ import PROGRAM_FLOW from "./ServiceIdentifiers";
 import SOLID_PIPELINES from "../../foundation/PipelinesExtensions/ServiceIdentifiers";
 
 @injectable()
-export class ProgramFlowExecutor {
+export class ProgramFlowExecutor extends PipelineExecutor {
     constructor(
 
         public runner: PipelineRunner,
-        
+
         @inject(PROGRAM_FLOW.PIPELINE)
         public pipeline: IPipeline
-        
+
     ) {
-
-    }
-
-    async execute(args: ProgramFlowArguments): Promise<{ message: string }> {
-        await this.runner.RunPipeline(this.pipeline, args);
-
-        return {
-            message: args
-                .GetAllMessages()
-                .map(message => message.Message)
-                .join('\n')
-        };
+        super(pipeline, runner);
     }
 }

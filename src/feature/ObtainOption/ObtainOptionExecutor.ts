@@ -13,7 +13,7 @@ export class ObtainOptionExecutor {
     async obtainByKey(generator: Generator, option: string) : Promise<string> {
         let args = ObtainOptionArguments.Create(generator, option);
         await this.execute(args);
-        return args.optionValue;
+        return <string>args.GetResult();
     }
 
     execute(args: ObtainOptionArguments) : Promise<void> {

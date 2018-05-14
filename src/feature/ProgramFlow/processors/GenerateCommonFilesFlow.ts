@@ -19,7 +19,7 @@ export class GenerateCommonFilesFlow extends ProgramFlowProcessor {
 
         @inject(GENERATE_COMMON_FILES.MODELS_PROVIDER)
         private modelsProvider: IModelsProvider,
-        
+
         @inject(GENERATE_COMMON_FILES.GENERATORS_PROVIDER)
         private generatorsProvider: IGeneratorsProvider
     ) {
@@ -27,11 +27,11 @@ export class GenerateCommonFilesFlow extends ProgramFlowProcessor {
     }
 
     public async SafeExecute(args: ProgramFlowArguments): Promise<void> {
-        
+
         let commonFilesGeneratorArguments = new GenerateCommonPipelineFilesArguments(this.yeomanGenerator);
         commonFilesGeneratorArguments.modelsProvider = this.modelsProvider;
         commonFilesGeneratorArguments.generatorsProvider = this.generatorsProvider;
-        await this.generatorsProvider.getCommonFilesGenerator().execute(commonFilesGeneratorArguments);
+        await this.generatorsProvider.getCommonFilesGenerator().Execute(commonFilesGeneratorArguments);
 
         args.AddMessageObjects(
             commonFilesGeneratorArguments.GetAllMessages());
@@ -42,7 +42,7 @@ export class GenerateCommonFilesFlow extends ProgramFlowProcessor {
     }
 
     public CustomCondition(args: ProgramFlowArguments): boolean {
-        let safeCondition = !!this.generatorsProvider.getCommonFilesGenerator() 
+        let safeCondition = !!this.generatorsProvider.getCommonFilesGenerator()
             && args.selectedDesiredFlow === GenerateCommonPipelineFilesExecutor.Identifier;
         return safeCondition;
     }

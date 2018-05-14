@@ -9,16 +9,15 @@ export class ProgramFlowPredefinedExecutor {
     constructor(
 
         @inject(PROGRAM_FLOW.EXECUTOR)
-        public executor: ProgramFlowExecutor, 
-        
+        public executor: ProgramFlowExecutor,
+
         @inject(PROGRAM_FLOW.ARGUMENTS)
         public args: ProgramFlowArguments
     ) {
-        
+
     }
 
     async execute(): Promise<void> {
-        let res = await this.executor.execute(this.args);
-        console.log(res.message);
+        let res = await this.executor.Execute(this.args);
     }
 }
