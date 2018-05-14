@@ -1,8 +1,10 @@
 import { IPipeline, IProcessor } from 'solid-pipelines'
 import * as Processors from './processors'
+import "reflect-metadata";
+import { injectable } from 'inversify';
 
+@injectable()
 export class GenerateProcessorFromScratchPipeline implements IPipeline {
-    public static readonly Instance = new GenerateProcessorFromScratchPipeline();
 
     GetProcessors(): IProcessor[] {
         return [
@@ -13,7 +15,7 @@ export class GenerateProcessorFromScratchPipeline implements IPipeline {
             Processors.EnsureArgumentsData.Instance,
             Processors.EnsureAbstractProcessorData.Instance,
             Processors.GenerateProcessor.Instance,
-        
+
         ];
     }
 }

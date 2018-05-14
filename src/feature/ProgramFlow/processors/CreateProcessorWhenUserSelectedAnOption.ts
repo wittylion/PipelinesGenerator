@@ -6,7 +6,7 @@ import { GenerateArgumentsFileOptions } from "../../GenerateArgumentsFile/Genera
 import S from "string";
 import { GenerateAbstractProcessorFileOptions } from "../../GenerateAbstractProcessorFile/GenerateAbstractProcessorFileOptions";
 import { GenerateProcessorFileOptions } from "../../GenerateProcessorFile/GenerateProcessorFileOptions";
-import { MessageType } from "solid-pipelines";
+import { MessageType, PipelineExecutor } from "solid-pipelines";
 
 import Generator = require("yeoman-generator");
 import fs = require("fs");
@@ -17,10 +17,11 @@ import YEOMAN from "../../../foundation/YeomanPipeline/ServiceIdentifiers";
 import GENERATE_COMMON_FILES from "../../GenerateCommonFiles/ServiceIdentifiers";
 import { IModelsProvider } from "../../GenerateCommonFiles/IModelsProvider";
 import { IGeneratorsProvider } from "../../GenerateCommonFiles/abstractions/IGeneratorsProvider";
+import GENERATE_PROCESSOR_FROM_SCRATCH from "../../GenerateProcessorFromScratch/ServiceIdentifiers";
 
 @injectable()
 export class CreateProcessorWhenUserSelectedAnOption extends ProgramFlowProcessor {
-    
+
     constructor(
 
         @inject(YEOMAN.INSTANCE)
@@ -28,9 +29,12 @@ export class CreateProcessorWhenUserSelectedAnOption extends ProgramFlowProcesso
 
         @inject(GENERATE_COMMON_FILES.MODELS_PROVIDER)
         private modelsProvider: IModelsProvider,
-        
+
         @inject(GENERATE_COMMON_FILES.GENERATORS_PROVIDER)
-        private generatorsProvider: IGeneratorsProvider
+        private generatorsProvider: IGeneratorsProvider,
+
+        @inject(GENERATE_PROCESSOR_FROM_SCRATCH.EXECUTOR)
+        private generateProcessor: PipelineExecutor,
     ) {
         super();
     }
@@ -52,7 +56,7 @@ export class CreateProcessorWhenUserSelectedAnOption extends ProgramFlowProcesso
         }
 
         let result
-            = await GenerateProcessorFromScratchExecutor.Instance.execute(processorGeneration);
+            = await this.generateProcessor.Execute(processorGeneration);
 
         let failMessages = processorGeneration.GetWarningsAndErrors();
 
