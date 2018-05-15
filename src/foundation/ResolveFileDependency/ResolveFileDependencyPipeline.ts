@@ -1,6 +1,9 @@
 import { IPipeline, IProcessor } from 'solid-pipelines'
 import * as Processors from './processors'
+import "reflect-metadata";
+import { injectable } from 'inversify';
 
+@injectable()
 export class ResolveFileDependencyPipeline implements IPipeline {
     public static readonly Instance = new ResolveFileDependencyPipeline();
 
@@ -13,7 +16,7 @@ export class ResolveFileDependencyPipeline implements IPipeline {
             Processors.AskToChoosePathFromSeveralGuesses.Instance,
             Processors.AskPathIfGuessIsNotCorrect.Instance,
             Processors.AskIfFileShouldBeCreatedIfItDoesntExist.Instance,
-        
+
         ];
     }
 }

@@ -11,12 +11,12 @@ export class GenerateProcessorFromScratchArguments extends QueryContext<CreatedF
         public fileGenerator: GenerateFileFromTemplateExecutor,
         public processorGenerator: GenerateProcessorFileExecutor,
         public model: GenerateProcessorModel,
-        public argumentsModel?: CreatedFileResult,
-        public processorModel?: CreatedFileResult,
 
     ) {
         super();
     }
 
+    public argumentsModel?: CreatedFileResult;
+    public processorModel?: CreatedFileResult;
     guesses: string[] = [];
 }

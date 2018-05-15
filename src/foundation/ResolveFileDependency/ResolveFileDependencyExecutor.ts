@@ -1,32 +1,21 @@
-import { IPipeline, PipelineRunner, PipelineMessage } from "solid-pipelines";
+import { IPipeline, PipelineRunner, PipelineMessage, PipelineExecutor } from "solid-pipelines";
 import { ResolveFileDependencyArguments } from './ResolveFileDependencyArguments'
 import { ResolveFileDependencyPipeline } from './ResolveFileDependencyPipeline'
 
 import Generator = require("yeoman-generator");
+import { inject, injectable } from "inversify";
+import RESOLVE_FILE_DEPENDENCY from "./ServiceIdentifiers";
+import "reflect-metadata"
 
-export class ResolveFileDependencyExecutor {
-    public static Instance: ResolveFileDependencyExecutor = new ResolveFileDependencyExecutor(ResolveFileDependencyPipeline.Instance);
-
-    public static resolveFile(
-        yeomanGenerator: Generator,
-        fileId: string,
-        fileNamePattern: string,
-        fromDirectory: string
-    ) {
-        return ResolveFileDependencyExecutor.Instance.resolveFile(
-            yeomanGenerator,
-            fileId,
-            fileNamePattern,
-            fromDirectory
-        );
-    }
+@injectable()
+export class ResolveFileDependencyExecutor extends PipelineExecutor {
 
     resolveFile(
         yeomanGenerator: Generator,
         fileId: string,
         fileNamePattern: string,
         fromDirectory: string
-    ): Promise<{ result: string, messages: PipelineMessage[] }> {
+    ): Promise<void> {
         let args: ResolveFileDependencyArguments
             = new ResolveFileDependencyArguments(
                 yeomanGenerator,
@@ -34,20 +23,15 @@ export class ResolveFileDependencyExecutor {
                 fileNamePattern,
                 fromDirectory
             );
-        return this.execute(args);
+        return this.Execute(args);
     }
 
-    constructor(public pipeline: IPipeline) {
-    }
+    constructor(
+        @inject(RESOLVE_FILE_DEPENDENCY.PIPELINE)
+        public pipeline: IPipeline,
 
-    async execute(args: ResolveFileDependencyArguments): Promise<{ result: string, messages: PipelineMessage[] }> {
-        var runner: PipelineRunner = new PipelineRunner();
-
-        await runner.RunPipeline(this.pipeline, args);
-
-        return {
-            messages: args.GetAllMessages(),
-            result: args.GetResult()
-        };
+        public runner: PipelineRunner
+    ) {
+        super(pipeline, runner);
     }
 }

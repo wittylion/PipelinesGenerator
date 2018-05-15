@@ -1,6 +1,6 @@
 import { GenerateProcessorFromScratchProcessor } from "../GenerateProcessorFromScratchProcessor";
 import { GenerateProcessorFromScratchArguments } from "../GenerateProcessorFromScratchArguments";
-import { ResolveFileDependencyExecutor } from "../../../foundation/ResolveFileDependency";
+import { ResolveFileDependencyExecutor, ResolveFileDependencyArguments } from "../../../foundation/ResolveFileDependency";
 import { CreatedFileResult } from "../../GenerateFileFromTemplate/models/CreatedFileResult";
 
 import upath from "upath";
@@ -9,6 +9,8 @@ import "reflect-metadata";
 import Generator = require("yeoman-generator");
 import { injectable, inject } from "inversify";
 import YEOMAN from "../../../foundation/YeomanPipeline/ServiceIdentifiers";
+import RESOLVE_FILE_DEPENDENCY from "../../../foundation/ResolveFileDependency/ServiceIdentifiers";
+import { PipelineRunner, PipelineExecutor } from "solid-pipelines";
 
 @injectable()
 export class EnsureAbstractProcessorData extends GenerateProcessorFromScratchProcessor {
@@ -18,6 +20,9 @@ export class EnsureAbstractProcessorData extends GenerateProcessorFromScratchPro
         @inject(YEOMAN.INSTANCE)
         private yeomanGenerator: Generator,
 
+        @inject(RESOLVE_FILE_DEPENDENCY.EXECUTOR)
+        private fileDependencyResolver: PipelineExecutor,
+
     ) {
         super();
     }
@@ -25,20 +30,18 @@ export class EnsureAbstractProcessorData extends GenerateProcessorFromScratchPro
     public async SafeExecute(args: GenerateProcessorFromScratchArguments): Promise<void> {
         this.yeomanGenerator.log(GenerateProcessorFromScratchMessages.ProvideAbstractProcessor);
 
-        let resolveResult = await ResolveFileDependencyExecutor.resolveFile(
+        let resolveArgs = new ResolveFileDependencyArguments(
             this.yeomanGenerator,
             "abstract-processor",
             "Processor.ts",
-            this.yeomanGenerator.destinationPath(args.model.getSubdirectory())
-        );
+            this.yeomanGenerator.destinationPath(args.model.getSubdirectory()));
+        await this.fileDependencyResolver.Execute(resolveArgs);
 
-        let path = resolveResult.result;
+        let path = resolveArgs.GetResult();
         if (path) {
             let className = upath.trimExt(upath.basename(path));
             args.processorModel = new CreatedFileResult(path, {className: className});
         }
-
-        args.AddMessageObjects(resolveResult.messages);
     }
 
     public SafeCondition(args: GenerateProcessorFromScratchArguments): boolean {
