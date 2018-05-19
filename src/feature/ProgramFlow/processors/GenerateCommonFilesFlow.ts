@@ -13,10 +13,6 @@ import "reflect-metadata"
 @injectable()
 export class GenerateCommonFilesFlow extends ProgramFlowProcessor {
     constructor(
-
-        @inject(YEOMAN.INSTANCE)
-        private yeomanGenerator: Generator,
-
         @inject(GENERATE_COMMON_FILES.MODELS_PROVIDER)
         private modelsProvider: IModelsProvider,
 
@@ -31,7 +27,7 @@ export class GenerateCommonFilesFlow extends ProgramFlowProcessor {
 
     public async SafeExecute(args: ProgramFlowArguments): Promise<void> {
 
-        let commonFilesGeneratorArguments = new GenerateCommonPipelineFilesArguments(this.yeomanGenerator);
+        let commonFilesGeneratorArguments = new GenerateCommonPipelineFilesArguments();
         commonFilesGeneratorArguments.modelsProvider = this.modelsProvider;
         commonFilesGeneratorArguments.generatorsProvider = this.generatorsProvider;
         await this.commonFilesGenerator.Execute(commonFilesGeneratorArguments);

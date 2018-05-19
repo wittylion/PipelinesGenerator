@@ -6,9 +6,28 @@ import { EnsureFileModelArguments, EnsureFileModelExecutor } from "../../EnsureF
 import { MessageFilter } from "solid-pipelines";
 import { GeneratePipelineFileExecutor } from "../../GeneratePipelineFile";
 import _ from "lodash";
+import "reflect-metadata";
+import Generator = require("yeoman-generator");
+import { injectable, inject } from "inversify";
+import YEOMAN from "../../../foundation/YeomanPipeline/ServiceIdentifiers";
+import FILES_GENERATION from "../../../foundation/TypeDefinitions/ServiceIdentifiers";
+import { DestinationEnsurer } from "../../../foundation/TypeDefinitions/DestinationEnsurer";
 
+@injectable()
 export class GeneratePipeline extends GenerateCommonPipelineFilesProcessor {
-    public static readonly Instance = new GeneratePipeline();
+    constructor(
+
+        @inject(YEOMAN.INSTANCE)
+        public yeomanGenerator: Generator,
+
+        @inject(FILES_GENERATION.DESTINATION_ENSURER)
+        public destination: DestinationEnsurer,
+
+    ) {
+        super();
+
+    }
+
 
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
         let model = args.modelsProvider.getPipelineModel();
@@ -25,11 +44,11 @@ export class GeneratePipeline extends GenerateCommonPipelineFilesProcessor {
             }
         );
 
-        model.destinationPath = args.yeomanGenerator.destinationPath();
+        model.destinationPath = await this.destination.ensure();
         model.subdirectories = [...args.commonSubfolders, ...model.subdirectories];
         let result = await args.generatorsProvider.getPipelineGenerator().create(
             model,
-            args.yeomanGenerator,
+            this.yeomanGenerator,
             args.generatorsProvider.getFileFromTemplateGenerator(),
             args.generatedProcessors,
             args.generatedProcessor

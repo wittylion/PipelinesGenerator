@@ -8,7 +8,7 @@ import { DefaultGeneratorsProvider } from "./DefaultGeneratorsProvider";
 import { YeomanContext } from "../../foundation/PipelinesExtensions";
 import { CreatedFileResult } from "../GenerateFileFromTemplate/models/CreatedFileResult";
 
-export class GenerateCommonPipelineFilesArguments extends YeomanContext {
+export class GenerateCommonPipelineFilesArguments extends PipelineContext {
     pipelineNameSpecifiedByUser: string;
     processorNamesSpecifiedByUser: string[] = [];
     createSubfolderWithPipelineName: boolean;
@@ -20,7 +20,7 @@ export class GenerateCommonPipelineFilesArguments extends YeomanContext {
     generatedProcessors: CreatedFileResult[] = [];
     generatedPipeline: CreatedFileResult;
     generatedExecutor: CreatedFileResult;
-    
+
     modelsProvider: IModelsProvider;
     generatorsProvider: IGeneratorsProvider;
 }

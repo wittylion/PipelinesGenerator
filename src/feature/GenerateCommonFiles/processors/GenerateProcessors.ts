@@ -5,9 +5,15 @@ import upath = require("upath");
 import { GenerateProcessorFileExecutor } from "../../GenerateProcessorFile";
 import { MessageFilter } from "solid-pipelines";
 import { CreatedFileResult } from "../../GenerateFileFromTemplate/models/CreatedFileResult";
+import "reflect-metadata";
+import Generator = require("yeoman-generator");
+import { injectable, inject } from "inversify";
+import YEOMAN from "../../../foundation/YeomanPipeline/ServiceIdentifiers";
+import FILES_GENERATION from "../../../foundation/TypeDefinitions/ServiceIdentifiers";
+import { DestinationEnsurer } from "../../../foundation/TypeDefinitions/DestinationEnsurer";
 
+@injectable()
 export class GenerateProcessors extends GenerateCommonPipelineFilesProcessor {
-    public static readonly Instance = new GenerateProcessors();
 
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
 
@@ -26,7 +32,7 @@ export class GenerateProcessors extends GenerateCommonPipelineFilesProcessor {
             await args.generatorsProvider.getProcessorGenerator().execute(processorModel);
 
             let result = new CreatedFileResult(
-                processorModel.getFinalDestination(), 
+                processorModel.getFinalDestination(),
                 processorModel.options
             );
             args.generatedProcessors.push(result);

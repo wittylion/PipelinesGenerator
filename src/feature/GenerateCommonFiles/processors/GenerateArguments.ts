@@ -4,9 +4,29 @@ import S from "string";
 import { GenerateFileFromTemplateArguments, GenerateFileFromTemplateExecutor } from "../../GenerateFileFromTemplate";
 import { EnsureFileModelExecutor, EnsureFileModelArguments } from "../../EnsureFileModel";
 import { GenerateArgumentsFileArguments, GenerateArgumentsFileExecutor } from "../../GenerateArgumentsFile";
+import "reflect-metadata";
+import Generator = require("yeoman-generator");
+import { injectable, inject } from "inversify";
+import YEOMAN from "../../../foundation/YeomanPipeline/ServiceIdentifiers";
+import FILES_GENERATION from "../../../foundation/TypeDefinitions/ServiceIdentifiers";
+import { DestinationEnsurer } from "../../../foundation/TypeDefinitions/DestinationEnsurer";
 
+@injectable()
 export class GenerateArguments extends GenerateCommonPipelineFilesProcessor {
-    public static readonly Instance = new GenerateArguments();
+
+    constructor(
+
+        @inject(YEOMAN.INSTANCE)
+        public yeomanGenerator: Generator,
+
+        @inject(FILES_GENERATION.DESTINATION_ENSURER)
+        public destination: DestinationEnsurer,
+
+    ) {
+        super();
+
+    }
+
 
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
         let model = args.modelsProvider.getArgumentsModel();
@@ -15,19 +35,19 @@ export class GenerateArguments extends GenerateCommonPipelineFilesProcessor {
             return;
         }
 
-        model.destinationPath = args.yeomanGenerator.destinationPath();
+        model.destinationPath = await this.destination.ensure();
         model.subdirectories = [
-            ...args.commonSubfolders, 
+            ...args.commonSubfolders,
             ...model.subdirectories
         ];
         let argumentsGeneration = GenerateArgumentsFileArguments.Create(
-            model, 
-            args.yeomanGenerator,
+            model,
+            this.yeomanGenerator,
             args.generatorsProvider.getFileFromTemplateGenerator(),
             args.pipelineNameSpecifiedByUser
         );
 
-        let executionResult 
+        let executionResult
             = await args.generatorsProvider.getArgumentsGenerator().execute(argumentsGeneration);
 
         args.generatedArguments = executionResult.result;

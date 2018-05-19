@@ -5,18 +5,38 @@ import S from "string";
 import upath = require("upath");
 import { GenerateExecutorFileArguments, GenerateExecutorFileExecutor } from "../../GenerateExecutorFile";
 import { InteractionModeEnum } from "../../EnsureFileModel/InteractionModeEnum";
+import "reflect-metadata";
+import Generator = require("yeoman-generator");
+import { injectable, inject } from "inversify";
+import YEOMAN from "../../../foundation/YeomanPipeline/ServiceIdentifiers";
+import FILES_GENERATION from "../../../foundation/TypeDefinitions/ServiceIdentifiers";
+import { DestinationEnsurer } from "../../../foundation/TypeDefinitions/DestinationEnsurer";
 
+@injectable()
 export class GenerateExecutor extends GenerateCommonPipelineFilesProcessor {
-    public static readonly Instance = new GenerateExecutor();
+
+    constructor(
+
+        @inject(YEOMAN.INSTANCE)
+        public yeomanGenerator: Generator,
+
+        @inject(FILES_GENERATION.DESTINATION_ENSURER)
+        public destination: DestinationEnsurer,
+
+    ) {
+        super();
+
+    }
+
 
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
         let model = args.modelsProvider.getExecutorModel();
         model.subdirectories = [...args.commonSubfolders, ...model.subdirectories];
 
-        model.destinationPath = args.yeomanGenerator.destinationPath();
+        model.destinationPath = await this.destination.ensure();
         let executorGeneration = new GenerateExecutorFileArguments(
             model,
-            args.yeomanGenerator,
+            this.yeomanGenerator,
             args.generatorsProvider.getFileFromTemplateGenerator(),
             args.pipelineNameSpecifiedByUser,
             InteractionModeEnum.Minimum
