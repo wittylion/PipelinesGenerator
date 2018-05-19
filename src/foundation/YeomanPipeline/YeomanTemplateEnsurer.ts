@@ -17,7 +17,10 @@ export class YeomanTemplateEnsurer {
 
     }
 
-    async ensure(destination: string): Promise<string> {
-        return this.yeomanGenerator.templatePath(destination);
+    async ensure(destination?: string): Promise<string> {
+        if (destination) {
+            return this.yeomanGenerator.templatePath(destination);
+        }
+        return this.yeomanGenerator.templatePath();
     }
 }

@@ -8,7 +8,7 @@ function injectYeomanDependencies(container: Container) {
     container.bind<DestinationEnsurer>(FILES_GENERATION.DESTINATION_ENSURER)
         .to(YeomanDestinationEnsurer);
 
-    container.bind<DestinationEnsurer>(FILES_GENERATION.DESTINATION_ENSURER)
+    container.bind<DestinationEnsurer>(FILES_GENERATION.TEMPLATE_ENSURER)
         .to(YeomanTemplateEnsurer);
 }
 

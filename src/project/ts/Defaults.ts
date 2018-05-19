@@ -8,7 +8,6 @@ import { GenerateExecutorFileExecutor } from "../../feature/GenerateExecutorFile
 import { GenerateTypescriptArgumentsFilePipeline } from "./GenerateTypescriptArgumentsFile/GenerateTypescriptArgumentsFilePipeline";
 import { GenerateArgumentsFileExecutor } from "../../feature/GenerateArgumentsFile";
 import { GenerateCommonPipelineFilesExecutor, GenerateCommonPipelineFilesArguments } from "../../feature/GenerateCommonFiles";
-import { GenerateCommonFilesPipeline } from "./GenerateCommonFiles";
 import { GenerateTypescriptAbstractProcessorFilePipeline } from "./GenerateTypescriptAbstractProcessorFile/GenerateTypescriptAbstractProcessorFilePipeline";
 import { GenerateAbstractProcessorFileExecutor } from "../../feature/GenerateAbstractProcessorFile/GenerateAbstractProcessorFileExecutor";
 import { GenerateProcessorModel } from "../../feature/GenerateProcessorFile/models/GenerateProcessorModel";
