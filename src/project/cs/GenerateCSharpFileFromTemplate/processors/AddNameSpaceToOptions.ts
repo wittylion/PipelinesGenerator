@@ -1,22 +1,35 @@
 import S from "string";
 import { GenerateFileFromTemplateProcessor } from "../../../../feature/GenerateFileFromTemplate/GenerateFileFromTemplateProcessor";
 import { GenerateFileFromTemplateArguments } from "../../../../feature/GenerateFileFromTemplate/GenerateFileFromTemplateArguments";
-import { GetNamespaceFromFolderNamesExecutor } from "../../GetNamespaceFromFolderNames";
+import { GetNamespaceFromFolderNamesExecutor, GetNamespaceFromFolderNamesArguments } from "../../GetNamespaceFromFolderNames";
+import "reflect-metadata"
+import { injectable, inject } from "inversify";
+import GET_NAMESPACE from "../../GetNamespaceFromFolderNames/ServiceIdentifiers";
+import { PipelineExecutor } from "solid-pipelines";
 
+@injectable()
 export class AddNameSpaceToOptions extends GenerateFileFromTemplateProcessor {
-    public static readonly Instance = new AddNameSpaceToOptions();
+
+    constructor(
+
+        @inject(GET_NAMESPACE.EXECUTOR)
+        private getNamespace: PipelineExecutor
+
+    ) {
+        super();
+
+    }
 
     public async SafeExecute(args: GenerateFileFromTemplateArguments): Promise<void> {
-        let res
-            = await GetNamespaceFromFolderNamesExecutor.getNamespace(
-                args.fileModel.destinationPath,
-                true,
-                undefined,
-                args.fileModel.subdirectories
-            );
+        let getNamespaceArgs = new GetNamespaceFromFolderNamesArguments(
+            args.fileModel.destinationPath,
+            true,
+            undefined,
+            args.fileModel.subdirectories);
 
-        args.fileModel.options["namespace"] = res.result;
-        args.AddMessageObjects(res.messages);
+        await this.getNamespace.Execute(getNamespaceArgs);
+
+        args.fileModel.options["namespace"] = getNamespaceArgs.GetResult();
     }
 
     public SafeCondition(args: GenerateFileFromTemplateArguments): boolean {

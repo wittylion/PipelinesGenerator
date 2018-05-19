@@ -11,23 +11,24 @@ import { IPipeline } from "solid-pipelines";
 import PROGRAM_FLOW from "../../../../feature/ProgramFlow/ServiceIdentifiers";
 import YEOMAN from "../../../../foundation/YeomanPipeline/ServiceIdentifiers";
 import Generator = require("yeoman-generator");
-import { injectCommon } from "../../../../feature/DependencyInjection/Common";
+import { injectCSharpDependencies } from "../../../cs/DependencyInjection/Inject";
 
 export class Initializing extends SitecoreYeomanPipelineProcessor {
     public static readonly Instance = new Initializing();
 
     public async SafeExecute(args: SitecoreYeomanPipelineArguments): Promise<void> {
 
-        let generator = args.container.get<Generator>(YEOMAN.INSTANCE);        
+        let generator = args.container.get<Generator>(YEOMAN.INSTANCE);
 
-        args.container.bind<IModelsProvider>(GENERATE_COMMON_FILES.MODELS_PROVIDER)
+
+        injectCSharpDependencies(args.container);
+
+        args.container.rebind<IModelsProvider>(GENERATE_COMMON_FILES.MODELS_PROVIDER)
             .to(ModelsProvider);
-            
-        args.container.bind<IGeneratorsProvider>(GENERATE_COMMON_FILES.GENERATORS_PROVIDER)
+
+        args.container.rebind<IGeneratorsProvider>(GENERATE_COMMON_FILES.GENERATORS_PROVIDER)
             .to(GeneratorsProvider);
 
-        injectCommon(args.container);
-        
         CSharpDefaults.initializeModels(generator);
         Defaults.initializeModels(generator);
     }

@@ -4,6 +4,7 @@ import { injectProgramFlowQuestion } from "../ChooseProgramFlow/DependencyInject
 import { injectSolidPipelines } from "../../foundation/PipelinesExtensions/DependencyInjection";
 import { injectProcessorFromScratchGeneration } from "../GenerateProcessorFromScratch/DependencyInjection";
 import { injectFileDependencyProvider } from "../../foundation/ResolveFileDependency/DependencyInjection";
+import { injectFileFinder } from "../../foundation/FindFile/DependencyInjection";
 
 function injectCommon(container: Container) {
     injectSolidPipelines(container);
@@ -11,6 +12,7 @@ function injectCommon(container: Container) {
     injectProgramFlowQuestion(container);
     injectProcessorFromScratchGeneration(container);
     injectFileDependencyProvider(container);
+    injectFileFinder(container);
 }
 
 export { injectCommon }

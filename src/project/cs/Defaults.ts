@@ -1,9 +1,7 @@
 import { GenerateFileModel } from "../../feature/GenerateFileFromTemplate/models/GenerateFileModel";
 import _ from "lodash";
 import { GeneratePipelineFileExecutor } from "../../feature/GeneratePipelineFile";
-import { GenerateCSharpPipelineFilePipeline } from "./GenerateCSharpPipelineFile/GenerateCSharpPipelineFilePipeline";
 import { GenerateProcessorFileExecutor } from "../../feature/GenerateProcessorFile";
-import { GenerateCSharpProcessorFile } from "./GenerateCSharpProcessorFile/GenerateCSharpProcessorFilePipeline";
 import { GenerateFileFromTemplateExecutor, GenerateFileFromTemplateArguments } from "../../feature/GenerateFileFromTemplate";
 import { GenerateCSharpFileFromTemplatePipeline } from "./GenerateCSharpFileFromTemplate/GenerateCSharpFileFromTemplatePipeline";
 import { GenerateProcessorModel } from "../../feature/GenerateProcessorFile/models/GenerateProcessorModel";
@@ -11,11 +9,6 @@ import { GenerateProcessorModel } from "../../feature/GenerateProcessorFile/mode
 import Generator = require("yeoman-generator");
 
 export class Defaults {
-
-    public static FileFromTemplateGenerator;
-    public static PipelineGenerator = new GeneratePipelineFileExecutor(GenerateCSharpPipelineFilePipeline.Instance);
-    public static ProcessorGenerator;
-
     public static argumentsModel: GenerateFileModel;
     public static abstractProcessorModel: GenerateFileModel;
     public static pipelineModel: GenerateFileModel;
@@ -26,23 +19,6 @@ export class Defaults {
     public static extension: string = ".cs";
 
     public static initializeModels(yeomanGenerator: Generator) {
-
-        Defaults.FileFromTemplateGenerator = new GenerateFileFromTemplateExecutor(
-            new GenerateCSharpFileFromTemplatePipeline(
-                { ensure: async (template: string) => yeomanGenerator.templatePath(template) },
-                { ensure: async (template: string) => yeomanGenerator.destinationPath(template) },
-                { check: async(path: string) => yeomanGenerator.fs.exists(path) },
-                { generate: async (...args) => yeomanGenerator.fs.copyTpl(args[0], args[1], args[2]) }
-            )
-        );
-
-        Defaults.ProcessorGenerator = new GenerateProcessorFileExecutor(
-            new GenerateCSharpProcessorFile(
-                (model) => Defaults.FileFromTemplateGenerator.execute(
-                    new GenerateFileFromTemplateArguments(model)
-                )
-            )
-        );
 
         Defaults.argumentsModel = new GenerateFileModel();
         Defaults.argumentsModel.templateName = "_Arguments.cs.ejs";

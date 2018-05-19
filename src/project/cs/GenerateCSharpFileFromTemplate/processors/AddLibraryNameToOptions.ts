@@ -2,7 +2,10 @@ import S from "string";
 import { GenerateFileFromTemplateProcessor } from "../../../../feature/GenerateFileFromTemplate/GenerateFileFromTemplateProcessor";
 import { GenerateFileFromTemplateArguments } from "../../../../feature/GenerateFileFromTemplate/GenerateFileFromTemplateArguments";
 import { GetNamespaceFromFolderNamesExecutor } from "../../GetNamespaceFromFolderNames";
+import "reflect-metadata"
+import { injectable } from "inversify";
 
+@injectable()
 export class AddLibraryNameToOptions extends GenerateFileFromTemplateProcessor {
     public static readonly Instance = new AddLibraryNameToOptions();
 

@@ -3,19 +3,35 @@ import { GetNamespaceFromFolderNamesArguments } from "../GetNamespaceFromFolderN
 
 import path = require("upath");
 import S from "string";
-import { FindFileExecutor } from "../../../../foundation/FindFile";
+import { FindFileExecutor, FindFileArguments } from "../../../../foundation/FindFile";
+import "reflect-metadata";
+import { injectable, inject } from "inversify";
+import FIND_FILE from "../../../../foundation/FindFile/ServiceIdentifiers";
+import { PipelineExecutor } from "solid-pipelines";
 
+@injectable()
 export class TryFindProjectFile extends GetNamespaceFromFolderNamesProcessor {
-    public static readonly Instance = new TryFindProjectFile();
+
+    constructor(
+
+        @inject(FIND_FILE.EXECUTOR)
+        public findFile: PipelineExecutor
+
+    ) {
+        super();
+
+    }
 
     public async SafeExecute(args: GetNamespaceFromFolderNamesArguments): Promise<void> {
-        let result = await FindFileExecutor.findFiles(
+        let findFileArgs = new FindFileArguments(
             args.destinationPath,
             "packages.config"
         );
 
-        if (result.length > 0) {
-            args.projectDirectory = path.dirname(result[0]);
+        await this.findFile.Execute(findFileArgs);
+
+        if (findFileArgs.files.length > 0) {
+            args.projectDirectory = path.dirname(findFileArgs.files[0]);
         }
     }
 

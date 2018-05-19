@@ -1,43 +1,24 @@
-import { IPipeline, PipelineRunner, PipelineMessage } from "solid-pipelines";
+import { IPipeline, PipelineRunner, PipelineMessage, PipelineExecutor } from "solid-pipelines";
 import { GetNamespaceFromFolderNamesArguments } from './GetNamespaceFromFolderNamesArguments'
 import { GetNamespaceFromFolderNamesPipeline } from './GetNamespaceFromFolderNamesPipeline'
 
 import Generator = require("yeoman-generator");
 
-export class GetNamespaceFromFolderNamesExecutor {
-    public static Instance: GetNamespaceFromFolderNamesExecutor = new GetNamespaceFromFolderNamesExecutor(GetNamespaceFromFolderNamesPipeline.Instance);
+import "reflect-metadata";
+import { injectable, inject } from "inversify";
+import GET_NAMESPACE from "./ServiceIdentifiers";
 
-    constructor(public pipeline: IPipeline) {
-    }
+@injectable()
+export class GetNamespaceFromFolderNamesExecutor extends PipelineExecutor {
 
-    public static async getNamespace(
-        destinationPath: string,
-        shouldFindProjectDirectory: boolean,
-        filePath?: string,
-        directories: string[] = [],
-    ) : Promise<{result: string, messages: PipelineMessage[]}> {
-        
-        return GetNamespaceFromFolderNamesExecutor.Instance.getNamespace(
-            destinationPath,
-            shouldFindProjectDirectory,
-            filePath,
-            directories,
-        );
-    }
+    constructor(
 
-    async getNamespace(
-        destinationPath: string,
-        shouldFindProjectDirectory: boolean,
-        filePath?: string,
-        directories: string[] = [],
-    ) : Promise<{result: string, messages: PipelineMessage[]}> {
-        
-        return this.execute(GetNamespaceFromFolderNamesArguments.create(
-            destinationPath,
-            shouldFindProjectDirectory,
-            filePath,
-            directories,
-        ));
+        @inject(GET_NAMESPACE.PIPELINE)
+        public pipeline: IPipeline,
+
+        public runner: PipelineRunner
+    ) {
+            super(pipeline, runner);
     }
 
     async execute(args: GetNamespaceFromFolderNamesArguments) : Promise<{result: string, messages: PipelineMessage[]}> {

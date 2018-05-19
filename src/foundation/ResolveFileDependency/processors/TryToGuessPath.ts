@@ -3,10 +3,22 @@ import { ResolveFileDependencyArguments } from "../ResolveFileDependencyArgument
 
 import { ResolveFileDependencyMessages } from "../ResolveFileDependencyMessages";
 import S from "string";
-import { FindFileExecutor } from "../../FindFile";
+import { FindFileExecutor, FindFileArguments } from "../../FindFile";
+import "reflect-metadata";
+import { injectable, inject } from "inversify";
+import FIND_FILE from "../../FindFile/ServiceIdentifiers";
 
+@injectable()
 export class TryToGuessPath extends ResolveFileDependencyProcessor {
-    public static readonly Instance = new TryToGuessPath();
+
+    constructor(
+
+        @inject(FIND_FILE.EXECUTOR)
+        public findFile: FindFileExecutor
+
+    ) {
+        super();
+    }
 
     public async SafeExecute(args: ResolveFileDependencyArguments): Promise<void> {
 
@@ -15,12 +27,11 @@ export class TryToGuessPath extends ResolveFileDependencyProcessor {
             return;
         }
 
-        let result = await FindFileExecutor.findFiles(
-            args.fromDirectory,
-            args.fileNamePattern,
-        );
+        let findFileArguments = new FindFileArguments(args.fromDirectory, args.fileNamePattern)
 
-        if (result.length > 0) {
+        let result = await this.findFile.Execute(findFileArguments);
+
+        if (findFileArguments.files.length > 0) {
             args.guesses.push(result[0]);
         }
     }

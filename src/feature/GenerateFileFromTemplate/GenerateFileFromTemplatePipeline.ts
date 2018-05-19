@@ -35,13 +35,13 @@ export class GenerateFileFromTemplatePipeline implements IPipeline {
 
     SetOptions(): IProcessor[] {
         return [
-            Processors.FillCreationOptions.Instance,
         ];
     }
 
     GenerateFileProcessors(): IProcessor[] {
 
         return [
+            Processors.FillCreationOptions.Instance,
             new Processors.CreateFileFromTemplate(this.fileFromTemplateGenerator),
             new Processors.GenerateResult(this.fileChecker),
         ];

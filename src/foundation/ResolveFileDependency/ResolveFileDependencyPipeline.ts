@@ -1,16 +1,24 @@
 import { IPipeline, IProcessor } from 'solid-pipelines'
 import * as Processors from './processors'
 import "reflect-metadata";
-import { injectable } from 'inversify';
+import { injectable, multiInject } from 'inversify';
+import RESOLVE_FILE_DEPENDENCY from './ServiceIdentifiers';
 
 @injectable()
 export class ResolveFileDependencyPipeline implements IPipeline {
-    public static readonly Instance = new ResolveFileDependencyPipeline();
+
+    constructor(
+
+        @multiInject(RESOLVE_FILE_DEPENDENCY.PROCESSOR)
+        private processors: IProcessor[]
+
+    ) {
+
+    }
 
     GetProcessors(): IProcessor[] {
         return [
-            Processors.ValidateArguments.Instance,
-            Processors.TryToGuessPath.Instance,
+            ...this.processors,
             Processors.FilterGuesses.Instance,
             Processors.AskWhetherPathIsCorrect.Instance,
             Processors.AskToChoosePathFromSeveralGuesses.Instance,

@@ -1,6 +1,3 @@
-
-export * from './ValidateArguments'
-
 export * from './TryToGuessPath'
 
 export * from './AskWhetherPathIsCorrect'

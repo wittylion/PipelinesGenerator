@@ -1,49 +1,21 @@
-import { IPipeline, PipelineRunner } from "solid-pipelines";
+import { IPipeline, PipelineRunner, PipelineExecutor, PipelineContext } from "solid-pipelines";
 import { FindFileArguments } from './FindFileArguments'
 import { FindFilePipeline } from './FindFilePipeline'
 import { IFileExistanceChecker } from "./abstractions/IFileExistanceChecker";
 import { FileSystemExistanceChecker } from "./FileSystemExistanceChecker";
+import { inject, injectable } from "inversify";
+import FIND_FILE from "./ServiceIdentifiers";
+import "reflect-metadata";
 
-export class FindFileExecutor {
-    public static Instance: FindFileExecutor = new FindFileExecutor(FindFilePipeline.Instance);
+@injectable()
+export class FindFileExecutor extends PipelineExecutor {
+    constructor(
 
-    public static findFiles(
-        currentDir: string,
-        file: string,
-        subfolders: string[] = [],
-        existanceChecker: IFileExistanceChecker = FileSystemExistanceChecker.Instance
-    ): Promise<string[]> {
-        return FindFileExecutor.Instance.findFiles(
-            currentDir,
-            file,
-            subfolders,
-            existanceChecker
-        );
-    }
+        @inject(FIND_FILE.PIPELINE)
+        public pipeline: IPipeline,
 
-    public findFiles(
-        currentDir: string,
-        file: string,
-        subfolders: string[] = [],
-        existanceChecker: IFileExistanceChecker = FileSystemExistanceChecker.Instance
-    ): Promise<string[]> {
-        let args: FindFileArguments = new FindFileArguments(
-            currentDir,
-            file,
-            subfolders,
-            existanceChecker
-        );
-        return this.execute(args);
-    }
-
-    constructor(public pipeline: IPipeline) {
-    }
-
-    async execute(args: FindFileArguments): Promise<string[]> {
-        var runner: PipelineRunner = new PipelineRunner();
-
-        await runner.RunPipeline(this.pipeline, args);
-
-        return args.files;
+        public runner: PipelineRunner
+    ) {
+        super(pipeline, runner);
     }
 }
