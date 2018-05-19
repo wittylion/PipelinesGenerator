@@ -28,7 +28,4 @@ export abstract class DefaultGeneratorsProvider implements IGeneratorsProvider {
     getExecutorGenerator(): GenerateExecutorFileExecutor {
         return GenerateExecutorFileExecutor.Instance;
     }
-    getCommonFilesGenerator(): GenerateCommonPipelineFilesExecutor {
-        return GenerateCommonPipelineFilesExecutor.Instance;
-    }
 }

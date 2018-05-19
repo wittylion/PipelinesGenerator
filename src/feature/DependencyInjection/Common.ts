@@ -5,6 +5,8 @@ import { injectSolidPipelines } from "../../foundation/PipelinesExtensions/Depen
 import { injectProcessorFromScratchGeneration } from "../GenerateProcessorFromScratch/DependencyInjection";
 import { injectFileDependencyProvider } from "../../foundation/ResolveFileDependency/DependencyInjection";
 import { injectFileFinder } from "../../foundation/FindFile/DependencyInjection";
+import { injectYeomanDependencies } from "../../foundation/YeomanPipeline/DependencyInjection";
+import { injectCommonFilesGenerator } from "../GenerateCommonFiles/DependencyInjection";
 
 function injectCommon(container: Container) {
     injectSolidPipelines(container);
@@ -13,6 +15,8 @@ function injectCommon(container: Container) {
     injectProcessorFromScratchGeneration(container);
     injectFileDependencyProvider(container);
     injectFileFinder(container);
+    injectYeomanDependencies(container);
+    injectCommonFilesGenerator(container);
 }
 
 export { injectCommon }

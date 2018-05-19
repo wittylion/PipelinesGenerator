@@ -3,6 +3,7 @@ import { GenerateFileFromTemplateArguments } from "../GenerateFileFromTemplateAr
 
 import path = require("path");
 import S from "string";
+import { DestinationEnsurer } from "../../../foundation/TypeDefinitions/DestinationEnsurer";
 
 export class EnsureDestination extends GenerateFileFromTemplateProcessor {
     constructor(public destinationEnsurer: DestinationEnsurer) {

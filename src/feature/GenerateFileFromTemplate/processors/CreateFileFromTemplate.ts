@@ -1,6 +1,7 @@
 import { GenerateFileFromTemplateProcessor } from "../GenerateFileFromTemplateProcessor";
 import { GenerateFileFromTemplateArguments } from "../GenerateFileFromTemplateArguments";
 import S from "string";
+import { FileFromTemplateGenerator } from "../../../foundation/TypeDefinitions/FileGenerator";
 
 export class CreateFileFromTemplate extends GenerateFileFromTemplateProcessor {
 

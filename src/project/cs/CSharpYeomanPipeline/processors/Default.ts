@@ -2,7 +2,6 @@ import { CSharpYeomanPipelineProcessor } from "../CSharpYeomanPipelineProcessor"
 import { CSharpYeomanPipelineArguments } from "../CSharpYeomanPipelineArguments";
 import { ProgramFlowArguments, ProgramFlowExecutor } from "../../../../feature/ProgramFlow";
 import { ModelsProvider } from "../../GenerateCommonFiles/ModelsProvider";
-import { GenerateCommonPipelineFilesExecutor } from "../../../../feature/GenerateCommonFiles";
 import { ProgramFlowPipeline } from "../../../../feature/ProgramFlow/ProgramFlowPipeline";
 import { GeneratorsProvider } from "../../GenerateCommonFiles/GeneratorsProvider";
 import GENERATE_COMMON_FILES from "../../../../feature/GenerateCommonFiles/ServiceIdentifiers";

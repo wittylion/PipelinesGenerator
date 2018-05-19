@@ -3,6 +3,7 @@ import { GenerateFileFromTemplateArguments } from "../GenerateFileFromTemplateAr
 
 import S = require("string");
 import { CreatedFileResult } from "../models/CreatedFileResult";
+import { FileExistanceChecker } from "../../../foundation/TypeDefinitions/CheckFileExistance";
 
 export class GenerateResult extends GenerateFileFromTemplateProcessor {
 

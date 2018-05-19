@@ -2,6 +2,7 @@ import { GenerateFileFromTemplateProcessor } from "../GenerateFileFromTemplatePr
 import { GenerateFileFromTemplateArguments } from "../GenerateFileFromTemplateArguments";
 
 import S = require("string");
+import { DestinationEnsurer } from "../../../foundation/TypeDefinitions/DestinationEnsurer";
 
 export class EnsureTemplateDestination extends GenerateFileFromTemplateProcessor {
 

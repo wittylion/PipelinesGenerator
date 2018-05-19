@@ -9,6 +9,8 @@ import { GenerateFileFromTemplateExecutor, GenerateFileFromTemplateArguments } f
 import { GenerateProcessorFileExecutor } from "../../../feature/GenerateProcessorFile";
 import { GeneratePipelineFileExecutor } from "../../../feature/GeneratePipelineFile";
 import { GenerateProcessorFilePipeline } from "../../../feature/GenerateProcessorFile/GenerateProcessorFilePipeline";
+import { GenerateCommonPipelineFilesExecutor } from "../../../feature/GenerateCommonFiles";
+import GENERATE_COMMON_FILES from "../../../feature/GenerateCommonFiles/ServiceIdentifiers";
 
 @injectable()
 export class GeneratorsProvider extends DefaultGeneratorsProvider {
@@ -20,7 +22,6 @@ export class GeneratorsProvider extends DefaultGeneratorsProvider {
 
         @inject(GENERATE_CSHARP_FILE.PIPELINE)
         generateFile: IPipeline,
-
     ) {
         super();
         this.fileFromTemplateGenerator = new GenerateFileFromTemplateExecutor(generateFile);

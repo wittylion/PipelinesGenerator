@@ -2,7 +2,6 @@ import { TypescriptYeomanPipelineProcessor } from "../TypescriptYeomanPipelinePr
 import { TypescriptYeomanPipelineArguments } from "../TypescriptYeomanPipelineArguments";
 import { ProgramFlowArguments, ProgramFlowExecutor } from "../../../../feature/ProgramFlow";
 import { ModelsProvider, GeneratorsProvider, GenerateCommonFilesPipeline } from "../../GenerateCommonFiles";
-import { GenerateCommonPipelineFilesExecutor } from "../../../../feature/GenerateCommonFiles";
 import { TypescriptProgramFlowPipeline } from "../../TypescriptProgramFlow/TypescriptProgramFlowPipeline";
 import GENERATE_COMMON_FILES from "../../../../feature/GenerateCommonFiles/ServiceIdentifiers";
 import { ProgramFlowPredefinedExecutor } from "../../../../feature/ProgramFlow/ProgramFlowPredefinedExecutor";

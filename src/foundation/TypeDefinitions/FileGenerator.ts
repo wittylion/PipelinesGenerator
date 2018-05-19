@@ -1,0 +1,2 @@
+export type GenerateFileFromTemplateFunction = (template: string, destination: string, options: {}) => Promise<void>;
+export type FileFromTemplateGenerator = { generate: GenerateFileFromTemplateFunction };

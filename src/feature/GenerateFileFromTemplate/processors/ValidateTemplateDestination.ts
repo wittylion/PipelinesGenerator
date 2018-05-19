@@ -2,6 +2,7 @@ import { GenerateFileFromTemplateProcessor } from "../GenerateFileFromTemplatePr
 import { GenerateFileFromTemplateArguments } from "../GenerateFileFromTemplateArguments";
 
 import S = require("string");
+import { FileExistanceChecker } from "../../../foundation/TypeDefinitions/CheckFileExistance";
 
 export class ValidateTemplateDestination extends GenerateFileFromTemplateProcessor {
 

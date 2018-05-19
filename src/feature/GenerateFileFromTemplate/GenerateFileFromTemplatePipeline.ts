@@ -1,5 +1,8 @@
 import { IPipeline, IProcessor } from 'solid-pipelines'
 import * as Processors from './processors'
+import { DestinationEnsurer } from '../../foundation/TypeDefinitions/DestinationEnsurer';
+import { FileExistanceChecker } from '../../foundation/TypeDefinitions/CheckFileExistance';
+import { FileFromTemplateGenerator } from '../../foundation/TypeDefinitions/FileGenerator';
 
 export class GenerateFileFromTemplatePipeline implements IPipeline {
 

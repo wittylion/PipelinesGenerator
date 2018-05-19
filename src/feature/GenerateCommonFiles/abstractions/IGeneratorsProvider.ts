@@ -11,7 +11,6 @@ export interface IGeneratorsProvider {
     getAbstractProcessorGenerator(): GenerateAbstractProcessorFileExecutor;
     getProcessorGenerator(): GenerateProcessorFileExecutor;
     getExecutorGenerator(): GenerateExecutorFileExecutor;
-    getCommonFilesGenerator(): GenerateCommonPipelineFilesExecutor;
     getPipelineGenerator(): GeneratePipelineFileExecutor;
     getFileFromTemplateGenerator(): GenerateFileFromTemplateExecutor;
 }

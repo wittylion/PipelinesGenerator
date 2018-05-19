@@ -2,8 +2,10 @@ import { DefaultGeneratorsProvider } from "../../../feature/GenerateCommonFiles/
 import { Defaults } from "../Defaults";
 import { GenerateFileFromTemplateExecutor } from "../../../feature/GenerateFileFromTemplate/GenerateFileFromTemplateExecutor";
 
-import { injectable } from "inversify";
+import { injectable, inject } from "inversify";
 import "reflect-metadata"
+import GENERATE_COMMON_FILES from "../../../feature/GenerateCommonFiles/ServiceIdentifiers";
+import { GenerateCommonPipelineFilesExecutor } from "../../../feature/GenerateCommonFiles";
 
 @injectable()
 export class GeneratorsProvider extends DefaultGeneratorsProvider {
@@ -11,8 +13,6 @@ export class GeneratorsProvider extends DefaultGeneratorsProvider {
     getFileFromTemplateGenerator(): GenerateFileFromTemplateExecutor {
         return Defaults.FileFromTemplateGenerator;
     }
-
-    public static Instance = new GeneratorsProvider();
 
     getExecutorGenerator() {
         return Defaults.ExecutorGenerator;
@@ -24,10 +24,6 @@ export class GeneratorsProvider extends DefaultGeneratorsProvider {
 
     getArgumentsGenerator() {
         return Defaults.ArgumentsGenerator;
-    }
-
-    getCommonFilesGenerator() {
-        return Defaults.CommonFilesGenerator;
     }
 
     getAbstractProcessorGenerator() {
