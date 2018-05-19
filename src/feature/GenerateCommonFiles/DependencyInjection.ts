@@ -3,7 +3,7 @@ import { IPipeline, PipelineExecutor, IProcessor } from "solid-pipelines";
 import { Container } from "inversify";
 import GENERATE_COMMON_FILES from "./ServiceIdentifiers";
 import { GenerateCommonPipelineFilesExecutor } from ".";
-import { TryToGetPipelineName, TryToGetProcessors, AskForSubfolderCreation } from "./processors";
+import { TryToGetPipelineName, TryToGetProcessors, AskForSubfolderCreation, EnsureCommonSubfolders } from "./processors";
 import { GenerateCommonPipelineFilesPipeline } from "./GenerateCommonPipelineFilesPipeline";
 
 function injectCommonFilesGenerator(container: Container): void {
@@ -21,6 +21,9 @@ function injectCommonFilesGenerator(container: Container): void {
 
     container.bind<IProcessor>(GENERATE_COMMON_FILES.PROCESSOR)
         .to(AskForSubfolderCreation);
+
+        container.bind<IProcessor>(GENERATE_COMMON_FILES.PROCESSOR)
+            .to(EnsureCommonSubfolders);
 }
 
 export { injectCommonFilesGenerator }
