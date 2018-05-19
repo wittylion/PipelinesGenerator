@@ -3,15 +3,28 @@ import { GenerateCommonPipelineFilesArguments } from "../GenerateCommonPipelineF
 import S from "string";
 import { InputTypeEnum } from "../../../foundation/YeomanQuestions";
 import { EnsureOptionExecutor } from "../../EnsureOption";
+import "reflect-metadata";
+import { injectable, inject } from "inversify";
+import Generator = require("yeoman-generator");
+import YEOMAN from "../../../foundation/YeomanPipeline/ServiceIdentifiers";
 
+@injectable()
 export class AskForSubfolderCreation extends GenerateCommonPipelineFilesProcessor {
-    public static readonly Instance = new AskForSubfolderCreation();
+
+    constructor(
+
+        @inject(YEOMAN.INSTANCE)
+        public yeomanGenerator: Generator,
+    ) {
+        super();
+
+    }
 
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
         args.createSubfolderWithPipelineName =
             S(
                 await EnsureOptionExecutor.obtainByKey(
-                    args.yeomanGenerator,
+                    this.yeomanGenerator,
                     "subfolder",
                     InputTypeEnum.Confirm,
                     false,

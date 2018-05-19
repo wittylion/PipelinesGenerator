@@ -4,19 +4,40 @@ import S from "string";
 import { EnsureOptionExecutor } from "../../EnsureOption";
 import path = require("path");
 import { InputTypeEnum } from "../../../foundation/YeomanQuestions";
+import "reflect-metadata";
+import { injectable, inject } from "inversify";
+import FILES_GENERATION from "../../../foundation/TypeDefinitions/ServiceIdentifiers";
+import { DestinationEnsurer } from "../../../foundation/TypeDefinitions/DestinationEnsurer";
+import YEOMAN from "../../../foundation/YeomanPipeline/ServiceIdentifiers";
+import Generator = require("yeoman-generator");
 
+@injectable()
 export class TryToGetProcessors extends GenerateCommonPipelineFilesProcessor {
-    public static readonly Instance = new TryToGetProcessors();
+
+    constructor(
+
+        @inject(YEOMAN.INSTANCE)
+        public yeomanGenerator: Generator,
+
+        @inject(FILES_GENERATION.DESTINATION_ENSURER)
+        public destination: DestinationEnsurer
+
+    ) {
+        super();
+
+    }
 
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
+        let defaultProcessorName = path.basename(await this.destination.ensure());
+
         let defaultValue =
             S(args.pipelineNameSpecifiedByUser).isEmpty()
-                ? path.basename(args.yeomanGenerator.destinationRoot())
+                ? defaultProcessorName
                 : S(args.pipelineNameSpecifiedByUser).chompRight("Pipeline").s;
 
         let processorNames =
             await EnsureOptionExecutor.obtainByKey(
-                args.yeomanGenerator,
+                this.yeomanGenerator,
                 "processorNames",
                 InputTypeEnum.Input,
                 false,
