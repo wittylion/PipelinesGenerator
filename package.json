@@ -5,6 +5,7 @@
   "main": "./app/index.js",
   "scripts": {
     "clean": "del-cli **/*.js !**/node_modules/**",
+    "postclean": "delete-empty",
     "prebuild": "npm run clean",
     "build": "tsc",
     "test": "mocha",
@@ -47,6 +48,7 @@
     "@types/yeoman-test": "^1.7.4",
     "@types/yosay": "0.0.29",
     "del-cli": "^1.1.0",
+    "delete-empty": "^2.0.0",
     "mocha": "^5.1.1",
     "yeoman-assert": "^3.1.1",
     "yeoman-test": "^1.7.1",
