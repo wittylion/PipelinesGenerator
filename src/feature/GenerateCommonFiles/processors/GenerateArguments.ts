@@ -10,6 +10,8 @@ import { injectable, inject } from "inversify";
 import YEOMAN from "../../../foundation/YeomanPipeline/ServiceIdentifiers";
 import FILES_GENERATION from "../../../foundation/TypeDefinitions/ServiceIdentifiers";
 import { DestinationEnsurer } from "../../../foundation/TypeDefinitions/DestinationEnsurer";
+import { PipelineExecutor } from "solid-pipelines";
+import GENERATE_ARGUMENTS_FILE from "../../GenerateArgumentsFile/ServiceIdentifiers";
 
 @injectable()
 export class GenerateArguments extends GenerateCommonPipelineFilesProcessor {
@@ -21,6 +23,9 @@ export class GenerateArguments extends GenerateCommonPipelineFilesProcessor {
 
         @inject(FILES_GENERATION.DESTINATION_ENSURER)
         public destination: DestinationEnsurer,
+
+        @inject(GENERATE_ARGUMENTS_FILE.EXECUTOR)
+        public argumentsGenerator: PipelineExecutor,
 
     ) {
         super();
@@ -47,10 +52,9 @@ export class GenerateArguments extends GenerateCommonPipelineFilesProcessor {
             args.pipelineNameSpecifiedByUser
         );
 
-        let executionResult
-            = await args.generatorsProvider.getArgumentsGenerator().execute(argumentsGeneration);
+        await this.argumentsGenerator.Execute(argumentsGeneration);
 
-        args.generatedArguments = executionResult.result;
+        args.generatedArguments = argumentsGeneration.GetResult();
         args.AddMessageObjects(argumentsGeneration.GetAllMessages());
     }
 

@@ -1,15 +1,24 @@
-import { PipelineRunner, PipelineMessage, MessageFilter, IPipeline } from "solid-pipelines";
+import { PipelineRunner, PipelineMessage, MessageFilter, IPipeline, PipelineExecutor } from "solid-pipelines";
 import { GenerateFileFromTemplateArguments } from './GenerateFileFromTemplateArguments'
 import { GenerateFileFromTemplatePipeline } from './GenerateFileFromTemplatePipeline'
 import { CreatedFileResult } from "./models/CreatedFileResult";
 import { GenerateFileModel } from "./models/GenerateFileModel";
 import Generator = require("yeoman-generator");
 import _ from "lodash";
+import "reflect-metadata";
+import { injectable, inject } from "inversify";
+import GENERATE_FILE_FROM_TEMPLATE from "./ServiceIdentifiers";
 
-export class GenerateFileFromTemplateExecutor {
+@injectable()
+export class GenerateFileFromTemplateExecutor extends PipelineExecutor {
 
-    constructor(public Pipeline: IPipeline) {
+    constructor(
 
+        @inject(GENERATE_FILE_FROM_TEMPLATE.PIPELINE)
+        public pipeline: IPipeline
+
+    ) {
+        super(pipeline);
     }
 
     async create(
@@ -32,6 +41,6 @@ export class GenerateFileFromTemplateExecutor {
     execute(args: GenerateFileFromTemplateArguments) : Promise<void> {
         var runner:PipelineRunner = new PipelineRunner();
 
-        return runner.RunPipeline(this.Pipeline, args);
+        return runner.RunPipeline(this.pipeline, args);
     }
 }

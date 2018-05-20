@@ -2,22 +2,35 @@ import { FindFileProcessor } from "../FindFileProcessor";
 import { FindFileArguments } from "../FindFileArguments";
 
 import path = require("path");
-import { IFileExistanceChecker } from "../abstractions/IFileExistanceChecker";
+import "reflect-metadata";
+import { injectable, inject } from "inversify";
+import FILES_GENERATION from "../../TypeDefinitions/ServiceIdentifiers";
+import { FileExistanceChecker } from "../../TypeDefinitions/CheckFileExistance";
 
+@injectable()
 export class CollectAllPossibleDirectories extends FindFileProcessor {
-    existanceChecker: IFileExistanceChecker;
 
-    public static readonly Instance = new CollectAllPossibleDirectories();
+    /**
+     *
+     */
+    constructor(
+
+        @inject(FILES_GENERATION.EXISTANCE_CHECKER)
+        public existanceChecker: FileExistanceChecker
+
+    ) {
+        super();
+
+    }
 
     public async SafeExecute(args: FindFileArguments): Promise<void> {
-        this.existanceChecker = args.existanceChecker;
         let folders = this.CollectAllDirectories(
             args.currentDir,
             args.subfolders
         );
 
         args.folders = [
-            ...args.folders, 
+            ...args.folders,
             ...folders
         ];
     }
@@ -64,7 +77,7 @@ export class CollectAllPossibleDirectories extends FindFileProcessor {
     protected GetSubfolders(from: string, subdirectories: string[]): string[] {
         return subdirectories
             .map(dir => path.join(from, dir))
-            .filter(dir => this.existanceChecker.fileExists(dir));
+            .filter(async dir => { await this.existanceChecker.check(dir) });
     }
 
     public SafeCondition(args: FindFileArguments): boolean {

@@ -11,6 +11,8 @@ import { injectable, inject } from "inversify";
 import YEOMAN from "../../../foundation/YeomanPipeline/ServiceIdentifiers";
 import FILES_GENERATION from "../../../foundation/TypeDefinitions/ServiceIdentifiers";
 import { DestinationEnsurer } from "../../../foundation/TypeDefinitions/DestinationEnsurer";
+import { PipelineExecutor } from "solid-pipelines";
+import GENERATE_EXECUTOR_FILE from "../../GenerateExecutorFile/ServiceIdentifiers";
 
 @injectable()
 export class GenerateExecutor extends GenerateCommonPipelineFilesProcessor {
@@ -22,6 +24,10 @@ export class GenerateExecutor extends GenerateCommonPipelineFilesProcessor {
 
         @inject(FILES_GENERATION.DESTINATION_ENSURER)
         public destination: DestinationEnsurer,
+
+        @inject(GENERATE_EXECUTOR_FILE.EXECUTOR)
+        public executorGenerator: PipelineExecutor,
+
 
     ) {
         super();
@@ -72,9 +78,9 @@ export class GenerateExecutor extends GenerateCommonPipelineFilesProcessor {
             args.AddWarning("Cannot obtain pipeline file name during the 'Pipeline executor' creation.");
         }
 
-        let result = await args.generatorsProvider.getExecutorGenerator().execute(executorGeneration);
+        await this.executorGenerator.Execute(executorGeneration);
 
-        args.generatedExecutor = result.result;
+        args.generatedExecutor = executorGeneration.GetResult();
         args.AddMessageObjects(executorGeneration.GetAllMessages());
     }
 

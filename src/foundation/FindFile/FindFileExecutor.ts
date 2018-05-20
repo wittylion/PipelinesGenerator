@@ -1,8 +1,6 @@
 import { IPipeline, PipelineRunner, PipelineExecutor, PipelineContext } from "solid-pipelines";
 import { FindFileArguments } from './FindFileArguments'
 import { FindFilePipeline } from './FindFilePipeline'
-import { IFileExistanceChecker } from "./abstractions/IFileExistanceChecker";
-import { FileSystemExistanceChecker } from "./FileSystemExistanceChecker";
 import { inject, injectable } from "inversify";
 import FIND_FILE from "./ServiceIdentifiers";
 import "reflect-metadata";

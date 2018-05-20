@@ -7,6 +7,10 @@ import { injectFileDependencyProvider } from "../../foundation/ResolveFileDepend
 import { injectFileFinder } from "../../foundation/FindFile/DependencyInjection";
 import { injectYeomanDependencies } from "../../foundation/YeomanPipeline/DependencyInjection";
 import { injectCommonFilesGenerator } from "../GenerateCommonFiles/DependencyInjection";
+import { injectProcessorGenerator } from "../GenerateProcessorFile/DependencyInjection";
+import { injectFileFromTemplateGenerator } from "../GenerateFileFromTemplate/DependencyInjection";
+import { injectExecutorGenerator } from "../GenerateExecutorFile/DependencyInjection";
+import { injectArgumentsGenerator } from "../GenerateArgumentsFile/DependencyInjection";
 
 function injectCommon(container: Container) {
     injectSolidPipelines(container);
@@ -15,8 +19,12 @@ function injectCommon(container: Container) {
     injectProcessorFromScratchGeneration(container);
     injectFileDependencyProvider(container);
     injectFileFinder(container);
+    injectProcessorGenerator(container);
+    injectExecutorGenerator(container);
+    injectArgumentsGenerator(container);
     injectYeomanDependencies(container);
     injectCommonFilesGenerator(container);
+    injectFileFromTemplateGenerator(container);
 }
 
 export { injectCommon }

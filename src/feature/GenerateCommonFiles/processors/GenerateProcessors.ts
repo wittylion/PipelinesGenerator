@@ -3,7 +3,7 @@ import { GenerateCommonPipelineFilesArguments } from "../GenerateCommonPipelineF
 import S from "string";
 import upath = require("upath");
 import { GenerateProcessorFileExecutor } from "../../GenerateProcessorFile";
-import { MessageFilter } from "solid-pipelines";
+import { MessageFilter, PipelineExecutor } from "solid-pipelines";
 import { CreatedFileResult } from "../../GenerateFileFromTemplate/models/CreatedFileResult";
 import "reflect-metadata";
 import Generator = require("yeoman-generator");
@@ -11,9 +11,20 @@ import { injectable, inject } from "inversify";
 import YEOMAN from "../../../foundation/YeomanPipeline/ServiceIdentifiers";
 import FILES_GENERATION from "../../../foundation/TypeDefinitions/ServiceIdentifiers";
 import { DestinationEnsurer } from "../../../foundation/TypeDefinitions/DestinationEnsurer";
+import GENERATE_PROCESSOR_FILE from "../../GenerateProcessorFile/ServiceIdentifiers";
 
 @injectable()
 export class GenerateProcessors extends GenerateCommonPipelineFilesProcessor {
+
+    constructor(
+
+        @inject(GENERATE_PROCESSOR_FILE.EXECUTOR)
+        public generateProcessor: PipelineExecutor
+
+    ) {
+        super();
+
+    }
 
     public async SafeExecute(args: GenerateCommonPipelineFilesArguments): Promise<void> {
 
@@ -29,7 +40,7 @@ export class GenerateProcessors extends GenerateCommonPipelineFilesProcessor {
 
             processorModel.arguments = args.generatedArguments;
             processorModel.abstractProcessor = args.generatedProcessor;
-            await args.generatorsProvider.getProcessorGenerator().execute(processorModel);
+            await this.generateProcessor.Execute(processorModel);
 
             let result = new CreatedFileResult(
                 processorModel.getFinalDestination(),

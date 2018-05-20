@@ -1,12 +1,21 @@
-import { IPipeline, PipelineRunner, PipelineMessage } from "solid-pipelines";
+import { IPipeline, PipelineRunner, PipelineMessage, PipelineExecutor } from "solid-pipelines";
 import { GenerateExecutorFileArguments } from './GenerateExecutorFileArguments'
 import { GenerateExecutorFilePipeline } from './GenerateExecutorFilePipeline'
 import { CreatedFileResult } from "../GenerateFileFromTemplate/models/CreatedFileResult";
+import { inject, injectable } from "inversify";
+import GENERATE_EXECUTOR_FILE from "./ServiceIdentifiers";
+import "reflect-metadata";
 
-export class GenerateExecutorFileExecutor {
-    public static Instance: GenerateExecutorFileExecutor = new GenerateExecutorFileExecutor(GenerateExecutorFilePipeline.Instance);
+@injectable()
+export class GenerateExecutorFileExecutor extends PipelineExecutor {
 
-    constructor(public pipeline: IPipeline) {
+    constructor(
+
+        @inject(GENERATE_EXECUTOR_FILE.PIPELINE)
+        public pipeline: IPipeline
+
+    ) {
+        super(pipeline);
     }
 
     async execute(args: GenerateExecutorFileArguments): Promise<{ result: CreatedFileResult, messages: PipelineMessage[] }> {

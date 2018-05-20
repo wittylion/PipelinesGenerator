@@ -6,7 +6,7 @@ import { GenerateArgumentsFileOptions } from "../../GenerateArgumentsFile/Genera
 import S from "string";
 import { GenerateAbstractProcessorFileOptions } from "../../GenerateAbstractProcessorFile/GenerateAbstractProcessorFileOptions";
 import { GenerateProcessorFileOptions } from "../../GenerateProcessorFile/GenerateProcessorFileOptions";
-import { MessageType } from "solid-pipelines";
+import { MessageType, PipelineExecutor } from "solid-pipelines";
 
 import Generator = require("yeoman-generator");
 import fs = require("fs");
@@ -17,6 +17,7 @@ import YEOMAN from "../../../foundation/YeomanPipeline/ServiceIdentifiers";
 import GENERATE_COMMON_FILES from "../../GenerateCommonFiles/ServiceIdentifiers";
 import { IGeneratorsProvider } from "../../GenerateCommonFiles/abstractions/IGeneratorsProvider";
 import { IModelsProvider } from "../../GenerateCommonFiles/IModelsProvider";
+import GENERATE_PROCESSOR_FILE from "../../GenerateProcessorFile/ServiceIdentifiers";
 
 @injectable()
 export class TryCreateProcessorFromArguments extends ProgramFlowProcessor {
@@ -27,9 +28,10 @@ export class TryCreateProcessorFromArguments extends ProgramFlowProcessor {
 
         @inject(GENERATE_COMMON_FILES.MODELS_PROVIDER)
         private modelsProvider: IModelsProvider,
-        
-        @inject(GENERATE_COMMON_FILES.GENERATORS_PROVIDER)
-        private generatorsProvider: IGeneratorsProvider
+
+        @inject(GENERATE_PROCESSOR_FILE.EXECUTOR)
+        public generateProcessor: PipelineExecutor
+
     ) {
         super();
     }
@@ -76,7 +78,7 @@ export class TryCreateProcessorFromArguments extends ProgramFlowProcessor {
             model.subdirectories = [];
         }
 
-        await this.generatorsProvider.getProcessorGenerator().execute(processorGeneration);
+        await this.generateProcessor.Execute(processorGeneration);
     }
 
     public SafeCondition(args: ProgramFlowArguments): boolean {

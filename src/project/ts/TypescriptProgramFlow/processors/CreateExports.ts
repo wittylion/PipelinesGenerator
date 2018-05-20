@@ -1,22 +1,26 @@
 import { ProgramFlowProcessor } from "../../../../feature/ProgramFlow/ProgramFlowProcessor";
 import { ProgramFlowArguments } from "../../../../feature/ProgramFlow/ProgramFlowArguments";
-import { GenerateExportsExecutor } from "../../GenerateExports";
+import { GenerateExportsExecutor, GenerateExportsArguments } from "../../GenerateExports";
 import { ObtainOptionExecutor } from "../../../../feature/ObtainOption";
 import { GenerateExportsOptionNames } from "../../GenerateExports/GenerateExportsOptionNames";
 import S from "string";
-import { MessageType } from "solid-pipelines";
+import { MessageType, PipelineExecutor } from "solid-pipelines";
 import Generator = require("yeoman-generator");
 import "reflect-metadata"
 import { injectable, inject } from "inversify";
 import YEOMAN from "../../../../foundation/YeomanPipeline/ServiceIdentifiers";
+import GENERATE_EXPORTS from "../../GenerateExports/ServiceIdentifiers";
 
 @injectable()
 export class CreateExports extends ProgramFlowProcessor {
-    
+
     constructor(
 
         @inject(YEOMAN.INSTANCE)
         private yeomanGenerator: Generator,
+
+        @inject(GENERATE_EXPORTS.EXECUTOR)
+        private exportsGenerator: PipelineExecutor,
 
     ) {
         super();
@@ -42,9 +46,11 @@ export class CreateExports extends ProgramFlowProcessor {
             dir = '.';
         }
 
-        await GenerateExportsExecutor.exportAllFromDirectory(
+        await this.exportsGenerator.Execute( new GenerateExportsArguments(
             this.yeomanGenerator,
-            dir
+            dir,
+            true,
+            true)
         );
     }
 

@@ -1,9 +1,18 @@
 import { IPipeline, IProcessor } from 'solid-pipelines'
 import * as Processors from './processors'
 import { GenerateProcessorModel } from './models/GenerateProcessorModel';
+import { inject, injectable, multiInject } from "inversify";
+import "reflect-metadata";
+import GENERATE_PROCESSOR_FILE from "./ServiceIdentifiers";
 
+@injectable()
 export class GenerateProcessorFilePipeline implements IPipeline {
-    constructor(public fileGenerator: (processor: GenerateProcessorModel) => Promise<void>) {
+
+    constructor(
+        @multiInject(GENERATE_PROCESSOR_FILE.PROCESSOR)
+        private processors: IProcessor[]
+    ) {
+
     }
 
     GetProcessors(): IProcessor[] {
@@ -26,8 +35,6 @@ export class GenerateProcessorFilePipeline implements IPipeline {
     }
 
     GenerateProcessor(): IProcessor[] {
-        return [
-            new Processors.GenerateProcessorFile(this.fileGenerator)
-        ];
+        return this.processors;
     }
 }

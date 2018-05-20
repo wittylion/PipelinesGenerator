@@ -1,18 +1,34 @@
 import { GenerateArgumentsFileProcessor } from "../../../../feature/GenerateArgumentsFile/GenerateArgumentsFileProcessor";
 import { GenerateArgumentsFileArguments } from "../../../../feature/GenerateArgumentsFile";
-import { GenerateExportsExecutor } from "../../GenerateExports";
+import { GenerateExportsExecutor, GenerateExportsArguments } from "../../GenerateExports";
 
 import path = require("path");
+import { injectable, inject } from "inversify";
+import "reflect-metadata"
+import GENERATE_EXPORTS from "../../GenerateExports/ServiceIdentifiers";
+import { PipelineExecutor } from "solid-pipelines";
 
+@injectable()
 export class UpdateExportsFile extends GenerateArgumentsFileProcessor {
-    public static readonly Instance = new UpdateExportsFile();
+
+    constructor(
+
+        @inject(GENERATE_EXPORTS.EXECUTOR)
+        public exports: PipelineExecutor
+
+    ) {
+        super();
+
+    }
 
     public async SafeExecute(args: GenerateArgumentsFileArguments): Promise<void> {
-        await GenerateExportsExecutor.exportAllFiles(
+        await this.exports.Execute(new GenerateExportsArguments(
             args.yeomanGenerator,
-            path.join(...args.fileModel.subdirectories),
-            args.fileModel.fileName
-        );
+            args.fileModel.getFinalDirectoryDestination(),
+            true,
+            false,
+            [args.fileModel.fileName]
+        ));
     }
 
     public SafeCondition(args: GenerateArgumentsFileArguments): boolean {

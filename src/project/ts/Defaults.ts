@@ -3,9 +3,7 @@ import Generator = require("yeoman-generator");
 import { GenerateFileModel } from "../../feature/GenerateFileFromTemplate/models/GenerateFileModel";
 import { GenerateTypescriptProcessorFilePipeline } from "./GenerateTypescriptProcessorFile/GenerateTypescriptProcessorFilePipeline";
 import { GenerateProcessorFileExecutor } from "../../feature/GenerateProcessorFile";
-import { GenerateTypescriptExecutorFilePipeline } from "./GenerateTypescriptExecutorFile/GenerateTypescriptExecutorFilePipeline";
 import { GenerateExecutorFileExecutor } from "../../feature/GenerateExecutorFile";
-import { GenerateTypescriptArgumentsFilePipeline } from "./GenerateTypescriptArgumentsFile/GenerateTypescriptArgumentsFilePipeline";
 import { GenerateArgumentsFileExecutor } from "../../feature/GenerateArgumentsFile";
 import { GenerateCommonPipelineFilesExecutor, GenerateCommonPipelineFilesArguments } from "../../feature/GenerateCommonFiles";
 import { GenerateTypescriptAbstractProcessorFilePipeline } from "./GenerateTypescriptAbstractProcessorFile/GenerateTypescriptAbstractProcessorFilePipeline";
@@ -28,9 +26,6 @@ export class Defaults {
 
     public static FileFromTemplateGenerator;
     public static AbstractProcessorGenerator = new GenerateAbstractProcessorFileExecutor(GenerateTypescriptAbstractProcessorFilePipeline.Instance);
-    public static ProcessorGenerator: GenerateProcessorFileExecutor;
-    public static ArgumentsGenerator = new GenerateArgumentsFileExecutor(GenerateTypescriptArgumentsFilePipeline.Instance);
-    public static ExecutorGenerator = new GenerateExecutorFileExecutor(GenerateTypescriptExecutorFilePipeline.Instance);
 
     public static exportDeclaration: string = "export {{classes}} from '{{file}}'";
 
@@ -44,19 +39,6 @@ export class Defaults {
                 { ensure: async (template: string) => yeomanGenerator.destinationPath(template) },
                 { check: async(path: string) => yeomanGenerator.fs.exists(path) },
                 { generate: async (...args) => yeomanGenerator.fs.copyTpl(args[0], args[1], args[2]) }
-            )
-        );
-
-        Defaults.ProcessorGenerator = new GenerateProcessorFileExecutor(
-            new GenerateTypescriptProcessorFilePipeline(
-                (model) => Defaults.FileFromTemplateGenerator.execute(
-                    new GenerateFileFromTemplateArguments(model)
-                ),
-                (model) => GenerateExportsExecutor.Instance.exportAllFiles(
-                    yeomanGenerator,
-                    model.getSubdirectory(),
-                    model.fileName
-                )
             )
         );
 

@@ -4,7 +4,10 @@ import { GenerateFileFromTemplateExecutor, GenerateFileFromTemplateArguments } f
 import _ from "lodash";
 import { GenerateExecutorFileMessages } from "../GenerateExecutorFileMessages";
 import S from "string";
+import "reflect-metadata";
+import { injectable } from "inversify";
 
+@injectable()
 export class GenerateFile extends GenerateExecutorFileProcessor {
     public static readonly Instance = new GenerateFile();
 

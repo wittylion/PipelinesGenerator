@@ -1,15 +1,27 @@
 import { IPipeline, IProcessor } from 'solid-pipelines'
 import * as Processors from './processors'
 import "reflect-metadata";
-import { injectable } from 'inversify';
+import { injectable, multiInject } from 'inversify';
+import FIND_FILE from './ServiceIdentifiers';
 
 @injectable()
 export class FindFilePipeline implements IPipeline {
-    public static readonly Instance = new FindFilePipeline();
+
+    /**
+     *
+     */
+    constructor(
+
+        @multiInject(FIND_FILE.PROCESSOR)
+        public processors: IProcessor[]
+
+    ) {
+
+    }
 
     GetProcessors(): IProcessor[] {
         return [
-            Processors.CollectAllPossibleDirectories.Instance,
+            ...this.processors,
             Processors.FindFilesInCollectedDirectories.Instance,
         ];
     }

@@ -11,27 +11,25 @@ import { GeneratePipelineFileExecutor } from "../../../feature/GeneratePipelineF
 import { GenerateProcessorFilePipeline } from "../../../feature/GenerateProcessorFile/GenerateProcessorFilePipeline";
 import { GenerateCommonPipelineFilesExecutor } from "../../../feature/GenerateCommonFiles";
 import GENERATE_COMMON_FILES from "../../../feature/GenerateCommonFiles/ServiceIdentifiers";
+import GENERATE_PROCESSOR_FILE from "../../../feature/GenerateProcessorFile/ServiceIdentifiers";
+import GENERATE_FILE_FROM_TEMPLATE from "../../../feature/GenerateFileFromTemplate/ServiceIdentifiers";
 
 @injectable()
 export class GeneratorsProvider extends DefaultGeneratorsProvider {
 
-    processorGenerator: GenerateProcessorFileExecutor;
     fileFromTemplateGenerator: GenerateFileFromTemplateExecutor;
 
     constructor(
 
-        @inject(GENERATE_CSHARP_FILE.PIPELINE)
+        @inject(GENERATE_FILE_FROM_TEMPLATE.PIPELINE)
         generateFile: IPipeline,
+
+        @inject(GENERATE_PROCESSOR_FILE.EXECUTOR)
+        public processorGenerator: GenerateProcessorFileExecutor
     ) {
         super();
         this.fileFromTemplateGenerator = new GenerateFileFromTemplateExecutor(generateFile);
-        this.processorGenerator = new GenerateProcessorFileExecutor(
-            new GenerateProcessorFilePipeline(
-                (model) => this.fileFromTemplateGenerator.execute(
-                    new GenerateFileFromTemplateArguments(model)
-                )
-            )
-        );
+
     }
 
     getFileFromTemplateGenerator(){

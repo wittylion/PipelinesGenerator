@@ -1,15 +1,21 @@
-import { PipelineRunner, PipelineMessage, MessageFilter, IPipeline } from "solid-pipelines";
+import { PipelineRunner, PipelineMessage, MessageFilter, IPipeline, PipelineExecutor } from "solid-pipelines";
 import { GenerateProcessorFilePipeline } from './GenerateProcessorFilePipeline'
 import { CreatedFileResult } from "../GenerateFileFromTemplate/models/CreatedFileResult";
 import { GenerateFileModel } from "../GenerateFileFromTemplate/models/GenerateFileModel";
+import { inject, injectable } from "inversify";
+import "reflect-metadata";
+import GENERATE_PROCESSOR_FILE from "./ServiceIdentifiers";
 
-export class GenerateProcessorFileExecutor {
-    constructor(public pipeline: IPipeline) {
-    }
+@injectable()
+export class GenerateProcessorFileExecutor extends PipelineExecutor {
+    constructor(
 
-    async execute(args: GenerateFileModel): Promise<void> {
-        var runner: PipelineRunner = new PipelineRunner();
+        @inject(GENERATE_PROCESSOR_FILE.PIPELINE)
+        public pipeline: IPipeline,
 
-        await runner.RunPipeline(this.pipeline, args);
+        public runner: PipelineRunner
+
+    ) {
+        super(pipeline, runner);
     }
 }

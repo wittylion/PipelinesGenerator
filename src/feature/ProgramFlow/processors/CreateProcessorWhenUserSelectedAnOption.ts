@@ -18,6 +18,7 @@ import GENERATE_COMMON_FILES from "../../GenerateCommonFiles/ServiceIdentifiers"
 import { IModelsProvider } from "../../GenerateCommonFiles/IModelsProvider";
 import { IGeneratorsProvider } from "../../GenerateCommonFiles/abstractions/IGeneratorsProvider";
 import GENERATE_PROCESSOR_FROM_SCRATCH from "../../GenerateProcessorFromScratch/ServiceIdentifiers";
+import GENERATE_PROCESSOR_FILE from "../../GenerateProcessorFile/ServiceIdentifiers";
 
 @injectable()
 export class CreateProcessorWhenUserSelectedAnOption extends ProgramFlowProcessor {
@@ -34,7 +35,10 @@ export class CreateProcessorWhenUserSelectedAnOption extends ProgramFlowProcesso
         private generatorsProvider: IGeneratorsProvider,
 
         @inject(GENERATE_PROCESSOR_FROM_SCRATCH.EXECUTOR)
-        private generateProcessor: PipelineExecutor,
+        private generateProcessorFromScratch: PipelineExecutor,
+
+        @inject(GENERATE_PROCESSOR_FILE.EXECUTOR)
+        private generateProcessor: GenerateProcessorFileExecutor,
     ) {
         super();
     }
@@ -45,7 +49,7 @@ export class CreateProcessorWhenUserSelectedAnOption extends ProgramFlowProcesso
 
         let processorGeneration = new GenerateProcessorFromScratchArguments(
             this.generatorsProvider.getFileFromTemplateGenerator(),
-            this.generatorsProvider.getProcessorGenerator(),
+            this.generateProcessor,
             model
         );
 
@@ -55,7 +59,7 @@ export class CreateProcessorWhenUserSelectedAnOption extends ProgramFlowProcesso
         }
 
         let result
-            = await this.generateProcessor.Execute(processorGeneration);
+            = await this.generateProcessorFromScratch.Execute(processorGeneration);
 
         let failMessages = processorGeneration.GetWarningsAndErrors();
 
